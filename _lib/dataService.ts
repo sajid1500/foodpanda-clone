@@ -35,13 +35,7 @@ export const getRestaurants = async (): Promise<Restaurant[]> => {
   }
 
   console.log("restaurants data from supabase:", restaurants, error);
-  return (restaurants as any[]).map(({ lat, lng, ...others }) => ({
-    ...others,
-    location: {
-      lat: lat,
-      lng: lng,
-    },
-  }));
+  return restaurants as Restaurant[];
   // return (restaurants as any[]).map((restaurant) => ({
   //   ...restaurant,
   //   location: {
@@ -107,7 +101,7 @@ export const getRestaurantDetails = async (
       },
       { id: "2", name: "Mutton Biryani", price: 300 },
     ],
-    location: { lat: 23.75, lng: 90.38 },
+    lat: 23.75, lng: 90.38 ,
     image: "/restaurant.jpg",
   };
 };
@@ -119,7 +113,7 @@ export async function getOrderedRestaurants(lat: number, lng: number) {
     restaurants.map(async (restaurant: Restaurant) => {
       try {
         const results = await fetch(
-          `https://graphhopper.com/api/1/route?point=${lat},${lng}&point=${restaurant.location.lat},${restaurant.location.lng}&profile=bike&locale=en&calc_points=false&key=${process.env.GRAPHHOPPER_API_KEY}`,
+          `https://graphhopper.com/api/1/route?point=${lat},${lng}&point=${restaurant.lat},${restaurant.lng}&profile=bike&locale=en&calc_points=false&key=${process.env.GRAPHHOPPER_API_KEY}`,
         );
         const data = await results.json();
 
