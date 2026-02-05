@@ -34,7 +34,7 @@ export const getRestaurants = async (): Promise<Restaurant[]> => {
     return [];
   }
 
-  console.log("restaurants data from supabase:", restaurants, error);
+  // console.log("restaurants data from supabase:", restaurants, error);
   return restaurants as Restaurant[];
   // return (restaurants as any[]).map((restaurant) => ({
   //   ...restaurant,
@@ -86,28 +86,61 @@ export const getRestaurantDetails = async (
 ): Promise<Restaurant> => {
   // Simulate a database delay
   // await new Promise((resolve) => setTimeout(resolve, 500));
-  console.log("fetching details for restaurantId:", restaurantId);
-  return {
-    id: restaurantId,
-    name: "Spice Garden",
-    rating: 4.5,
-    menu: [
-      {
-        id: "1",
-        name: "Chicken Biryani",
-        price: 250,
-        image:
-          "https://i0.wp.com/thewannabecook.com/wp-content/uploads/2022/07/Beef_Tehari_Recipe.jpg",
-      },
-      { id: "2", name: "Mutton Biryani", price: 300 },
-    ],
-    lat: 23.75, lng: 90.38 ,
-    image: "/restaurant.jpg",
-  };
+  const { data: restaurant, error: restaurantError } = await supabase
+    .rpc("restaurants")
+    .eq("id", restaurantId)
+    .select(
+      `
+      id,
+      name: restaurant_name,  
+      rating: average_rating,
+      image: cover_image_url,
+      lat,
+      lng`,
+    )
+    .single();
+
+  const { data: menu, error: menuError } = await supabase
+    .from("menu_items")
+    .select(
+      `id,
+    name: item_name,
+    price,
+    image: image_url`,
+    )
+    .eq("restaurant_id", restaurantId);
+
+  if (restaurantError || menuError) {
+    console.error(
+      "Supabase error:",
+      restaurantError?.message || menuError?.message,
+    );
+    throw new Error("Failed to fetch restaurant details");
+  }
+
+  const restaurantDetails = {
+    ...restaurant,
+    menu: menu,
+  } as Restaurant;
+
+  // console.log(`fetching details for ${restaurantId}:`, restaurantDetails);
+
+  return restaurantDetails;
 };
 export async function getOrderedRestaurants(lat: number, lng: number) {
-  const restaurants = await getRestaurants();
-
+  const { data, error } = await supabase.rpc("restaurants").select(`
+      id,
+      name: restaurant_name,  
+      rating: average_rating,
+      image: cover_image_url,
+      lat,
+      lng
+      `);
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
+  if (error) throw new Error("Failed to fetch restaurants");
+  const restaurants = data as Restaurant[]; // bad practice but quick fix
+  // const restaurants: Restaurant[] = data || [];
+  // console.log("fetched restaurants:", restaurants);
   // Calculate distance for each restaurant
   const restaurantsWithDistance = await Promise.all(
     restaurants.map(async (restaurant: Restaurant) => {

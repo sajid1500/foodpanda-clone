@@ -1,6 +1,5 @@
 import HeroBanner from "@/_components/HeroBanner";
-import ResturantList from "@/_components/ResturantList";
-import Image from "next/image";
+import RestaurantList from "@/_components/RestaurantList";
 
 export const metadata = {
   title: "Foodie - Home",
@@ -12,7 +11,7 @@ export default function Home() {
     <div className="px-4">
       <HeroBanner />
 
-      <ResturantList />
+      <RestaurantList />
     </div>
   );
 }

@@ -24,29 +24,34 @@ export default async function page({
 }) {
   const { restaurantId } = await params;
   const restaurantDetails = await getRestaurantDetails(restaurantId);
-  console.log("restaurantId", restaurantId);
+  const restaurantSummary = {
+    id: restaurantDetails.id,
+    name: restaurantDetails.name,
+    image: restaurantDetails.image,
+  };
+  const { name, image, menu } = restaurantDetails;
+  // console.log("restaurantId", restaurantId);
   // console.log("restaurant details", restaurantDetails);
   return (
     <div>
       <section className="mt-6 flex items-center gap-4 rounded-lg p-4 shadow-md">
         <div className="relative h-22.5 w-22.5">
           <Image
-            src={restaurantDetails.image}
-            alt={restaurantDetails.name}
+            src={image}
+            alt={name}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             fill
             className="aspect-square rounded-md object-cover"
           />
         </div>
 
-        <h1 className="font-inter text-xl font-bold">
-          {restaurantDetails.name}
-        </h1>
+        <h1 className="font-inter text-xl font-bold">{name}</h1>
       </section>
       <section className="mt-6">
         <ul>
-          {restaurantDetails.menu.map((item) => (
+          {menu.map((item) => (
             <li key={item.id}>
-              <MenuItem restaurantId={restaurantId} item={item} />
+              <MenuItem restaurantSummary={restaurantSummary} menuItem={item} />
             </li>
           ))}
         </ul>
