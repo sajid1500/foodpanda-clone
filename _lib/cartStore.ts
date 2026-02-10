@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { MenuItem } from "./definitions";
+import { MenuItem, RestaurantSummary } from "./definitions";
 
 export interface CartItem extends MenuItem {
   quantity: number;
@@ -11,10 +11,7 @@ interface CartStore {
   restaurantId: string | null;
   restaurantName: string | null;
   restaurantImage?: string | null;
-  addToCart: (
-    item: MenuItem,
-    restaurant: { id: string; name: string; image?: string | null },
-  ) => void;
+  addToCart: (item: MenuItem, restaurant: RestaurantSummary) => void;
   removeFromCart: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
   clearCart: () => void;
@@ -47,7 +44,7 @@ export const useCartStore = create<CartStore>()(
               cart: [{ ...item, quantity: 1 }],
               restaurantId: restaurant.id,
               restaurantName: restaurant.name,
-              restaurantImage: restaurant.image,
+              restaurantImage: restaurant.logoPath ?? restaurant.bannerPath,
             };
           }
 
@@ -65,7 +62,7 @@ export const useCartStore = create<CartStore>()(
               ),
               restaurantId: restaurant.id,
               restaurantName: restaurant.name,
-              restaurantImage: restaurant.image,
+              restaurantImage: restaurant.logoPath ?? restaurant.bannerPath,
             };
           }
 
@@ -73,7 +70,7 @@ export const useCartStore = create<CartStore>()(
             cart: [...state.cart, { ...item, quantity: 1 }],
             restaurantId: restaurant.id,
             restaurantName: restaurant.name,
-            restaurantImage: restaurant.image,
+            restaurantImage: restaurant.logoPath ?? restaurant.bannerPath,
           };
         }),
 

@@ -6,11 +6,13 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLayoutStore } from "@/_lib/layoutStore";
 import CloseButton from "./CloseButton";
+import CheckoutButton from "./CheckoutButton";
 
 export default function Cart() {
   const { restaurantName, restaurantId, restaurantImage, cart } = useCartStore(
     (state) => state,
   );
+  // console.log(restaurantImage);
   const { isCartOpen, closeCart } = useLayoutStore((state) => state);
   // console.log("cart items", cart);
   return (
@@ -35,7 +37,10 @@ export default function Cart() {
                 <div className="relative mr-4 aspect-square h-9.5 w-9.5">
                   <Image
                     fill
-                    src={restaurantImage || "/placeholder-restaurant.png"}
+                    src={
+                      `/assets/${restaurantImage}` ||
+                      "/placeholder-restaurant.png"
+                    }
                     alt={restaurantName || "Restaurant"}
                     className="mb-2 h-20 w-20 rounded-md object-cover"
                   />
@@ -44,6 +49,7 @@ export default function Cart() {
                 <h1 className="text-md ml-4 font-semibold">{restaurantName}</h1>
               </div>
               <CartList cart={cart} />
+              <CheckoutButton />
             </>
           )}
         </motion.div>

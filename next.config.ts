@@ -17,9 +17,18 @@ const nextConfig: NextConfig = {
     ],
     localPatterns: [
       {
-        pathname: "/api/image/**",
+        pathname: "/**",
+        // pathname: "/api/image/**",
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/assets/:path*",
+        destination: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/restaurant-assets/:path*`,
+      },
+    ];
   },
 };
 

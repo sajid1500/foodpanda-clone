@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   // Get the full URL from the query param
-  const imageUrl = searchParams.get("url");
+  const imagePath = searchParams.get("url");
 
-  if (!imageUrl) {
+  if (!imagePath) {
     return new NextResponse("URL is required", { status: 400 });
   }
 
   try {
     // 1. Fetch the image from the direct link
-    const response = await fetch(imageUrl);
+    const response = await fetch(`${imagePath}`);
 
     if (!response.ok) throw new Error("Failed to fetch image");
 

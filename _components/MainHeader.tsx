@@ -1,4 +1,4 @@
-import { getLocationName, getUser } from "@/_lib/dataService";
+import { getLocationName, getUser } from "@/_lib/data-service";
 import React from "react";
 import CartOverview from "./CartOverview";
 import UserMenuButton from "./UserMenuButton";

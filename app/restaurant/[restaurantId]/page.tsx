@@ -1,5 +1,5 @@
 import React from "react";
-import { getRestaurantDetails } from "@/_lib/dataService";
+import { getRestaurantDetails } from "@/_lib/data-service";
 import MenuItem from "@/_components/MenuItem";
 import Image from "next/image";
 
@@ -24,12 +24,17 @@ export default async function page({
 }) {
   const { restaurantId } = await params;
   const restaurantDetails = await getRestaurantDetails(restaurantId);
+  const { name, logoPath, bannerPath, menu } = restaurantDetails;
+  const imagePath = logoPath ?? bannerPath;
   const restaurantSummary = {
     id: restaurantDetails.id,
+    shortId: restaurantDetails.shortId,
     name: restaurantDetails.name,
-    image: restaurantDetails.image,
+    logoPath: logoPath,
+    bannerPath: bannerPath,
+    averageRating: restaurantDetails.averageRating,
   };
-  const { name, image, menu } = restaurantDetails;
+  // console.log("imagePath", imagePath);
   // console.log("restaurantId", restaurantId);
   // console.log("restaurant details", restaurantDetails);
   return (
@@ -37,7 +42,7 @@ export default async function page({
       <section className="mt-6 flex items-center gap-4 rounded-lg p-4 shadow-md">
         <div className="relative h-22.5 w-22.5">
           <Image
-            src={image}
+            src={imagePath ? `/assets/${imagePath}` : "/placeholder.png"}
             alt={name}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             fill

@@ -5,14 +5,14 @@ import Counter from "./Counter";
 import { motion, Variants } from "framer-motion";
 
 export default function CartItem({ item }: { item: CartItem }) {
-  const { image, name } = item;
+  const { imagePath, name } = item;
   return (
     <motion.li className="relative flex items-center space-x-2">
       <div className="relative aspect-square h-11 w-11">
         <Image
           fill
           className="rounded-md object-cover"
-          src={image || "/placeholder-restaurant.png"}
+          src={`/assets/${imagePath}` || "/placeholder-restaurant.png"}
           alt={name}
         />
       </div>

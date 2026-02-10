@@ -16,7 +16,7 @@ export default function MenuItem({
 }) {
   // const image = item.image ? item.image : "/placeholder.png"; // Fallback image
   // console.log("menuItem in MenuItem component:", menuItem);
-  const { name, price, image } = menuItem;
+  const { name, price, imagePath } = menuItem;
   const cartItem = { ...menuItem, quantity: 0 };
   return (
     <div className="border-neutral-border relative mx-4 my-4 flex items-center justify-between overflow-clip rounded-2xl border p-1">
@@ -26,7 +26,7 @@ export default function MenuItem({
       </div>
       <div className="relative h-30 w-30">
         <Image
-          src={image ? image : "/placeholder.png"}
+          src={imagePath ? `/assets/${imagePath}` : "/placeholder.png"}
           alt={name}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill
