@@ -4,14 +4,13 @@ import RestaurantItem from "./RestaurantItem";
 import { Restaurant, RestaurantSummary } from "@/lib/definitions";
 import {
   getNearbyRestaurants,
-  getRestaurants,
   getRestaurantsWithRouting,
   getUser,
 } from "@/lib/data-service";
 
 export default async function RestaurantList() {
-  const { lat, lng } = await getUser().then((user) => user.location);
-
+  // const { lat, lng } = await getUser().then((user) => user.location);
+  const { lat, lng } = { lat: 23.8069, lng: 90.3685 }; // TODO: later get from user
   // const nearbyRestaurants = await getNearbyRestaurants(lat, lng);
   // const restaurants = await getRestaurants();
   // const orderedRestaurants = await getRestaurantsWithRouting(restaurants, lat, lng);
