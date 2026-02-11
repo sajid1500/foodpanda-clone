@@ -1,5 +1,23 @@
+import { Cart, CartItem } from "./cartStore";
 import { Restaurant, RestaurantSummary } from "./definitions";
 import supabase from "./supabase";
+import { createClient } from "./supabase/server";
+
+export const getAddress = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const userId = user?.id;
+  if (!userId) return null;
+
+  const { data: address } = await supabase
+    .from("user_addresses")
+    .select("*")
+    .eq("user_id", userId)
+    .single();
+  return address;
+};
 
 export const getUser = async () => {
   // Simulate a database delay
@@ -11,31 +29,11 @@ export const getUser = async () => {
   //   .eq("id", user?.id)
   //   .single();
   // console.log("fetched user", user);
-  return {
-    id: "user123",
-    name: "John Doe",
-    location: { lat: 23.8069, lng: 90.3685 },
-  };
-  
-};
-
-export const getRestaurants = async (): Promise<Restaurant[]> => {
-  // const { data: restaurants, error } = await supabase.from("restaurants")
-  const { data: restaurants, error } = await supabase.rpc("restaurants")
-    .select(`
-      id,
-      name,  
-      rating: average_rating,
-      image: image_path,
-      lat,
-      lng
-      `);
-
-  if (error) {
-    console.error("Supabase error:", error.message);
-    throw new Error("Failed to fetch restaurants");
-  }
-  return [];
+  // return {
+  //   id: "user123",
+  //   name: "John Doe",
+  //   location: { lat: 23.8069, lng: 90.3685 },
+  // };
 };
 
 export async function getNearbyRestaurants(
@@ -166,4 +164,23 @@ export async function getLocationName(lat: number, lng: number) {
     console.error("Failed to fetch location:", error);
   }
   return locationName;
+}
+
+// Post
+// export async function createUser (name: string, email: string, password: string) {
+//   const { data, error } = await supabase.auth.signUp({
+//     email,
+//     password,
+//     options: {
+//       data: {
+//         name,
+//       },
+//     },
+//   });
+
+export async function submitOrder(userId: string, cart: Cart) {
+  // Simulate order submission delay
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  // Here you would typically send the order details to your backend or Supabase
+  console.log("Order submitted:", { userId, cart });
 }

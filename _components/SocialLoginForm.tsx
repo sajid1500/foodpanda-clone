@@ -1,8 +1,8 @@
 "use client";
 
 import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
-import { useLayoutStore } from "@/_lib/layoutStore";
-import { signInWithProvider } from "@/_lib/actions";
+import { useLayoutStore } from "@/lib/layoutStore";
+import { signInWithProvider } from "@/lib/actions/auth";
 
 export default function SocialLoginForm() {
   const { openEmailDrawer } = useLayoutStore((state) => state);

@@ -1,5 +1,5 @@
 import React from "react";
-import { RestaurantSummary } from "@/_lib/definitions";
+import { RestaurantSummary } from "@/lib/definitions";
 import Image from "next/image";
 import StarRating from "./StarRating";
 import Link from "next/link";

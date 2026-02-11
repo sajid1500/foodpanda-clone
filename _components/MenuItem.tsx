@@ -2,7 +2,7 @@ import type {
   MenuItem,
   Restaurant,
   RestaurantSummary,
-} from "@/_lib/definitions";
+} from "@/lib/definitions";
 import Image from "next/image";
 import Counter from "./Counter";
 import MenuCounter from "./MenuCounter";

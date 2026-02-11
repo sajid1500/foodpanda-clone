@@ -1,14 +1,16 @@
-import { getLocationName, getUser } from "@/_lib/data-service";
 import React from "react";
 import CartOverview from "./CartOverview";
 import UserMenuButton from "./UserMenuButton";
 import Link from "next/link";
 import BrandLogo from "./BrandLogo";
-import { createClient } from "@/_lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
+import LocationPicker from "./AddressPicker";
 
-export default async function Header() {
-  const { lat, lng } = await getUser().then((user) => user.location);
-  const locationName = await getLocationName(lat, lng);
+export default async function Header({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -27,7 +29,8 @@ export default async function Header() {
         </Link>
         <CartOverview />
       </div>
-      <div>{locationName}</div>
+      <LocationPicker />
+      {/* {children}  TODO: later*/}
     </div>
   );
 }

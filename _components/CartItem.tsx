@@ -1,5 +1,5 @@
 import React from "react";
-import { type CartItem } from "@/_lib/cartStore";
+import { type CartItem } from "@/lib/cartStore";
 import Image from "next/image";
 import Counter from "./Counter";
 import { motion, Variants } from "framer-motion";

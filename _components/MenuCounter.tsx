@@ -1,11 +1,11 @@
 "use client";
 
-import { CartItem, useCartStore } from "@/_lib/cartStore";
+import { CartItem, useCartStore } from "@/lib/cartStore";
 
 import React from "react";
 // import AddItem from "./AddItem";
 import Counter from "./Counter";
-import { MenuItem, RestaurantSummary } from "@/_lib/definitions";
+import { MenuItem, RestaurantSummary } from "@/lib/definitions";
 
 export default function MenuCounter({
   restaurantSummary,
@@ -15,14 +15,12 @@ export default function MenuCounter({
   menuItem: MenuItem;
 }) {
   const { id: menuRestaurantId } = restaurantSummary;
-  const { cart, restaurantId: cartRestaurantId } = useCartStore(
-    (state) => state,
-  );
+  const { cart } = useCartStore((state) => state);
   const cartItem = (
-    cartRestaurantId === menuRestaurantId
-      ? cart.find((item) => item.id === menuItem.id)
+    cart?.restaurantId === menuRestaurantId
+      ? cart.items.find((item) => item.id === menuItem.id)
       : undefined
-  ) as CartItem;
+  ) as CartItem | undefined;
   // console.log("MenuCounter cartItem:", cartItem);
   return (
     <>

@@ -47,7 +47,7 @@ export const useLayoutStore = create<LayoutStore>((set, get) => ({
   toggleAuthDrawer: () => {
     set((state) => ({ isAuthDrawerOpen: !state.isAuthDrawerOpen }));
   },
-  openAuthDrawer  : () => {
+  openAuthDrawer: () => {
     // console.log("Opening drawer");
     set({ isAuthDrawerOpen: true });
   },

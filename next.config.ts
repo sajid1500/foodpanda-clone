@@ -22,6 +22,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  allowedDevOrigins: [
+    "effective-space-fortnight-p6gp9vpg663796x-3000.app.github.dev",
+    "*.app.github.dev",
+  ],
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["*.github.dev", "localhost:3000"],
+    },
+  },
   async rewrites() {
     return [
       {

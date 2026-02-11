@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutStore } from "@/_lib/layoutStore";
+import { useLayoutStore } from "@/lib/layoutStore";
 import { motion, AnimatePresence } from "framer-motion";
 import CloseButton from "./CloseButton";
 import UserMenuList from "./UserMenuList";

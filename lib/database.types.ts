@@ -56,6 +56,80 @@ export type Database = {
           },
         ]
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          menu_item_id: string
+          notes: string | null
+          order_id: string | null
+          quantity: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          menu_item_id: string
+          notes?: string | null
+          order_id?: string | null
+          quantity: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          menu_item_id?: string
+          notes?: string | null
+          order_id?: string | null
+          quantity?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          delivery_address: string
+          delivery_fee: number | null
+          id: string
+          payment_status: string | null
+          restaurant_id: string
+          status: string | null
+          total_amount: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          delivery_address: string
+          delivery_fee?: number | null
+          id?: string
+          payment_status?: string | null
+          restaurant_id: string
+          status?: string | null
+          total_amount: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          delivery_address?: string
+          delivery_fee?: number | null
+          id?: string
+          payment_status?: string | null
+          restaurant_id?: string
+          status?: string | null
+          total_amount?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       restaurants: {
         Row: {
           average_rating: number
@@ -133,27 +207,21 @@ export type Database = {
       }
       user_addresses: {
         Row: {
-          created_at: string
           full_address: string | null
-          id: string
           is_default: boolean | null
           label: string | null
           location: unknown
           user_id: string
         }
         Insert: {
-          created_at?: string
           full_address?: string | null
-          id?: string
           is_default?: boolean | null
           label?: string | null
           location: unknown
           user_id: string
         }
         Update: {
-          created_at?: string
           full_address?: string | null
-          id?: string
           is_default?: boolean | null
           label?: string | null
           location?: unknown
@@ -169,14 +237,16 @@ export type Database = {
           last_name: string | null
           phone: string | null
           roles: string[] | null
+          stripe_id: string | null
         }
         Insert: {
           created_at?: string
           first_name?: string | null
-          id?: string
+          id: string
           last_name?: string | null
           phone?: string | null
           roles?: string[] | null
+          stripe_id?: string | null
         }
         Update: {
           created_at?: string
@@ -185,6 +255,7 @@ export type Database = {
           last_name?: string | null
           phone?: string | null
           roles?: string[] | null
+          stripe_id?: string | null
         }
         Relationships: []
       }
@@ -233,10 +304,12 @@ export type Database = {
         Returns: {
           averageRating: number
           bannerPath: string
+          createdAt: string
           distanceMeters: number
           id: string
           logoPath: string
           name: string
+          shortId: string
         }[]
       }
       restaurants: {

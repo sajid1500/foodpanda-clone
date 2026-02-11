@@ -1,7 +1,7 @@
 "use client";
 
-import { useCartStore } from "@/_lib/cartStore";
-import { useLayoutStore } from "@/_lib/layoutStore";
+import { useCartStore } from "@/lib/cartStore";
+import { useLayoutStore } from "@/lib/layoutStore";
 import { AnimatePresence, motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
 
@@ -9,7 +9,8 @@ import React from "react";
 
 export default function CartOverview() {
   const cart = useCartStore((state) => state.cart);
-  const numItems = cart.reduce((total, item) => total + item.quantity, 0);
+  const numItems =
+    cart?.items.reduce((total, item) => total + item.quantity, 0) ?? 0;
   const openCart = useLayoutStore((state) => state.openCart);
   // console.log("cart items", cart);
   return (

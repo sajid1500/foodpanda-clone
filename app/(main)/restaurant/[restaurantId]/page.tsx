@@ -1,5 +1,5 @@
 import React from "react";
-import { getRestaurantDetails } from "@/_lib/data-service";
+import { getRestaurantDetails } from "@/lib/data-service";
 import MenuItem from "@/_components/MenuItem";
 import Image from "next/image";
 

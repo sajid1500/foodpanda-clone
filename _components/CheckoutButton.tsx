@@ -1,10 +1,11 @@
 "use client";
 
-import { createCheckoutSession } from "@/_lib/actions/checkout";
-import { useCartStore } from "@/_lib/cartStore";
+import { createCheckoutSession } from "@/lib/actions/order";
+import { useCartStore } from "@/lib/cartStore";
 
 export default function CheckoutButton() {
   const { cart } = useCartStore((state) => state);
+  if (!cart) return null; // Don't show the button if the cart is empty
 
   return (
     <button

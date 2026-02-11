@@ -7,7 +7,7 @@ import SocialLoginForm from "./SocialLoginForm";
 import EmailForm from "./EmailForm";
 import { ArrowLeft } from "lucide-react";
 
-export default function AuthDrawer() {
+export default function Drawer({ children }: { children: React.ReactNode }) {
   const {
     isAuthDrawerOpen,
     closeAuthDrawer,

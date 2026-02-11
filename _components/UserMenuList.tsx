@@ -11,7 +11,7 @@ import {
   HelpCircle,
   LogOut,
 } from "lucide-react";
-import { createClient } from "@/_lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 export default function UserMenuList() {
   const handleSignOut = async () => {
@@ -97,7 +97,7 @@ export default function UserMenuList() {
         }}
       >
         <a
-          href="/profile"
+          href="/account"
           className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:bg-gray-100"
         >
           <User size={24} strokeWidth={1.5} className="text-gray-700" />
@@ -161,7 +161,7 @@ export default function UserMenuList() {
         }}
       >
         <button
-          className="flex hover:cursor-pointer items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:bg-gray-100"
+          className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:cursor-pointer hover:bg-gray-100"
           onClick={handleSignOut}
         >
           <LogOut size={24} strokeWidth={1.5} className="text-gray-700" />

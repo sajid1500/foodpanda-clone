@@ -1,3 +1,5 @@
+import { Cart } from "@/lib/cartStore";
+import { submitOrder } from "@/lib/data-service";
 import { StripeError, StripeErrorType } from "@stripe/stripe-js";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -24,9 +26,12 @@ export async function POST(req: NextRequest) {
   // Handle the event
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-
+    const userId = session.metadata?.userId;
+    const cart = JSON.parse(session.metadata?.cart || "[]") as Cart;
     // TODO: Update your Supabase DB
     // e.g., set order_status = 'paid' for session.client_reference_id
+    if (userId) await submitOrder(userId, cart); // cart items
+
     console.log("Payment Succeeded for Session:", session.id);
   }
 

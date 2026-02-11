@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 // The client you created from the Server-Side Auth instructions
-import { createClient } from "@/_lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -19,12 +19,23 @@ export async function GET(request: Request) {
       const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
       const isLocalEnv = process.env.NODE_ENV === "development";
       if (isLocalEnv) {
+        console.warn(
+          "Running in development mode. Redirecting to local origin without checking X-Forwarded-Host.${origin}${next}",
+        );
         // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
-        return NextResponse.redirect(`${origin}${next}`);
+        // return NextResponse.redirect(`${origin}${next}`);
+        return NextResponse.redirect(`https://${forwardedHost}${next}`);
       } else if (forwardedHost) {
+        console.warn(
+          "Running in production mode. Redirecting to X-Forwarded-Host if available.",
+        );
         return NextResponse.redirect(`https://${forwardedHost}${next}`);
       } else {
+        console.warn(
+          "Running in production mode but no X-Forwarded-Host header found. Redirecting to original origin.",
+        );
         return NextResponse.redirect(`${origin}${next}`);
+        // return NextResponse.redirect(`https://${forwardedHost}${next}`);
       }
     }
   }

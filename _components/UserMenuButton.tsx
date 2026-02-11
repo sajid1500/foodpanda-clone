@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutStore } from "@/_lib/layoutStore";
+import { useLayoutStore } from "@/lib/layoutStore";
 import { Menu, User } from "lucide-react";
 import { useState } from "react";
 

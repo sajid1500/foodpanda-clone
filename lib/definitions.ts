@@ -4,6 +4,7 @@ export interface MenuItem {
   price: number;
   imagePath: string | null;
 }
+
 export interface Restaurant {
   id: string;
   shortId?: string;
@@ -34,3 +35,19 @@ export type RestaurantSummary = Pick<
 
 // Create a "Form" version by omitting the ID (since the DB generates it)
 // export type NewRestaurant = Omit<Restaurant, "id">;
+
+export interface UserAddress {
+  userId: string;
+  label: string | null; // e.g., 'Home', 'Work'
+  fullAddress: string | null;
+  location: {
+    lat: number;
+    lng: number;
+  }; // Representing the geography point
+  isDefault: boolean;
+}
+
+// If you want a type specifically for inserting a new address
+export type CreateUserAddressInput = Omit<UserAddress, "isDefault"> & {
+  isDefault?: boolean;
+};

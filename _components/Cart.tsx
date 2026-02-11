@@ -1,19 +1,19 @@
 "use client";
-import { type CartItem as CartItemType, useCartStore } from "@/_lib/cartStore";
+import { type CartItem as CartItemType, useCartStore } from "@/lib/cartStore";
 import { X } from "lucide-react";
 import CartItem from "./CartItem";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLayoutStore } from "@/_lib/layoutStore";
+import { useLayoutStore } from "@/lib/layoutStore";
 import CloseButton from "./CloseButton";
 import CheckoutButton from "./CheckoutButton";
 
 export default function Cart() {
-  const { restaurantName, restaurantId, restaurantImage, cart } = useCartStore(
-    (state) => state,
-  );
-  // console.log(restaurantImage);
+  const { cart } = useCartStore((state) => state);
   const { isCartOpen, closeCart } = useLayoutStore((state) => state);
+  if (!cart) return null;
+  const { restaurantName, restaurantImage, items } = cart;
+  // console.log(restaurantImage);
   // console.log("cart items", cart);
   return (
     <AnimatePresence>
@@ -29,7 +29,7 @@ export default function Cart() {
             <h2 className="mb-4 text-lg font-bold">Your Cart</h2>
             <CloseButton onClick={closeCart} />
           </div>
-          {cart.length === 0 ? (
+          {items.length === 0 ? (
             <p>Your cart is empty</p>
           ) : (
             <>
@@ -48,7 +48,7 @@ export default function Cart() {
 
                 <h1 className="text-md ml-4 font-semibold">{restaurantName}</h1>
               </div>
-              <CartList cart={cart} />
+              <CartList items={items} />
               <CheckoutButton />
             </>
           )}
@@ -58,10 +58,10 @@ export default function Cart() {
   );
 }
 
-function CartList({ cart }: { cart: CartItemType[] }) {
+function CartList({ items }: { items: CartItemType[] }) {
   return (
     <ul className="mt-4">
-      {cart.map((item) => (
+      {items.map((item) => (
         <CartItem key={item.id} item={item} />
       ))}
     </ul>

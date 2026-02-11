@@ -1,8 +1,8 @@
 "use client";
 
-import { MenuItem } from "@/_lib/definitions";
-import { useCartStore } from "@/_lib/cartStore";
-import { CartItem } from "@/_lib/cartStore";
+import { MenuItem } from "@/lib/definitions";
+import { useCartStore } from "@/lib/cartStore";
+import { CartItem } from "@/lib/cartStore";
 import { Minus, Plus, Trash, Trash2 } from "lucide-react";
 
 export default function Counter({

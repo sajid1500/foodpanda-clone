@@ -1,13 +1,13 @@
 import React from "react";
 
 import RestaurantItem from "./RestaurantItem";
-import { Restaurant, RestaurantSummary } from "@/_lib/definitions";
+import { Restaurant, RestaurantSummary } from "@/lib/definitions";
 import {
   getNearbyRestaurants,
   getRestaurants,
   getRestaurantsWithRouting,
   getUser,
-} from "@/_lib/data-service";
+} from "@/lib/data-service";
 
 export default async function RestaurantList() {
   const { lat, lng } = await getUser().then((user) => user.location);
