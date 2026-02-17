@@ -1,10 +1,26 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "@/app/globals.css";
-import Header from "@/_components/MainHeader";
-import Cart from "@/_components/Cart";
-import UserMenu from "@/_components/UserMenu";
-import Drawer from "@/_components/AuthDrawer";
+import Header from "@/app/_components/ui/MainHeader";
+import dynamic from "next/dynamic";
+import Cart from "../_components/cart/Cart";
+import UserMenu from "../_components/user/UserMenu";
+import AuthDrawer from "../_components/auth/AuthDrawer";
+import AddressDrawer from "../_components/address/AddressDrawer";
+import AddressPickerDrawer from "../_components/address/AddressPicker";
+
+// const Cart = dynamic(() => import("@/app/_components/cart/Cart"), {});
+// const UserMenu = dynamic(() => import("@/app/_components/user/UserMenu"), {});
+// const AuthDrawer = dynamic(
+//   () => import("@/app/_components/auth/AuthDrawer"),
+//   {},
+// );
+// const AddressDrawer = dynamic(
+//   () => import("@/app/_components/address/AddressDrawer"),
+// );
+// const AddressPicker = dynamic(
+//   () => import("../_components/address/AddressPicker"),
+// );
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +56,9 @@ export default async function RootLayout({
         <main>{children}</main>
         <Cart />
         <UserMenu />
-        <Drawer />
+        <AuthDrawer />
+        <AddressDrawer />
+        <AddressPickerDrawer />
       </body>
     </html>
   );

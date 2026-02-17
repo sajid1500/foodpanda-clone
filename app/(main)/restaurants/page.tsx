@@ -1,6 +1,6 @@
-import HeroBanner from "@/_components/HeroBanner";
-import RestaurantList from "@/_components/RestaurantList";
-import RestaurantListSkeleton from "@/_components/RestaurantListSkeleton";
+import HeroBanner from "@/app/_components/ui/HeroBanner";
+import RestaurantList from "@/app/_components/restaurants/RestaurantList";
+import RestaurantListSkeleton from "@/app/_components/restaurants/RestaurantListSkeleton";
 import { Suspense } from "react";
 
 export const metadata = {

@@ -1,4 +1,4 @@
-import { Restaurant } from "@/lib/definitions";
+import { Restaurant } from "@/app/_lib/types/resaurant.types";
 import { NextResponse } from "next/server";
 // import { getRestaurants } from "@/_lib/dataService";
 

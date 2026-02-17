@@ -1,5 +1,5 @@
-import HeroBanner from "@/_components/HeroBanner";
-import RestaurantList from "@/_components/RestaurantList";
+import HeroBanner from "@/app/_components/ui/HeroBanner";
+import RestaurantList from "@/app/_components/restaurants/RestaurantList";
 
 export const metadata = {
   title: "Foodie - Home",

@@ -1,6 +1,6 @@
 import React from "react";
-import { getRestaurantDetails } from "@/lib/data-service";
-import MenuItem from "@/_components/MenuItem";
+import { getRestaurantDetails } from "@/app/_lib/services/restaurantService";
+import MenuItem from "@/app/_components/restaurants/MenuItem";
 import Image from "next/image";
 
 export async function generateMetadata({
