@@ -77,7 +77,7 @@ export default function AddressPicker() {
   //   }; // Cleanup function to abort fetch on unmount or query change
   // }, [query]);
 
-  const handleAddressChange = async (query: string) => {
+  const handleQueryChange = async (query: string) => {
     if (query.length < 3) return setSuggestions([]); // Don't search for very short queries
     setSuggestionsLoading(true);
     const response = await fetch(
@@ -97,17 +97,17 @@ export default function AddressPicker() {
     console.log("Received address from API:", locations);
   };
 
-  const debouncedHandleAddressChange = useMemo(
+  const debouncedHandleQueryChange = useMemo(
     () =>
       debounce((val: string) => {
-        return handleAddressChange(val);
+        return handleQueryChange(val);
       }, 500),
     [],
   );
 
   const onQueryChange = (query: string) => {
     setQuery(query);
-    debouncedHandleAddressChange(query);
+    debouncedHandleQueryChange(query);
   };
 
   const handleSelectSuggestion = (suggestion: Location) => {
