@@ -56,7 +56,7 @@ export const forwardGeocode = async (query: string): Promise<Location[]> => {
     );
     const locations = (await response.json()) as ForwardGeocodeHit[];
 
-    const formattedLocations = locations.map((hit: ForwardGeocodeHit) => {
+    const formattedLocations = locations.map((hit) => {
       const parts = hit.display_name.split(",");
       const mainText = parts[0].trim();
       const secondaryText = parts[1];
@@ -92,6 +92,7 @@ export const reverseGeocode = async (
     if (!hit) return null;
     const formattedAddress = [hit.street, hit.city].filter(Boolean).join(", ");
     console.log("formattedAddress", formattedAddress);
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
     return {
       id: hit.osm_id,
       formattedAddress,

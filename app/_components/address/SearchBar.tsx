@@ -6,19 +6,19 @@ import LoadingDots from "../ui/LoadingDots";
 import SearchResults from "./SearchResults";
 
 interface SearchBarProps {
-  fullAddress: string;
+  query: string;
   suggestionsLoading: boolean;
   suggestions: Location[];
-  onAddressChange: (query: string) => void;
+  onQueryChange: (query: string) => void;
   onSelectSuggestion: (suggestion: Location) => void;
   onClearSuggestions: () => void;
 }
 
 export default function SearchBar({
-  fullAddress,
+  query,
   suggestionsLoading,
   suggestions,
-  onAddressChange,
+  onQueryChange,
   onSelectSuggestion,
   onClearSuggestions,
 }: SearchBarProps) {
@@ -66,8 +66,8 @@ export default function SearchBar({
         <input
           id="address-search"
           type="text"
-          value={fullAddress}
-          onChange={(e) => onAddressChange(e.target.value)}
+          value={query}
+          onChange={(e) => onQueryChange(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Enter your address"
           className="w-full text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none"

@@ -55,7 +55,6 @@ const Map = (props: {
         <Marker
           position={position}
           icon={pinIcon}
-          draggable
           eventHandlers={{
             drag: (event) => {
               const { lat, lng } = event.target.getLatLng();

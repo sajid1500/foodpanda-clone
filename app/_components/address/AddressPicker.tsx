@@ -13,7 +13,6 @@ import LoadingDots from "../ui/LoadingDots";
 import SearchResults from "./SearchResults";
 import SearchBar from "./SearchBar";
 import { useDebounceValue } from "usehooks-ts";
-
 const Map = dynamic(() => import("./Map"), {
   ssr: false,
   loading: () => <p>A map is loading</p>,
@@ -23,44 +22,60 @@ export default function AddressPicker() {
   const [position, setPosition] = useState<[number, number]>([
     23.7524788, 90.4176482,
   ]);
-
   const [debouncedPosition, setDebouncedPosition] = useDebounceValue(
     position,
     500,
   );
-  useEffect(() => {
-    console.log("debounced position:", debouncedPosition);
-  }, [debouncedPosition]);
 
   const [suggestionsLoading, setSuggestionsLoading] = useState<boolean>(false);
-  const [fullAddress, setFullAddress] = useState<string>("");
+  const [query, setQuery] = useState<string>("");
   const [selectedAddress, setSelectedAddress] = useState<Location | null>(null);
   const [suggestions, setSuggestions] = useState<Location[]>([]);
 
-  const handlePositionChange = async (lat: number, lng: number) => {
-    const response = await fetch(`/api/geocode?lat=${lat}&lng=${lng}`);
-    if (!response.ok) {
-      console.error("Failed to fetch address:", response.statusText);
-      return;
-    }
-    const address = (await response.json()) as Location;
-    // console.log("Received address from API:", address);
-    setFullAddress(address?.formattedAddress ?? "");
-  };
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const [lat, lng] = debouncedPosition;
+    const fetchAddress = async () => {
+      const response = await fetch(`/api/geocode?lat=${lat}&lng=${lng}`, {
+        signal,
+      });
+      if (!response.ok) {
+        console.error("Failed to fetch address:", response.statusText);
+        return;
+      }
+      const address = (await response.json()) as Location;
+      setQuery(address?.formattedAddress ?? "");
+      // console.log("Received address from API:", address);
+    };
+    fetchAddress();
+    return () => {
+      controller.abort();
+    }; // Cleanup function to abort fetch on unmount or query change
+  }, [debouncedPosition]);
 
-  const debouncedHandlePositionChange = useMemo(
-    () =>
-      debounce((val: [number, number]) => {
-        return handlePositionChange(val[0], val[1]);
-      }, 500),
-    [],
-  );
-
-  const onChangePosition = (coords: [number, number]) => {
-    setPosition(coords);
-    setDebouncedPosition(coords);
-    debouncedHandlePositionChange(coords);
-  };
+  // useEffect(() => {
+  //   // if (suggestions.some((s) => s.formattedAddress === query)) return; // Don't fetch if the current address is already in suggestions
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
+  //   const fetchCoordinates = async () => {
+  //     setSuggestionsLoading(true);
+  //     if (query.length < 3) return setSuggestions([]); // Don't search for very short queries
+  //     const response = await fetch(
+  //       `/api/geocode?query=${encodeURIComponent(query)}`,
+  //       { signal },
+  //     );
+  //     const data = await response.json();
+  //     const { locations } = data;
+  //     setSuggestionsLoading(false);
+  //     if (!locations) return setSuggestions([]);
+  //     setSuggestions(locations);
+  //   };
+  //   fetchCoordinates();
+  //   return () => {
+  //     controller.abort();
+  //   }; // Cleanup function to abort fetch on unmount or query change
+  // }, [query]);
 
   const handleAddressChange = async (query: string) => {
     if (query.length < 3) return setSuggestions([]); // Don't search for very short queries
@@ -90,20 +105,17 @@ export default function AddressPicker() {
     [],
   );
 
-  const onAddressChange = (query: string) => {
-    setFullAddress(query);
+  const onQueryChange = (query: string) => {
+    setQuery(query);
     debouncedHandleAddressChange(query);
   };
 
   const handleSelectSuggestion = (suggestion: Location) => {
     console.log("Selected address:", suggestion);
-    setFullAddress(suggestion.formattedAddress);
+    if (query !== suggestion.formattedAddress)
+      setQuery(suggestion.formattedAddress);
     setSuggestions([]);
     // You can add additional logic here, like updating the map position
-  };
-
-  const handleClearSuggestions = () => {
-    setSuggestions([]);
   };
 
   const { isAddressPickerOpen, closeAddressPicker } = useLayoutStore(
@@ -123,19 +135,22 @@ export default function AddressPicker() {
         </div>
 
         <SearchBar
-          fullAddress={fullAddress}
+          query={query}
           suggestionsLoading={suggestionsLoading}
           suggestions={suggestions}
-          onAddressChange={onAddressChange}
+          onQueryChange={onQueryChange}
           onSelectSuggestion={handleSelectSuggestion}
-          onClearSuggestions={handleClearSuggestions}
+          onClearSuggestions={() => setSuggestions([])}
         />
 
         <Map
           position={position}
           zoom={32}
           className="mt-4 h-[412px] w-full overflow-hidden rounded-2xl border border-neutral-200"
-          onChangePosition={onChangePosition}
+          onChangePosition={(coords: [number, number]) => {
+            setPosition(coords);
+            setDebouncedPosition(coords);
+          }}
         />
         <div className="mt-4 flex w-full justify-end">
           <button
