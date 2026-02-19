@@ -11,7 +11,7 @@ import {
   LuCircle,
   LuLogOut,
 } from "react-icons/lu";
-import { createClient } from "@/app/_lib/supabase/client";
+import { createClient } from "@/app/_lib/config/supabase/client";
 
 export default function UserMenuList() {
   const handleSignOut = async () => {

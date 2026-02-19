@@ -5,14 +5,10 @@ import { useLayoutStore } from "../../_lib/store/layoutStore";
 // import Map from "./Map";
 import Drawer from "../ui/Drawer";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import debounce from "@/app/_lib/utility/debounce";
+import { useEffect, useState } from "react";
 import { Location } from "@/app/_lib/types/api.types";
-import { MdLocationPin } from "react-icons/md";
-import LoadingDots from "../ui/LoadingDots";
-import SearchResults from "./SearchResults";
 import SearchBar from "./SearchBar";
-import { useDebounceValue } from "usehooks-ts";
+import { useDebounce } from "use-debounce";
 const Map = dynamic(() => import("./Map"), {
   ssr: false,
   loading: () => <p>A map is loading</p>,
@@ -22,15 +18,10 @@ export default function AddressPicker() {
   const [position, setPosition] = useState<[number, number]>([
     23.7524788, 90.4176482,
   ]);
-  const [debouncedPosition, setDebouncedPosition] = useDebounceValue(
-    position,
-    500,
-  );
+  const [debouncedPosition, setDebouncedPosition] = useDebounce(position, 500);
 
-  const [suggestionsLoading, setSuggestionsLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
   const [selectedAddress, setSelectedAddress] = useState<Location | null>(null);
-  const [suggestions, setSuggestions] = useState<Location[]>([]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -54,67 +45,10 @@ export default function AddressPicker() {
     }; // Cleanup function to abort fetch on unmount or query change
   }, [debouncedPosition]);
 
-  // useEffect(() => {
-  //   // if (suggestions.some((s) => s.formattedAddress === query)) return; // Don't fetch if the current address is already in suggestions
-  //   const controller = new AbortController();
-  //   const signal = controller.signal;
-  //   const fetchCoordinates = async () => {
-  //     setSuggestionsLoading(true);
-  //     if (query.length < 3) return setSuggestions([]); // Don't search for very short queries
-  //     const response = await fetch(
-  //       `/api/geocode?query=${encodeURIComponent(query)}`,
-  //       { signal },
-  //     );
-  //     const data = await response.json();
-  //     const { locations } = data;
-  //     setSuggestionsLoading(false);
-  //     if (!locations) return setSuggestions([]);
-  //     setSuggestions(locations);
-  //   };
-  //   fetchCoordinates();
-  //   return () => {
-  //     controller.abort();
-  //   }; // Cleanup function to abort fetch on unmount or query change
-  // }, [query]);
-
-  const handleQueryChange = async (query: string) => {
-    if (query.length < 3) return setSuggestions([]); // Don't search for very short queries
-    setSuggestionsLoading(true);
-    const response = await fetch(
-      `/api/geocode?query=${encodeURIComponent(query)}`,
-    );
-
-    if (!response.ok) {
-      console.error("Failed to fetch address:", response.statusText);
-      return;
-    }
-
-    const data = await response.json();
-    const { locations } = data;
-
-    setSuggestions(locations);
-    setSuggestionsLoading(false);
-    console.log("Received address from API:", locations);
-  };
-
-  const debouncedHandleQueryChange = useMemo(
-    () =>
-      debounce((val: string) => {
-        return handleQueryChange(val);
-      }, 500),
-    [],
-  );
-
-  const onQueryChange = (query: string) => {
-    setQuery(query);
-    debouncedHandleQueryChange(query);
-  };
-
   const handleSelectSuggestion = (suggestion: Location) => {
     console.log("Selected address:", suggestion);
     if (query !== suggestion.formattedAddress)
       setQuery(suggestion.formattedAddress);
-    setSuggestions([]);
     // You can add additional logic here, like updating the map position
   };
 
@@ -136,14 +70,11 @@ export default function AddressPicker() {
 
         <SearchBar
           query={query}
-          suggestionsLoading={suggestionsLoading}
-          suggestions={suggestions}
-          onQueryChange={onQueryChange}
-          onSelectSuggestion={handleSelectSuggestion}
-          onClearSuggestions={() => setSuggestions([])}
+          setQuery={setQuery}
+          onSelect={handleSelectSuggestion}
         />
 
-        <Map
+        {/* <Map
           position={position}
           zoom={32}
           className="mt-4 h-[412px] w-full overflow-hidden rounded-2xl border border-neutral-200"
@@ -151,8 +82,8 @@ export default function AddressPicker() {
             setPosition(coords);
             setDebouncedPosition(coords);
           }}
-        />
-        <div className="mt-4 flex w-full justify-end">
+        /> */}
+        <div className="mt-400 flex w-full justify-end">
           <button
             type="button"
             className="mt-5 w-fit rounded-xl bg-pink-600 p-4 py-3 text-sm font-semibold tracking-wide text-white uppercase transition hover:bg-pink-700"

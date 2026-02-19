@@ -2,7 +2,7 @@
 import Stripe from "stripe";
 import { redirect } from "next/navigation";
 import { Cart, CartItem } from "../store/cartStore";
-import { createClient } from "../supabase/server";
+import { createClient } from "../config/supabase/server";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
