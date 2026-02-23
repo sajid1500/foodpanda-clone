@@ -9,14 +9,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLayoutStore } from "@/app/_lib/store/layoutStore";
 import CloseButton from "../ui/CloseButton";
 import CheckoutButton from "../check-in-out/CheckoutButton";
+import { type CartItem } from "@/app/_lib/types/order.types";
 
 export default function Cart() {
   const { cart } = useCartStore((state) => state);
   const { isCartOpen, closeCart } = useLayoutStore((state) => state);
   if (!cart) return null;
-  const { restaurantName, restaurantImage, items } = cart;
   // console.log(restaurantImage);
-  // console.log("cart items", cart);
+  const { restaurantName, restaurantImage, items } = cart;
+  console.log("cart items", cart);
   return (
     <AnimatePresence>
       {isCartOpen && (
@@ -31,7 +32,7 @@ export default function Cart() {
             <h2 className="mb-4 text-lg font-bold">Your Cart</h2>
             <CloseButton onClick={closeCart} />
           </div>
-          {items.length === 0 ? (
+          {items?.length === 0 ? (
             <p>Your cart is empty</p>
           ) : (
             <>
@@ -63,7 +64,7 @@ export default function Cart() {
 function CartList({ items }: { items: CartItemType[] }) {
   return (
     <ul className="mt-4">
-      {items.map((item) => (
+      {items?.map((item) => (
         <CartItem key={item.id} item={item} />
       ))}
     </ul>

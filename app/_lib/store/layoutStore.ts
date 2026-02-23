@@ -85,7 +85,7 @@ export const useLayoutStore = create<LayoutStore>((set, get) => ({
   },
   closeAddressDrawer: () => set({ isAddressDrawerOpen: false }),
 
-  isAddressPickerOpen: true,
+  isAddressPickerOpen: false,
   toggleAddressPicker: () => {
     set((state) => ({
       isAddressPickerOpen: !state.isAddressPickerOpen,

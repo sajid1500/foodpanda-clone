@@ -12,6 +12,31 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.1"
   }
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       menu_items: {
@@ -207,24 +232,39 @@ export type Database = {
       }
       user_addresses: {
         Row: {
-          full_address: string | null
+          address_line_1: string
+          address_line_2: string | null
+          city: string
+          id: string
           is_default: boolean | null
           label: string | null
           location: unknown
+          note: string | null
+          place_id: number
           user_id: string
         }
         Insert: {
-          full_address?: string | null
+          address_line_1: string
+          address_line_2?: string | null
+          city: string
+          id?: string
           is_default?: boolean | null
           label?: string | null
           location: unknown
+          note?: string | null
+          place_id: number
           user_id: string
         }
         Update: {
-          full_address?: string | null
+          address_line_1?: string
+          address_line_2?: string | null
+          city?: string
+          id?: string
           is_default?: boolean | null
           label?: string | null
           location?: unknown
+          note?: string | null
+          place_id?: number
           user_id?: string
         }
         Relationships: []
@@ -452,6 +492,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {},
   },
