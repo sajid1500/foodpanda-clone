@@ -1,22 +1,22 @@
 "use client";
-import {
-  type CartItem as CartItemType,
-  useCartStore,
-} from "@/app/_lib/store/cartStore";
+import { useCartStore } from "@/app/_lib/store/cartStore";
 import CartItem from "./CartItem";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLayoutStore } from "@/app/_lib/store/layoutStore";
 import CloseButton from "../ui/CloseButton";
 import CheckoutButton from "../check-in-out/CheckoutButton";
-import { type CartItem } from "@/app/_lib/types/order.types";
+import {
+  type CartItem as CartItemType,
+  type Cart,
+} from "@/app/_lib/types/cart.types";
 
 export default function Cart() {
   const { cart } = useCartStore((state) => state);
   const { isCartOpen, closeCart } = useLayoutStore((state) => state);
   if (!cart) return null;
   // console.log(restaurantImage);
-  const { restaurantName, restaurantImage, items } = cart;
+  const { restaurantName, restaurantImage, items } = cart as Cart;
   console.log("cart items", cart);
   return (
     <AnimatePresence>

@@ -3,7 +3,7 @@ import CartOverview from "../cart/CartOverview";
 import UserMenuButton from "../user/UserMenuButton";
 import Link from "next/link";
 import BrandLogo from "./BrandLogo";
-import { createClient } from "@/app/_lib/supabase/server";
+import { createClient } from "@/app/_lib/config/supabase/server";
 import LocationPicker from "../address/AddressButton";
 import { getUserForServer } from "@/app/_lib/utility/auth";
 

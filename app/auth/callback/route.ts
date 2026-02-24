@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 // The client you created from the Server-Side Auth instructions
-import { createClient } from "@/app/_lib/supabase/server";
+import { createClient } from "@/app/_lib/config/supabase/server";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -23,8 +23,8 @@ export async function GET(request: Request) {
           "Running in development mode. Redirecting to local origin without checking X-Forwarded-Host.${origin}${next}",
         );
         // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
-        // return NextResponse.redirect(`${origin}${next}`);
-        return NextResponse.redirect(`https://${forwardedHost}${next}`);
+        return NextResponse.redirect(`${origin}${next}`);
+        // return NextResponse.redirect(`https://${forwardedHost}${next}`);
       } else if (forwardedHost) {
         console.warn(
           "Running in production mode. Redirecting to X-Forwarded-Host if available.",

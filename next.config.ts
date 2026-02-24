@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { SUPABASE_STORAGE_URL } from "./app/_lib/utility/constants";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -35,7 +36,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/assets/:path*",
-        destination: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/restaurant-assets/:path*`,
+        destination: `${SUPABASE_STORAGE_URL}/restaurant-assets/:path*`,
       },
     ];
   },

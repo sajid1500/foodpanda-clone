@@ -1,4 +1,4 @@
-import { Cart } from "@/app/_lib/store/cartStore";
+import { Cart } from "@/app/_lib/types/cart.types";
 import { submitOrder } from "@/app/_lib/services/restaurantService";
 import { StripeError, StripeErrorType } from "@stripe/stripe-js";
 import { NextRequest, NextResponse } from "next/server";

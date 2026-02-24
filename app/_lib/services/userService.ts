@@ -1,5 +1,5 @@
 import { getUserForServer } from "../utility/auth";
-import supabase from "../supabase";
+import supabase from "../config/supabase";
 import {
   ForwardGeocodeHit,
   Location,

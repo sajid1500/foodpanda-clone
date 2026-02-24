@@ -1,18 +1,17 @@
 "use server";
 import Stripe from "stripe";
 import { redirect } from "next/navigation";
-import { Cart, CartItem } from "../store/cartStore";
-import { createClient } from "../supabase/server";
+import { Cart, CartItem } from "../types/cart.types";
+import { createClient } from "../config/supabase/server";
+import { getUserForServer } from "../utility/auth";
+import { SUPABASE_STORAGE_URL } from "../utility/constants";
+import { NextResponse } from "next/server";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function createCheckoutSession(cart: Cart) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-  if (!user || error) {
+  const user = await getUserForServer();
+  if (!user) {
     redirect("/login");
   }
   const session = await stripe.checkout.sessions.create({
@@ -27,11 +26,14 @@ export async function createCheckoutSession(cart: Cart) {
         currency: "bdt",
         product_data: {
           name: item.name,
-          images: ["https://picsum.photos/200"], // Placeholder image
+          images: [
+            `${SUPABASE_STORAGE_URL}/restaurant-assets/${item.imagePath}`,
+          ], // Placeholder image
         },
         unit_amount: item.price * 100, // Stripe uses cents
       },
-      quantity: 1,
+      // price: item.id, // You can use the item ID as the price ID if you have set up Stripe products
+      quantity: item.quantity,
     })),
     mode: "payment",
     success_url: `${process.env.NEXT_PUBLIC_URL}/success?session_id={CHECKOUT_SESSION_ID}`,

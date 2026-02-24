@@ -1,11 +1,11 @@
 import React from "react";
-import { type CartItem } from "@/app/_lib/store/cartStore";
+import { type CartItem } from "@/app/_lib/types/cart.types";
 import Image from "next/image";
 import Counter from "./Counter";
 import { motion, Variants } from "framer-motion";
 
 export default function CartItem({ item }: { item: CartItem }) {
-  const { imagePath, name } = item;
+  const { imagePath, name, price } = item;
   return (
     <motion.li className="relative flex items-center space-x-2">
       <div className="relative aspect-square h-11 w-11">
@@ -18,7 +18,12 @@ export default function CartItem({ item }: { item: CartItem }) {
       </div>
       <div className="flex w-full justify-between">
         <h3>{name}</h3>
-        <Counter item={item} className="absolute right-2 bottom-1" />
+        <div className="mr-2 mb-1 flex flex-col items-center">
+          <p>
+            {price * item.quantity} <span className="font-bold">tk</span>
+          </p>
+          <Counter item={item} />
+        </div>
       </div>
     </motion.li>
   );

@@ -1,7 +1,7 @@
 import { Cart, CartItem } from "../store/cartStore";
 import { Restaurant, RestaurantSummary } from "../types/resaurant.types";
-import supabase from "../supabase";
-import { createClient } from "../supabase/server";
+import supabase from "../config/supabase";
+import { createClient } from "../config/supabase/server";
 import { Location, LocationHit } from "../types/api.types";
 
 export async function getNearbyRestaurants(

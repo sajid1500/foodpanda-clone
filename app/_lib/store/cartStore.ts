@@ -1,23 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { MenuItem, RestaurantSummary } from "../types/resaurant.types";
-
-export interface CartItem extends MenuItem {
-  quantity: number;
-  selectedAddons?: Array<{
-    id: string;
-    name: string;
-    price: number;
-  }>;
-}
-
-// The overall state of the cart
-export interface Cart {
-  items: CartItem[];
-  restaurantId: string; // To track which restaurant the user is currently ordering from
-  restaurantName: string;
-  restaurantImage?: string;
-}
+import { Cart } from "../types/cart.types";
 
 interface CartStore {
   cart: Cart | null;

@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { Database } from "./types/database.types";
-import { ModdedDatabase } from "./types/database-mod.types";
+import { Database } from "../types/database.types";
+import { ModdedDatabase } from "../types/database-mod.types";
 const supabaseUrl = "https://zsinkefhyowyqjycayfz.supabase.co";
 const supabaseKey = process.env.SUPABASE_KEY;
 
