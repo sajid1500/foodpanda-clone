@@ -2,7 +2,7 @@
 
 import { MenuItem } from "@/app/_lib/types/resaurant.types";
 import { useCartStore } from "@/app/_lib/store/cartStore";
-import { CartItem } from "@/app/_lib/store/cartStore";
+import { CartItem } from "@/app/_lib/types/cart.types";
 import { LuMinus, LuPlus, LuTrash2 } from "react-icons/lu";
 
 export default function Counter({
@@ -16,7 +16,7 @@ export default function Counter({
   const { id, quantity } = item;
   return (
     <div
-      className={`${className} flex items-center justify-around rounded-full bg-white px-2 text-gray-700 shadow-md`}
+      className={`${className} flex items-center justify-around rounded-full bg-white text-gray-700 shadow-md`}
     >
       <button
         onClick={() => {
