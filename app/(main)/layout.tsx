@@ -1,40 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "@/app/globals.css";
-import Header from "@/app/_components/ui/MainHeader";
-import dynamic from "next/dynamic";
-import Cart from "../_components/cart/Cart";
-import UserMenu from "../_components/user/UserMenu";
-import AuthDrawer from "../_components/auth/AuthDrawer";
-import AddressDrawer from "../_components/address/AddressDrawer";
-import AddressPickerDrawer from "../_components/address/AddressPicker";
+import Header from "@/app/_components/MainHeader";
 
-// const Cart = dynamic(() => import("@/app/_components/cart/Cart"), {});
-// const UserMenu = dynamic(() => import("@/app/_components/user/UserMenu"), {});
-// const AuthDrawer = dynamic(
-//   () => import("@/app/_components/auth/AuthDrawer"),
-//   {},
-// );
-// const AddressDrawer = dynamic(
-//   () => import("@/app/_components/address/AddressDrawer"),
-// );
-// const AddressPicker = dynamic(
-//   () => import("../_components/address/AddressPicker"),
-// );
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -48,17 +21,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en">
+      <body className={`${openSans.variable} antialiased`}>
         <Header />
         <main>{children}</main>
-        <Cart />
-        <UserMenu />
-        <AuthDrawer />
-        <AddressDrawer />
-        <AddressPickerDrawer />
+        {/* <AddressDrawer />
+        <AddressPickerDrawer /> */}
       </body>
     </html>
   );

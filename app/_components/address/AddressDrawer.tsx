@@ -1,5 +1,5 @@
 "use client";
-import { useLayoutStore } from "@/app/_lib/store/layoutStore";
+import { useLayoutStore } from "@/app/_lib/stores/layoutStore";
 import Drawer from "../ui/Drawer";
 import {
   LuCheck,

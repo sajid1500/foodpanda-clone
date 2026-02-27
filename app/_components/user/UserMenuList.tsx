@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   LuWallet,
   LuCrown,
@@ -20,29 +19,13 @@ export default function UserMenuList() {
     if (error) {
       console.error("Error signing out:", error.message);
     } else {
-      // Optionally, you can redirect the user to the homepage or login page after sign-out
       window.location.href = "/";
     }
   };
 
   return (
-    <motion.ul
-      initial="hidden"
-      animate="visible"
-      variants={{
-        visible: {
-          transition: {
-            staggerChildren: 0.05,
-          },
-        },
-      }}
-    >
-      <motion.li
-        variants={{
-          hidden: { opacity: 0, x: -20 },
-          visible: { opacity: 1, x: 0 },
-        }}
-      >
+    <ul>
+      <li>
         <a
           href="/pandapay"
           className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:bg-gray-100"
@@ -50,14 +33,9 @@ export default function UserMenuList() {
           <LuWallet size={24} strokeWidth={1.5} className="text-gray-700" />
           <span className="text-base font-medium text-gray-800">pandapay</span>
         </a>
-      </motion.li>
+      </li>
 
-      <motion.li
-        variants={{
-          hidden: { opacity: 0, x: -20 },
-          visible: { opacity: 1, x: 0 },
-        }}
-      >
+      <li>
         <a
           href="/subscription"
           className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:bg-gray-100"
@@ -67,14 +45,9 @@ export default function UserMenuList() {
             My subscription
           </span>
         </a>
-      </motion.li>
+      </li>
 
-      <motion.li
-        variants={{
-          hidden: { opacity: 0, x: -20 },
-          visible: { opacity: 1, x: 0 },
-        }}
-      >
+      <li>
         <a
           href="/orders"
           className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:bg-gray-100"
@@ -88,14 +61,9 @@ export default function UserMenuList() {
             Orders & reordering
           </span>
         </a>
-      </motion.li>
+      </li>
 
-      <motion.li
-        variants={{
-          hidden: { opacity: 0, x: -20 },
-          visible: { opacity: 1, x: 0 },
-        }}
-      >
+      <li>
         <a
           href="/account"
           className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:bg-gray-100"
@@ -103,14 +71,9 @@ export default function UserMenuList() {
           <LuUser size={24} strokeWidth={1.5} className="text-gray-700" />
           <span className="text-base font-medium text-gray-800">Profile</span>
         </a>
-      </motion.li>
+      </li>
 
-      <motion.li
-        variants={{
-          hidden: { opacity: 0, x: -20 },
-          visible: { opacity: 1, x: 0 },
-        }}
-      >
+      <li>
         <a
           href="/vouchers"
           className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:bg-gray-100"
@@ -118,14 +81,9 @@ export default function UserMenuList() {
           <LuTicket size={24} strokeWidth={1.5} className="text-gray-700" />
           <span className="text-base font-medium text-gray-800">Vouchers</span>
         </a>
-      </motion.li>
+      </li>
 
-      <motion.li
-        variants={{
-          hidden: { opacity: 0, x: -20 },
-          visible: { opacity: 1, x: 0 },
-        }}
-      >
+      <li>
         <a
           href="/rewards"
           className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:bg-gray-100"
@@ -135,14 +93,11 @@ export default function UserMenuList() {
             panda rewards
           </span>
         </a>
-      </motion.li>
+      </li>
 
-      <motion.li
-        variants={{
-          hidden: { opacity: 0, x: -20 },
-          visible: { opacity: 1, x: 0 },
-        }}
-      >
+      <div className="h-px w-full bg-gray-200"></div>
+
+      <li>
         <a
           href="/help"
           className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:bg-gray-100"
@@ -152,14 +107,9 @@ export default function UserMenuList() {
             Help Center
           </span>
         </a>
-      </motion.li>
+      </li>
 
-      <motion.li
-        variants={{
-          hidden: { opacity: 0, x: -20 },
-          visible: { opacity: 1, x: 0 },
-        }}
-      >
+      <li>
         <button
           className="flex items-center gap-4 rounded-lg px-4 py-4 transition-colors hover:cursor-pointer hover:bg-gray-100"
           onClick={handleSignOut}
@@ -167,7 +117,7 @@ export default function UserMenuList() {
           <LuLogOut size={24} strokeWidth={1.5} className="text-gray-700" />
           <span className="text-base font-medium text-gray-800">Logout</span>
         </button>
-      </motion.li>
-    </motion.ul>
+      </li>
+    </ul>
   );
 }

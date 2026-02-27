@@ -10,11 +10,16 @@ interface CartStore {
   updateQuantity: (itemId: string, quantity: number) => void;
   clearCart: () => void;
 }
-
+const defaultCart: Cart = {
+  restaurantId: "",
+  restaurantName: "",
+  restaurantImage: "",
+  items: [],
+};
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
-      cart: null,
+      cart: defaultCart,
       addToCart: (item, restaurant) =>
         set((state) => {
           // console.log("Adding to cart", item, restaurantId);
@@ -65,13 +70,13 @@ export const useCartStore = create<CartStore>()(
       removeFromCart: (itemId) =>
         set((state) => {
           if (!state.cart) {
-            return { cart: null };
+            return { cart: defaultCart };
           }
 
           const items = state.cart.items.filter((item) => item.id !== itemId);
 
           if (items.length === 0) {
-            return { cart: null };
+            return { cart: defaultCart };
           }
 
           return {
@@ -85,14 +90,14 @@ export const useCartStore = create<CartStore>()(
       updateQuantity: (itemId, quantity) =>
         set((state) => {
           if (!state.cart) {
-            return { cart: null };
+            return { cart: defaultCart };
           }
 
           if (quantity <= 0) {
             const items = state.cart.items.filter((item) => item.id !== itemId);
 
             if (items.length === 0) {
-              return { cart: null };
+              return { cart: defaultCart };
             }
 
             return {
@@ -115,7 +120,7 @@ export const useCartStore = create<CartStore>()(
 
       clearCart: () =>
         set({
-          cart: null,
+          cart: defaultCart,
         }),
     }),
     {

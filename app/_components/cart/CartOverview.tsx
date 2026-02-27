@@ -1,7 +1,7 @@
 "use client";
 
-import { useCartStore } from "@/app/_lib/store/cartStore";
-import { useLayoutStore } from "@/app/_lib/store/layoutStore";
+import { useCartStore } from "@/app/_lib/stores/cartStore";
+import { useLayoutStore } from "@/app/_lib/stores/layoutStore";
 import { AnimatePresence, motion } from "framer-motion";
 import { LuShoppingBag } from "react-icons/lu";
 
@@ -14,7 +14,7 @@ export default function CartOverview() {
   const openCart = useLayoutStore((state) => state.openCart);
   // console.log("cart items", cart);
   return (
-    <button className="relative" onClick={openCart}>
+    <span className="relative" onClick={openCart}>
       <LuShoppingBag color="black" size={24} />
       {numItems > 0 && (
         <AnimatePresence mode="wait">
@@ -30,6 +30,6 @@ export default function CartOverview() {
           </motion.span>
         </AnimatePresence>
       )}
-    </button>
+    </span>
   );
 }

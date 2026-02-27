@@ -3,7 +3,7 @@ import { RestaurantSummary } from "@/app/_lib/types/resaurant.types";
 import Image from "next/image";
 import StarRating from "../ui/StarRating";
 import Link from "next/link";
-
+import { RESTAURANT_ASSETS_URL } from "@/app/_lib/utils/constants";
 export default function RestaurantItem(restaurant: RestaurantSummary) {
   const {
     name,
@@ -15,7 +15,14 @@ export default function RestaurantItem(restaurant: RestaurantSummary) {
   return (
     <li className="border-neutral-border overflow-clip rounded-2xl border">
       <Link href={`/restaurant/${restaurant.shortId}`}>
-        <Image src={`/assets/${banner}`} alt={name} width={500} height={300} />
+        <Image
+          src={`${RESTAURANT_ASSETS_URL}/${banner}`}
+          alt={name}
+          width={500}
+          height={300}
+          loading="eager"
+          // TODO: loading strategy should be based on the restaurant's position in the list. For example, the first 3 restaurants can have loading="eager" and the rest can have loading="lazy"
+        />
         <div className="mb-2 px-2">
           <div className="mt-2 flex justify-between">
             <h1 className="font-bold">{name}</h1>

@@ -6,6 +6,7 @@ import type {
 import Image from "next/image";
 import Counter from "../cart/Counter";
 import MenuCounter from "./MenuCounter";
+import { RESTAURANT_ASSETS_URL } from "@/app/_lib/utils/constants";
 
 export default function MenuItem({
   restaurantSummary,
@@ -26,7 +27,11 @@ export default function MenuItem({
       </div>
       <div className="relative h-30 w-30">
         <Image
-          src={imagePath ? `/assets/${imagePath}` : "/placeholder.png"}
+          src={
+            imagePath
+              ? `${RESTAURANT_ASSETS_URL}/${imagePath}`
+              : "/placeholder.png"
+          }
           alt={name}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill

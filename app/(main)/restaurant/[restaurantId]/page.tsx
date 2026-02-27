@@ -2,6 +2,7 @@ import React from "react";
 import { getRestaurantDetails } from "@/app/_lib/services/restaurantService";
 import MenuItem from "@/app/_components/restaurants/MenuItem";
 import Image from "next/image";
+import { RESTAURANT_ASSETS_URL } from "@/app/_lib/utils/constants";
 
 export async function generateMetadata({
   params,
@@ -42,7 +43,11 @@ export default async function page({
       <section className="mt-6 flex items-center gap-4 rounded-lg p-4 shadow-md">
         <div className="relative h-22.5 w-22.5">
           <Image
-            src={imagePath ? `/assets/${imagePath}` : "/placeholder.png"}
+            src={
+              imagePath
+                ? `${RESTAURANT_ASSETS_URL}/${imagePath}`
+                : "/placeholder.png"
+            }
             alt={name}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             fill

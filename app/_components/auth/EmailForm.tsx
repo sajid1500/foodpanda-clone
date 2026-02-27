@@ -1,25 +1,46 @@
 import { useState } from "react";
-import { LuMail } from "react-icons/lu";
+import { LuArrowLeft, LuMail } from "react-icons/lu";
+import {
+  DrawerClose,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "../ui/drawer";
+import { useLayoutStore } from "@/app/_lib/stores/layoutStore";
 
 export default function EmailForm() {
   const [email, setEmail] = useState("");
+  const { closeEmailDrawer } = useLayoutStore((state) => state);
 
   return (
-    <div className="px-6 pt-12 pb-8">
+    <>
+      <div className={`flex items-center justify-between`}>
+        <button
+          aria-label="Back"
+          onClick={closeEmailDrawer}
+          className="rounded-full p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+        >
+          <LuArrowLeft size={24} />
+        </button>
+        {/* Close Button */}
+        <DrawerClose />
+      </div>
       {/* Icon */}
       <div className="mb-6 flex justify-center">
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-100 to-purple-100">
-          <LuMail size={32} className="text-pink-500" />
+          <LuMail size={32} className="text-primary" />
         </div>
       </div>
 
       {/* Header */}
-      <h2 className="mb-2 text-center text-2xl font-bold text-gray-900">
-        What&apos;s your email?
-      </h2>
-      <p className="mb-8 text-center text-sm text-gray-600">
-        We&apos;ll check if you have an account
-      </p>
+      <DrawerHeader>
+        <DrawerTitle className="mb-2 text-center text-2xl font-bold text-gray-900">
+          What&apos;s your email?
+        </DrawerTitle>
+        <DrawerDescription className="mb-8 text-center text-sm text-gray-600">
+          We&apos;ll check if you have an account
+        </DrawerDescription>
+      </DrawerHeader>
 
       {/* Email Input */}
       <div className="mb-4">
@@ -43,6 +64,6 @@ export default function EmailForm() {
       >
         Continue
       </button>
-    </div>
+    </>
   );
 }

@@ -2,22 +2,19 @@ import { LuX } from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
 
 export default function CloseButton({
-  onClick,
   className = "",
-}: {
-  onClick: () => void;
-  className?: string;
-}) {
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
-      onClick={onClick}
+      type="button"
       className={twMerge(
-        "flex h-8 w-8 items-center justify-center rounded-full bg-white p-0.5 shadow-lg",
+        "inline-flex h-9 w-9 items-center justify-center rounded-full border border-(--colorNeutralBorder) bg-(--colorNeutralSurface) text-(--colorNeutralSecondary) shadow-sm transition-colors hover:bg-(--colorWhite)",
         className,
       )}
-      aria-label="Close"
+      {...props}
     >
-      <LuX size={24} strokeWidth={1} color="black" />
+      <LuX size={18} strokeWidth={1.75} />
     </button>
   );
 }

@@ -1,11 +1,12 @@
 "use client";
 
-import { CartItem, useCartStore } from "@/app/_lib/store/cartStore";
+import { useCartStore } from "@/app/_lib/stores/cartStore";
 
 import React from "react";
 // import AddItem from "./AddItem";
 import Counter from "../cart/Counter";
 import { MenuItem, RestaurantSummary } from "@/app/_lib/types/resaurant.types";
+import { CartItem } from "@/app/_lib/types/cart.types";
 
 export default function MenuCounter({
   restaurantSummary,

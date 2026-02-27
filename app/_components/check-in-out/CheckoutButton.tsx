@@ -1,7 +1,7 @@
 "use client";
 
-import { createCheckoutSession } from "@/app/_lib/actions/order";
-import { useCartStore } from "@/app/_lib/store/cartStore";
+import { createCheckoutSession } from "@/app/_lib/actions/stripe";
+import { useCartStore } from "@/app/_lib/stores/cartStore";
 
 export default function CheckoutButton() {
   const { cart } = useCartStore((state) => state);

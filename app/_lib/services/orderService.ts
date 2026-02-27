@@ -1,4 +1,4 @@
-import { Cart } from "../store/cartStore";
+import { Cart } from "../stores/cartStore";
 
 export async function submitOrder(userId: string, cart: Cart) {
   // Simulate order submission delay

@@ -8,7 +8,6 @@ import {
 import {
   getNearbyRestaurants,
   getRestaurantsWithRouting,
-  getUser,
 } from "@/app/_lib/services/restaurantService";
 
 export default async function RestaurantList() {
@@ -22,9 +21,9 @@ export default async function RestaurantList() {
   return (
     <div>
       <h1 className="my-2 text-2xl font-medium">Restaurants near you</h1>
-      <ul className="flex flex-col gap-4">
-        {restaurants.map((restaurant: RestaurantSummary) => (
-          <RestaurantItem key={restaurant.shortId} {...restaurant} />
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {restaurants.map((restaurant: RestaurantSummary, index: number) => (
+          <RestaurantItem key={`${restaurant.shortId}`} {...restaurant} />
         ))}
       </ul>
     </div>

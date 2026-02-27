@@ -1,12 +1,12 @@
 "use client";
 
 import { LuSearch } from "react-icons/lu";
-import { useLayoutStore } from "../../_lib/store/layoutStore";
+import { useLayoutStore } from "../../_lib/stores/layoutStore";
 // import Map from "./Map";
 import Drawer from "../ui/Drawer";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import debounce from "@/app/_lib/utility/debounce";
+import debounce from "@/app/_lib/utils/debounce";
 import { Location } from "@/app/_lib/types/api.types";
 import { MdLocationPin } from "react-icons/md";
 import LoadingDots from "../ui/LoadingDots";

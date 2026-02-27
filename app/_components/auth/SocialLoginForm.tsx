@@ -1,19 +1,36 @@
 "use client";
 
 import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
-import { useLayoutStore } from "@/app/_lib/store/layoutStore";
+import { useLayoutStore } from "@/app/_lib/stores/layoutStore";
 import { signInWithProvider } from "@/app/_lib/actions/auth";
+import {
+  DrawerClose,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "../ui/drawer";
+import CloseButton from "../ui/CloseButton";
 
 export default function SocialLoginForm() {
   const { openEmailDrawer } = useLayoutStore((state) => state);
 
   return (
-    <div className="px-6 pt-6 pb-8">
+    <>
+      <div className="flex justify-end">
+        <DrawerClose>
+          <CloseButton />
+        </DrawerClose>
+      </div>
       {/* Header */}
-      <h2 className="mb-2 text-2xl font-bold text-gray-900">Welcome!</h2>
-      <p className="mb-6 text-sm text-gray-600">
-        Sign up or log in to continue
-      </p>
+      <DrawerHeader>
+        <DrawerTitle className="mb-2 text-2xl font-bold text-gray-900">
+          Welcome!
+        </DrawerTitle>
+        <DrawerDescription className="mb-6 text-sm text-gray-600">
+          Sign up or log in to continue
+        </DrawerDescription>
+      </DrawerHeader>
 
       {/* Social Login Buttons */}
       <div className="space-y-3">
@@ -53,6 +70,7 @@ export default function SocialLoginForm() {
       </div>
 
       {/* Email Login/Signup Buttons */}
+
       <div className="space-y-3">
         {/* Log in Button */}
         <button
@@ -72,7 +90,7 @@ export default function SocialLoginForm() {
       </div>
 
       {/* Terms and Privacy */}
-      <p className="mt-6 text-center text-xs text-gray-500">
+      <DrawerFooter className="mt-6 text-center text-xs text-gray-500">
         By signing up, you agree to our{" "}
         <a href="#" className="text-[#D70F64] underline">
           Terms and Conditions
@@ -81,7 +99,7 @@ export default function SocialLoginForm() {
         <a href="#" className="text-[#D70F64] underline">
           Privacy Policy
         </a>
-      </p>
-    </div>
+      </DrawerFooter>
+    </>
   );
 }

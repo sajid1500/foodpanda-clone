@@ -1,9 +1,10 @@
 "use client";
 
 import { MenuItem } from "@/app/_lib/types/resaurant.types";
-import { useCartStore } from "@/app/_lib/store/cartStore";
+import { useCartStore } from "@/app/_lib/stores/cartStore";
 import { CartItem } from "@/app/_lib/types/cart.types";
 import { LuMinus, LuPlus, LuTrash2 } from "react-icons/lu";
+import { twMerge } from "tailwind-merge";
 
 export default function Counter({
   item,
@@ -16,7 +17,10 @@ export default function Counter({
   const { id, quantity } = item;
   return (
     <div
-      className={`${className} flex items-center justify-around rounded-full bg-white text-gray-700 shadow-md`}
+      className={twMerge(
+        "flex items-center justify-around rounded-full bg-white text-gray-700 shadow-md",
+        className,
+      )}
     >
       <button
         onClick={() => {

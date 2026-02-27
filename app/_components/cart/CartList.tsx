@@ -2,12 +2,12 @@ import React from "react";
 import { type CartItem } from "@/app/_lib/types/cart.types";
 import Image from "next/image";
 import Counter from "./Counter";
-import { motion, Variants } from "framer-motion";
 
-export default function CartItem({ item }: { item: CartItem }) {
+function CartListItem({ item }: { item: CartItem }) {
   const { imagePath, name, price } = item;
+
   return (
-    <motion.li className="relative flex items-center space-x-2">
+    <li className="relative flex items-center space-x-2">
       <div className="relative aspect-square h-11 w-11">
         <Image
           fill
@@ -16,6 +16,7 @@ export default function CartItem({ item }: { item: CartItem }) {
           alt={name}
         />
       </div>
+
       <div className="flex w-full justify-between">
         <h3>{name}</h3>
         <div className="mr-2 mb-1 flex flex-col items-center">
@@ -25,6 +26,16 @@ export default function CartItem({ item }: { item: CartItem }) {
           <Counter item={item} />
         </div>
       </div>
-    </motion.li>
+    </li>
+  );
+}
+
+export default function CartList({ items }: { items: CartItem[] }) {
+  return (
+    <ul className="mt-4">
+      {items.map((item) => (
+        <CartListItem key={item.id} item={item} />
+      ))}
+    </ul>
   );
 }
