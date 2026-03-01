@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { type Cart } from "@/lib/types/cart.types";
 import CartList from "./CartList";
-import CheckoutButton from "../check-in-out/CheckoutButton";
+import CheckoutButton from "./CheckoutButton";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { RESTAURANT_ASSETS_URL } from "@/lib/utils/constants";
 
@@ -13,7 +13,7 @@ export default function Cart() {
 
   if (items.length === 0) return <p>Your cart is empty</p>;
   return (
-    <div>
+    <div className="">
       <div className="flex">
         <div className="relative mr-4 aspect-square h-9.5 w-9.5">
           <Image

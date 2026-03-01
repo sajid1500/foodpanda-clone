@@ -39,8 +39,8 @@ export default async function page({
   // console.log("restaurantId", restaurantId);
   // console.log("restaurant details", restaurantDetails);
   return (
-    <div>
-      <section className="mt-6 flex items-center gap-4 rounded-lg p-4 shadow-md">
+    <>
+      <section className="flex items-center gap-4 rounded-lg p-4 shadow-md">
         <div className="relative h-22.5 w-22.5">
           <Image
             src={
@@ -66,6 +66,6 @@ export default async function page({
           ))}
         </ul>
       </section>
-    </div>
+    </>
   );
 }

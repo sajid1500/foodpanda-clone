@@ -3,7 +3,7 @@ import { ChevronDown, MapPin } from "lucide-react";
 
 export default function PaymentPage() {
   return (
-    <section className="bg-secondary text-foreground min-h-screen">
+    <>
       <div className="mx-auto w-full max-w-3xl px-4 pt-8 pb-56 md:px-8">
         <h1 className="text-5xl leading-tight font-extrabold md:text-6xl">
           Review and place
@@ -92,6 +92,6 @@ export default function PaymentPage() {
           </button>
         </div>
       </aside>
-    </section>
+    </>
   );
 }

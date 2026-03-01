@@ -13,8 +13,10 @@ export async function POST(req: Request) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!,
     );
-  } catch (err: any) {
-    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : "Unknown webhook error";
+    return new Response(`Webhook Error: ${message}`, { status: 400 });
   }
 
   // Handle the event

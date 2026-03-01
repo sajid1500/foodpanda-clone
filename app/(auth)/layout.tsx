@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
 
-export default async function RootLayout({
+export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <main>{children}</main>
-      </body>
-    </html>
-  );
+  return <>{children}</>;
 }

@@ -24,7 +24,9 @@ export default async function RootLayout({
       lang="en"
       className={`${openSans.variable} antialiased`}
     >
+      <body className="font-sans">
       {children}
+      </body>
     </html>
   );
 }

@@ -18,7 +18,7 @@ function CartListItem({ item }: { item: CartItem }) {
             "/placeholder-restaurant.png"
           }
           sizes="(max-width: 768px) 44px, 44px"
-          // loading="lazy"
+          loading="eager"
           // preload={false}
           alt={name}
         />

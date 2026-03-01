@@ -16,7 +16,7 @@ export default async function RestaurantList() {
   const restaurants = await getNearbyRestaurants(lat, lng);
   // console.log("restaurants", restaurants);
   return (
-    <div>
+    <section className="px-4">
       <h1 className="my-2 text-2xl font-medium">Restaurants near you</h1>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {restaurants.map((restaurant: RestaurantSummary, index: number) => (
@@ -27,6 +27,6 @@ export default async function RestaurantList() {
           />
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
