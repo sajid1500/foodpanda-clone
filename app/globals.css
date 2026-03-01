@@ -1,53 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./theme.css";
 
-@custom-variant dark (&:is(.dark *));
-
-@theme inline {
-  --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(222 10% 20%);
-  --color-card: hsl(0 0% 100%);
-  --color-card-foreground: hsl(222 10% 20%);
-  --color-popover: hsl(0 0% 100%);
-  --color-popover-foreground: hsl(222 10% 20%);
-  --color-primary: hsl(335 100% 58%);
-  --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(180 7% 97%);
-  --color-secondary-foreground: hsl(222 10% 20%);
-  --color-muted: hsl(180 7% 97%);
-  --color-muted-foreground: hsl(204 4% 44%);
-  --color-accent: hsl(0 100% 93%);
-  --color-accent-foreground: hsl(222 10% 20%);
-  --color-destructive: hsl(13 100% 37%);
-  --color-destructive-foreground: hsl(0 0% 100%);
-  --color-border: hsl(210 5% 84%);
-  --color-input: hsl(210 5% 84%);
-  --color-ring: hsl(335 100% 58%);
-  --color-chart-1: hsl(335 100% 58%);
-  --color-chart-2: hsl(208 54% 32%);
-  --color-chart-3: hsl(154 37% 37%);
-  --color-chart-4: hsl(41 97% 64%);
-  --color-chart-5: hsl(334 79% 43%);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: hsl(0 0% 100%);
-  --color-sidebar-foreground: hsl(222 10% 20%);
-  --color-sidebar-primary: hsl(335 100% 58%);
-  --color-sidebar-primary-foreground: hsl(0 0% 100%);
-  --color-sidebar-accent: hsl(0 100% 93%);
-  --color-sidebar-accent-foreground: hsl(222 10% 20%);
-  --color-sidebar-border: hsl(210 5% 84%);
-  --color-sidebar-ring: hsl(335 100% 58%);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-agrandir), sans-serif;
 }

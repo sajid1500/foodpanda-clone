@@ -8,22 +8,48 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
-      <div className="text-center">
-        <h1 className="mb-4 text-6xl font-bold text-gray-800">404</h1>
-        <h2 className="mb-4 text-2xl font-semibold text-gray-700">
-          Page Not Found
-        </h2>
-        <p className="mb-8 text-gray-600">
-          Sorry, the page you&apos;re looking for doesn&apos;t exist.
+    <section className="bg-secondary text-foreground min-h-screen px-6 pt-10 pb-12 text-center">
+      <div className="mx-auto w-full max-w-md">
+        <p className="text-[180px] leading-none font-light text-white drop-shadow-[0_20px_26px_rgba(151,103,0,0.2)] select-none md:text-[220px]">
+          404
         </p>
-        <Link
-          href="/"
-          className="rounded-lg bg-pink-500 px-6 py-3 font-semibold text-white transition hover:bg-pink-600"
+
+        <h1 className="text-primary mt-8 text-5xl font-light">
+          Something went wrong
+        </h1>
+
+        <p className="text-foreground mx-auto mt-5 max-w-sm text-2xl leading-relaxed">
+          We&apos;re deeply sorry, but something went wrong. Please try to
+          refresh the page or{" "}
+          <Link href="/" className="underline">
+            start over
+          </Link>
+          .
+        </p>
+
+        <div className="bg-border my-14 h-px w-full" />
+
+        <button
+          type="button"
+          className="border-foreground w-full rounded-2xl border px-6 py-6 text-4xl font-semibold"
         >
-          Go Back Home
-        </Link>
+          বাংলা
+        </button>
+
+        <div className="text-primary mt-10 space-y-1 underline">
+          <div className="flex items-center justify-center gap-10 text-2xl">
+            <Link href="#">Press</Link>
+            <Link href="#">Help Center</Link>
+          </div>
+          <div className="flex items-center justify-center gap-8 text-2xl">
+            <Link href="#">Terms and conditions</Link>
+            <Link href="#">Privacy policy</Link>
+          </div>
+          <div className="text-2xl">
+            <Link href="#">Refund Account Terms &amp; Conditions</Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

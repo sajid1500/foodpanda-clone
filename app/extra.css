@@ -1,5 +1,5 @@
-:root,
-.dark {
+:root
+/* ,.dark */ {
   --radius: var(--bdsCornerRadiusButton);
   --background: var(--colorWhite);
   --foreground: var(--colorNeutralPrimary);

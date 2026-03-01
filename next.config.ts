@@ -27,15 +27,6 @@ const nextConfig: NextConfig = {
       allowedOrigins: ["*.github.dev", "localhost:3000"],
     },
   },
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/assets/:path*",
-  //       destination: `${SUPABASE_STORAGE_URL}/restaurant-assets/:path*`,
-  //     },
-  //     { source: "/", destination: "/restaurants" },
-  //   ];
-  // },
 };
 
 export default nextConfig;

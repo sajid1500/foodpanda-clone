@@ -1,8 +1,5 @@
-import {
-  forwardGeocode,
-  reverseGeocode,
-} from "@/app/_lib/services/userService";
-import { Location } from "@/app/_lib/types/api.types";
+import { forwardGeocode, reverseGeocode } from "@/lib/services/userService";
+import { Location } from "@/lib/types/api.types";
 
 import { NextRequest, NextResponse } from "next/server";
 

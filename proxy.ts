@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { updateSession } from "@/app/_lib/config/supabase/proxy";
-import ratelimit from "@/app/_lib/config/redis";
+import { updateSession } from "@/lib/config/supabase/proxy";
+import ratelimit from "@/lib/config/redis";
 
 export async function proxy(request: NextRequest) {
   if (request.nextUrl.pathname === "/") {

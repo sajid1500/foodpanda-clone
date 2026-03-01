@@ -1,14 +1,5 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
-import "@/app/globals.css";
-import Header from "@/app/_components/MainHeader";
-
-const openSans = Open_Sans({
-  variable: "--font-open-sans",
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-});
+import Header from "@/components/MainHeader";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,13 +12,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${openSans.variable} antialiased`}>
-        <Header />
-        <main>{children}</main>
-        {/* <AddressDrawer />
+    <body className="font-sans">
+      <Header />
+      <main>{children}</main>
+      {/* <AddressDrawer />
         <AddressPickerDrawer /> */}
-      </body>
-    </html>
+    </body>
   );
 }

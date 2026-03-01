@@ -1,6 +1,6 @@
-import HeroBanner from "@/app/_components/ui/HeroBanner";
-import RestaurantList from "@/app/_components/restaurants/RestaurantList";
-import RestaurantListSkeleton from "@/app/_components/restaurants/RestaurantListSkeleton";
+import HeroBanner from "@/components/ui/HeroBanner";
+import RestaurantList from "@/components/restaurants/RestaurantList";
+import RestaurantListSkeleton from "@/components/restaurants/RestaurantListSkeleton";
 import { Suspense } from "react";
 
 export const metadata = {
@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <div className="px-4">
+    <div className="color- px-4">
       <HeroBanner />
 
       <Suspense fallback={<RestaurantListSkeleton />}>
