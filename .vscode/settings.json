@@ -2,5 +2,7 @@
   "workbench.editor.customLabels.patterns": {
     "**/app/**/page.tsx": "Page: ${dirname}"
   },
-  "cSpell.words": ["supabase"]
+  "cSpell.words": ["supabase"],
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python-envs.pythonProjects": []
 }

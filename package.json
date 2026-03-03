@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "update-types": "npx supabase gen types typescript --project-id \"zsinkefhyowyqjycayfz\" --schema public > app/_lib/types/database.types.ts"
   },
   "dependencies": {
     "@stripe/stripe-js": "^8.7.0",

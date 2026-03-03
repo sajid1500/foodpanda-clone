@@ -10,7 +10,7 @@ import React from "react";
 export default function CartOverview() {
   const cart = useCartStore((state) => state.cart);
   const numItems =
-    cart?.items.reduce((total, item) => total + item.quantity, 0) ?? 0;
+    cart?.items?.reduce((total, item) => total + item.quantity, 0) ?? 0;
   const openCart = useLayoutStore((state) => state.openCart);
   // console.log("cart items", cart);
   return (

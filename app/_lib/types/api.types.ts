@@ -1,4 +1,4 @@
-export interface ForwardGeocodeResult {
+export interface ReverseGeocodeResponse {
   place_id: string;
   licence: string;
   osm_type?: string;
@@ -6,28 +6,17 @@ export interface ForwardGeocodeResult {
   lat: string;
   lon: string;
   display_name: string;
-  boundingbox: [string, string, string, string];
-  importance: number;
-}
-
-export interface ReverseGeocodeResult {
-  place_id: string;
-  licence: string;
-  osm_type: string;
-  osm_id: string;
-  lat: string;
-  lon: string;
-  display_name: string;
   address: {
-    attraction?: string;
+    name?: string;
     house_number?: string;
     road?: string;
-    city_block?: string;
+    neighbourhood?: string;
     suburb?: string;
-    city_district?: string;
+    island?: string;
     city?: string;
+    county?: string;
     state?: string;
-    region?: string;
+    state_code?: string;
     postcode?: string;
     country?: string;
     country_code?: string;
@@ -35,7 +24,7 @@ export interface ReverseGeocodeResult {
   boundingbox: [string, string, string, string];
 }
 
-export interface AutocompleteResult {
+export interface AutocompleteResponseHit {
   place_id: string;
   osm_id: string;
   osm_type: string;
@@ -57,18 +46,21 @@ export interface AutocompleteResult {
     city?: string;
     county?: string;
     state?: string;
+    state_code?: string;
     postcode?: string;
     country?: string;
-    country_code?: string;
   };
 }
 
-export interface Location {
+export type AutocompleteResponse = AutocompleteResponseHit[];
+
+export interface Address {
   id: string | number;
-  formattedAddress: string;
-  mainText?: string;
-  secondaryText?: string;
-  coords?: {
+  city: string;
+  street: string;
+  house: string;
+  formattedAddress?: string;
+  coords: {
     lat: number;
     lng: number;
   };
@@ -103,29 +95,24 @@ export interface Location {
 //   },
 
 // const dummyReverseGeocodeHit = {
-//   place_id: "98018981",
+//   place_id: "249275314",
 //   licence: "https:\/\/locationiq.com\/attribution",
 //   osm_type: "way",
-//   osm_id: "5013364",
-//   lat: "48.8582599",
-//   lon: "2.2945006358633115",
+//   osm_id: "640228397",
+//   lat: "22.538377712571126",
+//   lon: "89.465446117245",
 //   display_name:
-//     "Eiffel Tower, 5, Avenue Anatole France, Quartier du Gros-Caillou, 7th Arrondissement, Paris, Ile-de-France, Metropolitan France, 75007, France",
+//     "Bas ar saku(kamarguda canal r upor), Dacope Upazila, Khulna District, Khulna Division, 9270, Bangladesh",
 //   address: {
-//     attraction: "Eiffel Tower",
-//     house_number: "5",
-//     road: "Avenue Anatole France",
-//     city_block: "Quartier du Gros-Caillou",
-//     suburb: "7th Arrondissement",
-//     city_district: "Paris",
-//     city: "Paris",
-//     state: "Ile-de-France",
-//     region: "Metropolitan France",
-//     postcode: "75007",
-//     country: "France",
-//     country_code: "fr",
+//     road: "Bas ar saku(kamarguda canal r upor)",
+//     county: "Dacope Upazila",
+//     state_district: "Khulna District",
+//     state: "Khulna Division",
+//     postcode: "9270",
+//     country: "Bangladesh",
+//     country_code: "bd",
 //   },
-//   boundingbox: ["48.8574753", "48.8590453", "2.2933119", "2.2956897"],
+//   boundingbox: ["22.5382619", "22.5386211", "89.4650569", "89.4657817"],
 // };
 
 // const dummyForwardGeocode = [
