@@ -1,5 +1,4 @@
-import Logo from "@/public/brand-logo.png";
-import Text from "@/public/brand-text.png";
+import Logo from "@/assets/brand-logo.png";
 
 import Image from "next/image";
 

@@ -4,23 +4,12 @@ import { updateSession } from "@/lib/config/supabase/proxy";
 import ratelimit from "@/lib/config/redis";
 
 export async function proxy(request: NextRequest) {
+  console.log("Redirecting to /restaurants", request.nextUrl.pathname);
+  // Redirect root path to /restaurants
   if (request.nextUrl.pathname === "/") {
     return NextResponse.redirect(new URL("/restaurants", request.url));
   }
-  // cors check for API routes
-  // if (request.nextUrl.pathname.startsWith("/api")) {
-  //   // 2. Check for a specific header or Origin
-  //   const origin = request.headers.get("origin");
-  //   const allowedOrigin = "*.app.github.dev"; // Change for production
-
-  //   if (origin && origin !== allowedOrigin) {
-  //     return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
-  //       status: 403,
-  //       headers: { "content-type": "application/json" },
-  //     });
-  //   }
-  // }
-  // Rate limit geocoding API to prevent abuse
+  // Rate limit geocoding API requests
   if (request.nextUrl.pathname.startsWith("/api/geocode")) {
     const ip = request.headers.get("x-forwarded-for") ?? "127.0.0.1"; // Get user IP
     const { success, limit, reset, remaining } = await ratelimit.limit(ip);
@@ -46,13 +35,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
