@@ -1,10 +1,10 @@
 import React from "react";
 import { RestaurantSummary } from "@/lib/types/resaurant.types";
 import Image from "next/image";
-import StarRating from "../ui/StarRating";
+import { StarRating } from "@/components/ui/StarRating";
 import Link from "next/link";
 import { RESTAURANT_ASSETS_URL } from "@/lib/utils/constants";
-export default function RestaurantItem({
+export function RestaurantItem({
   restaurant,
   index,
 }: {

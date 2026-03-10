@@ -1,5 +1,5 @@
 "use client";
-
+import { FaLocationDot } from "react-icons/fa6";
 import {
   MapContainer,
   Marker,
@@ -13,31 +13,36 @@ import "leaflet/dist/leaflet.css";
 import { PiMapPinSimpleFill } from "react-icons/pi";
 import { divIcon } from "leaflet";
 import { renderToStaticMarkup } from "react-dom/server";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const Map = (props: {
   position: [number, number];
-  onChangePosition: (position: [number, number]) => void;
+  onChangePosition?: (position: [number, number]) => void;
   zoom: number;
+  showZoomControls?: boolean;
   className?: string;
 }) => {
   const { position, zoom, className, onChangePosition } = props;
   const [hasMoved, setHasMoved] = useState(false);
-
   const pinIcon = divIcon({
     html: renderToStaticMarkup(
-      <PiMapPinSimpleFill className="text-pink-600" size={28} />,
+      onChangePosition ? (
+        <PiMapPinSimpleFill className="text-pink-600" size={28} />
+      ) : (
+        <FaLocationDot size={32} />
+      ),
     ),
     className: "custom-map-pin",
     iconSize: [28, 28],
     iconAnchor: [14, 28],
   });
-
+  // console.log("Rendering Map with position with:", position);
   return (
     <div className={`relative ${className ?? ""}`}>
       <MapContainer
         center={position}
         zoom={zoom}
         scrollWheelZoom={false}
+        dragging={onChangePosition ? true : false}
         zoomControl={false}
         className="h-full w-full"
       >
@@ -45,11 +50,12 @@ const Map = (props: {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
-        <ModernZoomControls />
+        <ModernZoomControls show={props.showZoomControls} />
+        <ViewSync position={position} />
         <CenterSync
           onCenterChange={(nextPosition) => {
             if (!hasMoved) setHasMoved(true);
-            onChangePosition(nextPosition);
+            onChangePosition?.(nextPosition);
           }}
         />
         <Marker
@@ -59,11 +65,11 @@ const Map = (props: {
             drag: (event) => {
               const { lat, lng } = event.target.getLatLng();
               if (!hasMoved) setHasMoved(true);
-              onChangePosition([lat, lng]);
+              onChangePosition?.([lat, lng]);
             },
           }}
         >
-          {!hasMoved && (
+          {!hasMoved && onChangePosition && (
             <Tooltip
               permanent
               direction="center"
@@ -80,6 +86,24 @@ const Map = (props: {
   );
 };
 
+function ViewSync({ position }: { position: [number, number] }) {
+  const map = useMap();
+
+  useEffect(() => {
+    const center = map.getCenter();
+    const [nextLat, nextLng] = position;
+    const alreadyCentered =
+      Math.abs(center.lat - nextLat) < 0.000001 &&
+      Math.abs(center.lng - nextLng) < 0.000001;
+
+    if (alreadyCentered) return;
+
+    map.setView(position, map.getZoom(), { animate: false });
+  }, [map, position]);
+
+  return null;
+}
+
 function CenterSync({
   onCenterChange,
 }: {
@@ -95,11 +119,13 @@ function CenterSync({
   return null;
 }
 
-function ModernZoomControls() {
+function ModernZoomControls({ show }: { show?: boolean }) {
   const map = useMap();
 
+  if (!show) return null;
+
   return (
-    <div className="pointer-events-auto absolute right-3 bottom-3 z-[400] overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-lg">
+    <div className="pointer-events-auto absolute right-3 bottom-3 z-400 overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-lg">
       <button
         type="button"
         aria-label="Zoom in"
@@ -121,4 +147,4 @@ function ModernZoomControls() {
   );
 }
 
-export default Map;
+export { Map };

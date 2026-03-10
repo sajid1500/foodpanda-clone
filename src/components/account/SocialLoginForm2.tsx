@@ -3,7 +3,7 @@ import { signInWithProvider } from "@/lib/actions/auth";
 import React from "react";
 import { FaGoogle } from "react-icons/fa";
 
-export default function SocialLoginForm2() {
+export function SocialLoginForm2() {
   return (
     <div>
       <div className="space-y-3">

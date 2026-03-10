@@ -2,10 +2,10 @@
 
 import { useLayoutStore } from "@/lib/stores/layoutStore";
 import { motion, AnimatePresence } from "framer-motion";
-import SocialLoginForm from "./SocialLoginForm";
-import EmailForm from "./EmailForm";
+import { SocialLoginForm } from "./SocialLoginForm";
+import { EmailForm } from "./EmailForm";
 import { LuArrowLeft, LuUser } from "react-icons/lu";
-// import Drawer from "../ui/Drawer";
+// import Drawer from "@/components/ui/Drawer";
 import {
   Drawer,
   DrawerClose,
@@ -16,12 +16,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "../ui/button";
-import UserMenuButton from "../ui/UserMenuButton";
+import { Button } from "@/components/ui/button";
+import { UserMenuButton } from "@/components/ui/UserMenuButton";
+import { useState } from "react";
 
-export default function AuthDrawer() {
+export function AuthDrawer() {
   const { isEmailDrawerOpen } = useLayoutStore((state) => state);
-
   return (
     // </Drawer>
     <Drawer>

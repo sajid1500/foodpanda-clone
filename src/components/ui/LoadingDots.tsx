@@ -50,4 +50,4 @@ function LoadingThreeDotsJumping({
   );
 }
 
-export default LoadingThreeDotsJumping;
+export { LoadingThreeDotsJumping };

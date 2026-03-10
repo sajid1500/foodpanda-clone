@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
 import { signInWithProvider } from "@/lib/actions/auth";
-import SocialLoginForm2 from "@/components/auth/SocialLoginForm2";
+import { SocialLoginForm2 } from "@/components/account/SocialLoginForm2";
 
 export default function Page() {
   return (

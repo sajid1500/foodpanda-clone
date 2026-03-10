@@ -111,4 +111,4 @@ const CheckoutForm = () => {
   );
 };
 
-export default CheckoutForm;
+export { CheckoutForm };

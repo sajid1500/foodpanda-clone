@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
 import { type Cart } from "@/lib/types/cart.types";
-import CartList from "./CartList";
-import CheckoutButton from "./CheckoutButton";
+import { CartList } from "./CartList";
+import { CheckoutButton } from "./CheckoutButton";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { RESTAURANT_ASSETS_URL } from "@/lib/utils/constants";
 
-export default function Cart() {
+export function Cart() {
   const { restaurantName, restaurantImage, items } = useCartStore(
     (state) => state.cart,
   ) as Cart;

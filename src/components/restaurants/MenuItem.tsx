@@ -4,11 +4,11 @@ import type {
   RestaurantSummary,
 } from "@/lib/types/resaurant.types";
 import Image from "next/image";
-import Counter from "../cart/Counter";
-import MenuCounter from "./MenuCounter";
+import { Counter } from "../cart/Counter";
+import { MenuCounter } from "./MenuCounter";
 import { RESTAURANT_ASSETS_URL } from "@/lib/utils/constants";
 
-export default function MenuItem({
+export function MenuItem({
   restaurantSummary,
   menuItem,
 }: {

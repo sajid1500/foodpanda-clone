@@ -1,6 +1,6 @@
 import React from "react";
 import { getRestaurantDetails } from "@/lib/services/restaurantService";
-import MenuItem from "@/components/restaurants/MenuItem";
+import { MenuItem } from "@/components/restaurants/MenuItem";
 import Image from "next/image";
 import { RESTAURANT_ASSETS_URL } from "@/lib/utils/constants";
 

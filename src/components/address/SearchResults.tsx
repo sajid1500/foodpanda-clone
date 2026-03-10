@@ -1,6 +1,6 @@
 "use client";
 
-import { Location } from "@/lib/types/api.types";
+import { LocationDetails } from "@/lib/types/location.types";
 import { useEffect, useRef } from "react";
 import { MdLocationPin } from "react-icons/md";
 
@@ -9,9 +9,9 @@ const SearchResults = ({
   selectedIndex,
   onSelect,
 }: {
-  suggestions: Location[];
+  suggestions: LocationDetails[];
   selectedIndex: number;
-  onSelect: (suggestion: Location) => void;
+  onSelect: (suggestion: LocationDetails) => void;
 }) => {
   const listRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
@@ -56,4 +56,4 @@ const SearchResults = ({
     </ul>
   );
 };
-export default SearchResults;
+export { SearchResults };

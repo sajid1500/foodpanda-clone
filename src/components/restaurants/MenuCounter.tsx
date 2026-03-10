@@ -4,11 +4,11 @@ import { useCartStore } from "@/lib/stores/cartStore";
 
 import React from "react";
 // import AddItem from "./AddItem";
-import Counter from "../cart/Counter";
+import { Counter } from "../cart/Counter";
 import { MenuItem, RestaurantSummary } from "@/lib/types/resaurant.types";
 import { CartItem } from "@/lib/types/cart.types";
 
-export default function MenuCounter({
+export function MenuCounter({
   restaurantSummary,
   menuItem,
 }: {

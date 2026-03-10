@@ -1,7 +1,7 @@
 import React from "react";
 import { type CartItem } from "@/lib/types/cart.types";
 import Image from "next/image";
-import Counter from "./Counter";
+import { Counter } from "./Counter";
 import { RESTAURANT_ASSETS_URL } from "@/lib/utils/constants";
 
 function CartListItem({ item }: { item: CartItem }) {
@@ -37,7 +37,7 @@ function CartListItem({ item }: { item: CartItem }) {
   );
 }
 
-export default function CartList({ items }: { items: CartItem[] }) {
+export function CartList({ items }: { items: CartItem[] }) {
   return (
     <ul className="mt-4">
       {items.map((item) => (

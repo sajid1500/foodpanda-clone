@@ -2,8 +2,8 @@
 
 import { useLayoutStore } from "@/lib/stores/layoutStore";
 import { motion, AnimatePresence } from "framer-motion";
-import CloseButton from "../ui/CloseButton";
-import UserMenuList from "./UserMenuList";
+import { CloseButton } from "@/components/ui/CloseButton";
+import { UserMenuList } from "./UserMenuList";
 import {
   Sheet,
   SheetClose,
@@ -14,12 +14,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import UserMenuButton from "../ui/UserMenuButton";
+import { UserMenuButton } from "@/components/ui/UserMenuButton";
 
-export default function UserMenu() {
+export function UserMenu() {
   return (
     <Sheet>
-      <SheetTrigger asChild={true}>
+      <SheetTrigger asChild>
         <UserMenuButton />
       </SheetTrigger>
       {/* <SheetClose className="absolute top-4 right-4">hi</SheetClose> */}

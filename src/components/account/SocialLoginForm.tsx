@@ -9,19 +9,19 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "../ui/drawer";
-import CloseButton from "../ui/CloseButton";
+} from "@/components/ui/drawer";
+import { CloseButton } from "@/components/ui/CloseButton";
 
-export default function SocialLoginForm() {
+export function SocialLoginForm() {
   const { openEmailDrawer } = useLayoutStore((state) => state);
 
   return (
     <>
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         <DrawerClose>
           <CloseButton />
         </DrawerClose>
-      </div>
+      </div> */}
       {/* Header */}
       <DrawerHeader>
         <DrawerTitle className="mb-2 text-2xl font-bold text-gray-900">

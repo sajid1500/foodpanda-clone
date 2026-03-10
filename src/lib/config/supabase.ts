@@ -10,4 +10,4 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient<ModdedDatabase>(supabaseUrl, supabaseKey);
 
-export default supabase;
+export { supabase };

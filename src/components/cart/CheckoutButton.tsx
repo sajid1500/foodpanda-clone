@@ -3,7 +3,7 @@
 import { createCheckoutSession } from "@/lib/actions/stripe";
 import { useCartStore } from "@/lib/stores/cartStore";
 
-export default function CheckoutButton() {
+export function CheckoutButton() {
   const { cart } = useCartStore((state) => state);
   if (!cart) return null; // Don't show the button if the cart is empty
 

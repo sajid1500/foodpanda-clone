@@ -6,7 +6,7 @@ import { CartItem } from "@/lib/types/cart.types";
 import { LuMinus, LuPlus, LuTrash2 } from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
 
-export default function Counter({
+export function Counter({
   item,
   className,
 }: {

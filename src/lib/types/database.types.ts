@@ -12,31 +12,6 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.1"
   }
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       menu_items: {
@@ -44,6 +19,7 @@ export type Database = {
           description: string
           id: string
           image_path: string
+          is_available: boolean | null
           name: string
           price: number
           restaurant_id: string
@@ -52,6 +28,7 @@ export type Database = {
           description?: string
           id?: string
           image_path?: string
+          is_available?: boolean | null
           name?: string
           price: number
           restaurant_id: string
@@ -60,6 +37,7 @@ export type Database = {
           description?: string
           id?: string
           image_path?: string
+          is_available?: boolean | null
           name?: string
           price?: number
           restaurant_id?: string
@@ -165,6 +143,7 @@ export type Database = {
           logo_path: string
           name: string
           short_id: string
+          slug: string
         }
         Insert: {
           average_rating: number
@@ -175,6 +154,7 @@ export type Database = {
           logo_path?: string
           name?: string
           short_id: string
+          slug: string
         }
         Update: {
           average_rating?: number
@@ -185,6 +165,7 @@ export type Database = {
           logo_path?: string
           name?: string
           short_id?: string
+          slug?: string
         }
         Relationships: []
       }
@@ -267,7 +248,15 @@ export type Database = {
           place_id?: number
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_addresses_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       users: {
         Row: {
@@ -339,6 +328,14 @@ export type Database = {
       }
     }
     Functions: {
+      generate_random_suffix: {
+        Args: { max_len?: number; min_len?: number }
+        Returns: string
+      }
+      generate_unique_restaurant_slug: {
+        Args: { p_name: string }
+        Returns: string
+      }
       nearby_restaurants: {
         Args: { lat: number; lng: number; radius_meters?: number }
         Returns: {
@@ -364,6 +361,7 @@ export type Database = {
           restaurant_name: string
         }[]
       }
+      slugify: { Args: { name: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
@@ -492,9 +490,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {},
   },

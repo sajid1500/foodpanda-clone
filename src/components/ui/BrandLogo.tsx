@@ -2,7 +2,7 @@ import Logo from "@/assets/brand-logo.png";
 
 import Image from "next/image";
 
-export default function BrandLogo() {
+export function BrandLogo() {
   return (
     <div>
       <Image

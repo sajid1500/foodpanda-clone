@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { CheckoutProvider } from "@stripe/react-stripe-js/checkout";
-import CheckoutForm from "./CheckoutForm";
+import { CheckoutForm } from "./CheckoutForm";
 // import Complete from "./Complete";
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
@@ -39,4 +39,4 @@ const App = () => {
   );
 };
 
-export default App;
+export { App };

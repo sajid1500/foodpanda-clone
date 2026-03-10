@@ -1,6 +1,6 @@
 "use server";
 
-import stripe from "@/lib/config/stripe";
+import { stripe } from "@/lib/config/stripe";
 import { headers } from "next/headers";
 import { Cart } from "../types/cart.types";
 

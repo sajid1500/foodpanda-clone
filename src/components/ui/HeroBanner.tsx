@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import HeroImage from "@/assets/refresh-hero-city-bd.png";
-export default function HeroBanner() {
+export function HeroBanner() {
   return (
     <div className="flex items-center gap-6 rounded-md bg-gray-100">
       <h1 className="ml-4 text-[18px] font-semibold">

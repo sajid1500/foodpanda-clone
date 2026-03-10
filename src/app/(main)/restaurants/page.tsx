@@ -1,8 +1,8 @@
-import HeroBanner from "@/components/ui/HeroBanner";
-import RestaurantList from "@/components/restaurants/RestaurantList";
-import RestaurantListSkeleton from "@/components/restaurants/RestaurantListSkeleton";
+import { HeroBanner } from "@/components/ui/HeroBanner";
+import { RestaurantList } from "@/components/restaurants/RestaurantList";
+import { RestaurantListSkeleton } from "@/components/restaurants/RestaurantListSkeleton";
 import { Suspense } from "react";
-import AddressPicker from "@/components/address/AddressPicker";
+import { AddressModal as AddressPicker } from "@/components/address/AddressModal";
 
 export const metadata = {
   title: "Foodie - Home",

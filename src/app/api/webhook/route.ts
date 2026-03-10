@@ -1,4 +1,4 @@
-import stripe from "@/lib/config/stripe";
+import { stripe } from "@/lib/config/stripe";
 import { headers } from "next/headers";
 
 export async function POST(req: Request) {

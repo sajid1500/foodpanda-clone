@@ -12,7 +12,7 @@ import {
 } from "react-icons/lu";
 import { createClient } from "@/lib/config/supabase/client";
 
-export default function UserMenuList() {
+export function UserMenuList() {
   const handleSignOut = async () => {
     const supabase = createClient();
     const { error } = await supabase.auth.signOut();

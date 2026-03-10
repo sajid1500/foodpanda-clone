@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { updateSession } from "@/lib/config/supabase/proxy";
-import ratelimit from "@/lib/config/redis";
+import { ratelimit } from "@/lib/config/redis";
 
 export async function proxy(request: NextRequest) {
   console.log("Redirecting to /restaurants", request.nextUrl.pathname);

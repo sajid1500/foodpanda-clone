@@ -1,15 +1,21 @@
+import { LocationDetails } from "./location.types";
+
 export interface UserAddress {
+  id: string;
   userId: string;
-  label: string | null; // e.g., 'Home', 'Work'
-  fullAddress: string | null;
-  location: {
+  placeId: string;
+  addressLine1: string; // Usually mapped from street/house
+  addressLine2?: string;
+  label?: "Home" | "Work" | "Partner" | "Other";
+  isDefault?: boolean;
+  city: string;
+  coords: {
     lat: number;
     lng: number;
-  }; // Representing the geography point
-  isDefault: boolean;
+  };
 }
 
 // If you want a type specifically for inserting a new address
-export type CreateUserAddressInput = Omit<UserAddress, "isDefault"> & {
-  isDefault?: boolean;
+export type CreateUserAddress = Omit<UserAddress, "id"> & {
+  // userId: string; // Ensure userId is required when creating a new address
 };

@@ -1,10 +1,10 @@
-import { Location } from "@/lib/types/api.types";
+import { LocationDetails } from "@/lib/types/location.types";
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function useForwardGeocode(query: string) {
-  const { data, error, isLoading } = useSWR<Location[]>(
+export function useForwardGeocode(query: string) {
+  const { data, error, isLoading } = useSWR<LocationDetails[]>(
     `/api/geocode?query=${encodeURIComponent(query)}`,
     fetcher,
   );

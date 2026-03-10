@@ -9,4 +9,4 @@ function UserMenuButton({ ...props }) {
   );
 }
 
-export default UserMenuButton;
+export { UserMenuButton };

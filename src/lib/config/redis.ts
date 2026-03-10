@@ -12,4 +12,4 @@ const ratelimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(10, "10 s"), // 5 requests per 60 seconds
 });
 
-export default ratelimit;
+export { ratelimit };

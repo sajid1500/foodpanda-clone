@@ -1,96 +1,91 @@
 "use client";
 
-import { Location } from "@/lib/types/api.types";
 import { useState } from "react";
-import LoadingDots from "../ui/LoadingDots";
-import SearchResults from "./SearchResults";
+import { LoadingThreeDotsJumping as LoadingDots } from "@/components/ui/LoadingDots";
+import { XIcon } from "lucide-react";
+import { useDebouncedCallback } from "use-debounce";
+import { LocationSuggestions } from "./LocationSuggestions";
+import { LocationDetails } from "@/lib/types/location.types";
 
-interface SearchBarProps {
-  query: string;
-  suggestionsLoading: boolean;
-  suggestions: Location[];
-  onQueryChange: (query: string) => void;
-  onSelectSuggestion: (suggestion: Location) => void;
-  onClearSuggestions: () => void;
-}
-
-export default function SearchBar({
-  query,
-  suggestionsLoading,
-  suggestions,
-  onQueryChange,
+export function SearchBar({
+  searchQuery,
+  setSearchQuery,
   onSelectSuggestion,
-  onClearSuggestions,
-}: SearchBarProps) {
-  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+}: {
+  searchQuery: string;
+  setSearchQuery: (searchQuery: string) => void;
+  onSelectSuggestion: (suggestion: LocationDetails) => void;
+}) {
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [suggestions, setSuggestions] = useState<LocationDetails[]>([]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (suggestions.length === 0) return;
+  const handleSearchChange = useDebouncedCallback(async (value: string) => {
+    if (value.length < 3) return setSuggestions([]);
+    setIsSearching(true);
 
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault();
-        setSelectedIndex((prev) =>
-          prev < suggestions.length - 1 ? prev + 1 : prev,
-        );
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
-        break;
-      case "Enter":
-        e.preventDefault();
-        if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
-          onSelectSuggestion(suggestions[selectedIndex]);
-          setSelectedIndex(-1);
-        }
-        break;
-      case "Escape":
-        onClearSuggestions();
-        setSelectedIndex(-1);
-        break;
+    const response = await fetch(
+      `/api/geocode/autocomplete?query=${encodeURIComponent(value)}`,
+    );
+
+    if (!response.ok) {
+      console.error("Failed to fetch address:", response.statusText);
+      setIsSearching(false);
+      return;
     }
+
+    const locations = await response.json();
+    // console.log("Location suggestions:", locations);
+    setSuggestions(locations);
+    setIsSearching(false);
+  }, 500);
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setSuggestions([]);
   };
 
-  // Reset selection when suggestions change
-  if (suggestions.length === 0 && selectedIndex !== -1) {
-    setSelectedIndex(-1);
-  }
-
   return (
-    <div className="relative mt-4">
-      <label className="sr-only" htmlFor="address-search">
-        Enter your address
-      </label>
-      <div className="flex items-center gap-2 rounded-xl border border-neutral-200 bg-white px-3 py-2 shadow-sm">
+    <div aria-label="address-search " className="relative mt-4 px-0.5">
+      <div className="relative flex items-center gap-2 rounded-md border px-3 py-2">
+        <label
+          className="absolute top-0 left-4 -translate-y-1/2 bg-white text-xs font-semibold text-neutral-600"
+          htmlFor="address-search"
+        >
+          Enter your address
+        </label>
         <input
           id="address-search"
           type="text"
-          value={query}
-          onChange={(e) => onQueryChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Enter your address"
-          className="w-full text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none"
+          value={searchQuery}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSearchQuery(value);
+            handleSearchChange(value);
+          }}
+          placeholder="Search for your address..."
+          className="peer w-full text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none"
         />
-        {suggestionsLoading && (
-          <LoadingDots className="absolute right-3" size={4} />
+
+        {searchQuery.length > 0 && !isSearching && (
+          <button
+            type="button"
+            onClick={clearSearch}
+            className="flex h-5 w-5 items-center justify-center rounded-full border border-black"
+            aria-label="Clear address"
+          >
+            <XIcon className="h-4 w-4" />
+          </button>
         )}
+        {isSearching && <LoadingDots className="shrink-0" size={4} />}
       </div>
-      {suggestions.length > 0 && (
-        <div className="absolute top-full right-0 left-0 z-9999 mt-3 rounded-2xl border border-neutral-200 bg-white shadow-lg">
-          <p className="px-4 pt-3 text-xs font-semibold text-neutral-500">
-            Did you mean:
-          </p>
-          <SearchResults
-            suggestions={suggestions}
-            selectedIndex={selectedIndex}
-            onSelect={(suggestion) => {
-              onSelectSuggestion(suggestion);
-              setSelectedIndex(-1);
-            }}
-          />
-        </div>
-      )}
+
+      <LocationSuggestions
+        suggestions={suggestions}
+        onSelectSuggestion={(suggestion) => {
+          onSelectSuggestion(suggestion);
+          setSuggestions([]);
+        }}
+      />
     </div>
   );
 }

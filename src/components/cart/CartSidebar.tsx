@@ -8,13 +8,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import CartOverview from "./CartOverview";
-import Cart from "./Cart";
+import { CartOverview } from "./CartOverview";
+import { Cart } from "./Cart";
 
-export default function CartSidebar() {
+export function CartSidebar() {
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger asChild={true}>
         <CartOverview />
       </SheetTrigger>
       <SheetContent className="px-4 pt-4">

@@ -9,7 +9,7 @@ interface StarRatingProps {
   singleStar?: boolean; // Show single partially-filled star instead of multiple stars (default: false)
 }
 
-export default function StarRating({
+export function StarRating({
   rating,
   maxRating = 5,
   size = 20,

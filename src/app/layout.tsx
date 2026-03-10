@@ -20,13 +20,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${openSans.variable} antialiased`}
-    >
-      <body className="font-sans">
-      {children}
-      </body>
+    <html lang="en" className={`${openSans.variable} antialiased`}>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }

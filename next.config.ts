@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-// import { SUPABASE_STORAGE_URL } from "./app/_lib/utils/constants";
+// import { SUPABASE_STORAGE_URL } from "./app/lib/utils/constants";
 
 const nextConfig: NextConfig = {
   /* config options here */

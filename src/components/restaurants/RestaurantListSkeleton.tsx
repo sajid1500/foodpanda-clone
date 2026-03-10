@@ -21,7 +21,7 @@ const shimmerStyle = {
   backgroundSize: "200% 100%",
 };
 
-export default function RestaurantListSkeleton() {
+export function RestaurantListSkeleton() {
   return (
     <div>
       <motion.div

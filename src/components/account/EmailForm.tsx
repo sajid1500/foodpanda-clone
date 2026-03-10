@@ -5,10 +5,10 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-} from "../ui/drawer";
+} from "@/components/ui/drawer";
 import { useLayoutStore } from "@/lib/stores/layoutStore";
 
-export default function EmailForm() {
+export function EmailForm() {
   const [email, setEmail] = useState("");
   const { closeEmailDrawer } = useLayoutStore((state) => state);
 

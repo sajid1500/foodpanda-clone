@@ -7,14 +7,13 @@ import { LuShoppingBag } from "react-icons/lu";
 
 import React from "react";
 
-export default function CartOverview() {
+export function CartOverview({ ...props }) {
   const cart = useCartStore((state) => state.cart);
   const numItems =
     cart?.items?.reduce((total, item) => total + item.quantity, 0) ?? 0;
-  const openCart = useLayoutStore((state) => state.openCart);
   // console.log("cart items", cart);
   return (
-    <span className="relative" onClick={openCart}>
+    <button {...props} className="relative">
       <LuShoppingBag color="black" size={24} />
       {numItems > 0 && (
         <AnimatePresence mode="wait">
@@ -30,6 +29,6 @@ export default function CartOverview() {
           </motion.span>
         </AnimatePresence>
       )}
-    </span>
+    </button>
   );
 }
