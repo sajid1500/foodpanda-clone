@@ -1,5 +1,5 @@
 export interface ReverseGeocodeResponse {
-  place_id: string;
+  osm_id: string;
   licence: string;
   osm_type?: string;
   osm_id?: string;
@@ -25,7 +25,7 @@ export interface ReverseGeocodeResponse {
 }
 
 export interface AutocompleteResponseHit {
-  place_id: string;
+  osm_id: string;
   osm_id: string;
   osm_type: string;
   licence: string;
@@ -67,7 +67,7 @@ export interface LocationDetails {
 }
 
 // const dummyAutocompleteResult: AutocompleteResult = {
-//   place_id: "333850089706",
+//   osm_id: "333850089706",
 //   licence: "https:\/\/locationiq.com\/attribution",
 //   osm_id: "123456789",
 //   osm_type: "node",
@@ -95,7 +95,7 @@ export interface LocationDetails {
 //   },
 
 // const dummyReverseGeocodeHit = {
-//   place_id: "249275314",
+//   osm_id: "249275314",
 //   licence: "https:\/\/locationiq.com\/attribution",
 //   osm_type: "way",
 //   osm_id: "640228397",
@@ -117,7 +117,7 @@ export interface LocationDetails {
 
 // const dummyForwardGeocode = [
 //   {
-//     place_id: "333850089706",
+//     osm_id: "333850089706",
 //     licence: "https:\/\/locationiq.com\/attribution",
 //     lat: "22.538378",
 //     lon: "89.465446",

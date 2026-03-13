@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { LuHouse, LuPlus } from "react-icons/lu";
-import { UserAddress } from "@/lib/types/user.types";
 import dynamic from "next/dynamic";
 import { LocationDetails } from "@/lib/types/location.types";
-import { LocationEditIcon, MapPin } from "lucide-react";
-import { FaLocationPin } from "react-icons/fa6";
-import { saveAddressAction } from "@/lib/actions/user";
+import { saveAddressAction } from "@/components/address/ActionSaveAddress";
+import { SheetTitle } from "../ui/sheet";
+import { MapPin } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { userAddressSchema } from "@/lib/types/user.types";
+import {zodresolver } from 'z'
 
 const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
   ssr: false,
@@ -16,28 +17,33 @@ const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
   ),
 });
 
-type AddressLabel = "Home" | "Work" | "Partner" | "Other";
+export function AddressForm({
+  selectedLocation,
+}: {
+  selectedLocation: LocationDetails;
+}) {
+  const [label, setLabel] = useState("Home");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodresolver(userAddressSchema),
+    defaultValues: {
+      addressLine1: "",
+      addressLine2: "",
+      city: selectedLocation?.city || "",
+      label: "Home",
+      note: "",
+    },
+  });
 
-const LABELS: AddressLabel[] = ["Home", "Work", "Partner", "Other"];
-
-type AddressFormProps = {
-  selectedLocation: LocationDetails | null;
-  onAddressForm?: (payload: {
-    street: string;
-    apartment: string;
-    note: string;
-    label: AddressLabel;
-  }) => void;
-};
-
-export function AddressForm({ selectedLocation }: AddressFormProps) {
-  const [addressLine1, setAddressLine1] = useState("");
-  const [addressLine2, setAddressLine2] = useState("");
-  const [apartment, setApartment] = useState("");
-  const [note, setNote] = useState("");
-  const [label, setLabel] = useState<AddressLabel>("Home");
-  const [customLabel, setCustomLabel] = useState("");
-
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    await saveAddressAction(formData);
+  };
+  // ui related
   const { street, house } = selectedLocation || {};
   const missingInfo = [
     !street ? "street" : null,
@@ -50,7 +56,7 @@ export function AddressForm({ selectedLocation }: AddressFormProps) {
     .map((word) => (word ? word.charAt(0).toUpperCase() + word.slice(1) : word))
     .join(" ");
   return (
-    <form className="" action={saveAddressAction}>
+    <form onSubmit={onSubmit}>
       <Map
         // key="foodpanda-map-v2"
         zoom={25}
@@ -63,9 +69,9 @@ export function AddressForm({ selectedLocation }: AddressFormProps) {
       <div className="px-4">
         <div className="mt-4 flex items-center gap-1">
           <MapPin size={18} />
-          <h1 className="text-lg font-semibold text-neutral-900">
+          <SheetTitle className="text-lg font-semibold text-neutral-900">
             {selectedLocation?.city}
-          </h1>
+          </SheetTitle>
         </div>
         <div className="flex w-full justify-end">
           <button type="button">Edit</button>
@@ -109,63 +115,70 @@ export function AddressForm({ selectedLocation }: AddressFormProps) {
             className="mt-2 h-11 w-full rounded-md border border-neutral-300 px-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none"
           />
         </div>
-
+        {/* label */}
         <div>
           <label className="text-xs font-medium text-neutral-700">
             Add a Label
           </label>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {LABELS.map((item) => {
-              const selected = label === item;
-              return (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => setLabel(item)}
-                  className={`inline-flex h-7 items-center gap-1 rounded-full border px-3 text-xs transition ${
-                    selected
-                      ? "border-neutral-900 bg-neutral-100 text-neutral-900"
-                      : "border-neutral-300 bg-white text-neutral-700"
-                  }`}
-                >
-                  {item === "Other" ? (
-                    <LuPlus size={12} />
-                  ) : (
-                    <LuHouse size={12} />
-                  )}
-                  {item}
-                </button>
-              );
-            })}
-          </div>
-          {label === "Other" && (
-            <input
-              value={customLabel}
-              onChange={(event) => setCustomLabel(event.target.value)}
-              placeholder="Custom"
-              className="mt-3 h-10 w-full rounded-md border border-neutral-300 px-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none"
-            />
-          )}
+          <AddressLabelButtons label={label} onSelect={setLabel} />
         </div>
-        <p className="mt-6">
-          <button
-            type="submit"
-            className="h-11 w-full rounded-md bg-pink-600 text-sm font-semibold text-white transition hover:bg-pink-700"
-          >
-            Save and continue
-          </button>
-        </p>
+        {/* save */}
+        <button
+          type="submit"
+          className="mt-6 h-11 w-full rounded-md bg-pink-600 text-sm font-semibold text-white transition hover:bg-pink-700"
+        >
+          Save and continue
+        </button>
       </div>
-      <input
-        type="hidden"
-        name="locationDetails"
-        value={JSON.stringify(selectedLocation)}
-      />
-      <input
-        type="hidden"
-        name="label"
-        value={label === "Other" ? customLabel : label}
-      />
+      <input type="hidden" name="label" value={label} />
+
+      {/* extra */}
     </form>
+  );
+}
+
+function AddressLabelButtons({
+  label,
+  onSelect,
+}: {
+  label: string;
+  onSelect: (value: string) => void;
+}) {
+  return (
+    <div className="mt-2 flex flex-wrap gap-2">
+      <button
+        type="button"
+        onClick={() => onSelect("Home")}
+        className={`inline-flex h-7 items-center gap-1 rounded-full border px-3 text-xs transition ${
+          label === "Home"
+            ? "border-neutral-900 bg-neutral-100 text-neutral-900"
+            : "border-neutral-300 bg-white text-neutral-700"
+        }`}
+      >
+        Home
+      </button>
+      <button
+        type="button"
+        onClick={() => onSelect("Work")}
+        className={`inline-flex h-7 items-center gap-1 rounded-full border px-3 text-xs transition ${
+          label === "Work"
+            ? "border-neutral-900 bg-neutral-100 text-neutral-900"
+            : "border-neutral-300 bg-white text-neutral-700"
+        }`}
+      >
+        Work
+      </button>
+      <button
+        type="button"
+        onClick={() => onSelect("Partner")}
+        className={`inline-flex h-7 items-center gap-1 rounded-full border px-3 text-xs transition ${
+          label === "Partner"
+            ? "border-neutral-900 bg-neutral-100 text-neutral-900"
+            : "border-neutral-300 bg-white text-neutral-700"
+        }`}
+      >
+        Partner
+      </button>
+    </div>
   );
 }

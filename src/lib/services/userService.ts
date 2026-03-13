@@ -1,20 +1,18 @@
 import { getUserForServer } from "../utils/auth";
 import { supabase } from "../config/supabase";
-import { CreateUserAddress, UserAddress } from "../types/user.types";
+import { dbAddressSchema, UserAddress } from "../types/user.types";
+import { TablesInsert } from "../types/database.types";
 
-export const saveUserAddress = async (address: CreateUserAddress) => {
+export const saveUserAddress = async (address: UserAddress) => {
   const user = await getUserForServer();
   if (!user) throw new Error("User not authenticated");
+  console.log("Saving address for user", user.id, address);
 
-  const newAddress = {
-    // address_line_1: address.formattedAddress ?? null,
-    city: address.city ?? null,
-    place_id: String(address.id),
-    location: `Point(${address.coords.lat}, ${address.coords.lng})`,
-  };
+  const newAddress: TablesInsert<"user_addresses"> =
+    dbAddressSchema.parse(address);
 
   const { error } = await supabase.from("user_addresses").upsert({
-    user_id: user.id,
+    id: address.id,
     ...newAddress,
   });
 };

@@ -20,7 +20,7 @@ export const getAutocomplete = async (
         location.address.house_number || location.address.name || "";
       const formattedAddress = `${house ? house + ", " : ""}${street ? street + ", " : ""}${city}`;
       return {
-        id: location.place_id,
+        id: location.osm_id,
         house,
         city,
         street,
@@ -52,7 +52,7 @@ export const reverseGeocode = async (
     const house = location.address.house_number || "";
     const formattedAddress = `${house ? house + ", " : ""}${street ? street + ", " : ""}${city}`;
     return {
-      id: location.place_id,
+      id: location.osm_id,
       house,
       street,
       city,

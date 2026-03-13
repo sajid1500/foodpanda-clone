@@ -221,7 +221,7 @@ export type Database = {
           label: string | null
           location: unknown
           note: string | null
-          place_id: number
+          osm_id: number
           user_id: string
         }
         Insert: {
@@ -233,7 +233,7 @@ export type Database = {
           label?: string | null
           location: unknown
           note?: string | null
-          place_id: number
+          osm_id: number
           user_id: string
         }
         Update: {
@@ -245,7 +245,7 @@ export type Database = {
           label?: string | null
           location?: unknown
           note?: string | null
-          place_id?: number
+          osm_id?: number
           user_id?: string
         }
         Relationships: [
