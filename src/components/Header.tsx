@@ -1,32 +1,21 @@
-import React from "react";
-import { CartOverview } from "./cart/CartOverview";
-import { UserMenuButton } from "./ui/UserMenuButton";
 import Link from "next/link";
 import { BrandLogo } from "./ui/BrandLogo";
-import { createClient } from "@/lib/config/supabase/server";
+import { createClient } from "@/lib/config/supabase/client";
 import { AddressModal as LocationPicker } from "./address/AddressModal";
-import { getUserForServer } from "@/lib/utils/auth";
+import { getUserforClient, getUserForServer } from "@/lib/utils/auth";
 import { AuthDrawer } from "./account/AuthDrawer";
-import { UserMenu } from "./account/UserMenuSidebar";
+import { UserMenuSidebar } from "./account/UserMenuSidebar";
 import { CartSidebar as Cart } from "./cart/CartSidebar";
-import { Account } from "./account/Account";
+import { AccountModal } from "./account/AccountModal";
 
-export async function Header(
-  {
-    //   children,
-    // }: {
-    //   children: React.ReactNode;
-  },
-) {
-  // Reverse geocoding: convert lat/lng to address
-  const user = await getUserForServer();
-  const isLoggedIn = !!user;
+export async function Header() {
+  console.log("environment:", process.env.NODE_ENV);
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="flex w-full items-center justify-between px-4 py-2">
         {/* <Account /> */}
         {/* <UserMenuButton isLoggedIn={isLoggedIn} /> */}
-        {isLoggedIn ? <UserMenu /> : <AuthDrawer />}
+        <AccountModal />
         {/* <AuthDrawer /> */}
         {/* <a href="/">logo</a> */}
         <Link href="/restaurants">

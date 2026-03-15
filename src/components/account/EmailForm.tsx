@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { LuArrowLeft, LuMail } from "react-icons/lu";
 import {
-  DrawerClose,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  SheetClose,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { useLayoutStore } from "@/lib/stores/layoutStore";
 
 export function EmailForm() {
@@ -23,7 +23,7 @@ export function EmailForm() {
           <LuArrowLeft size={24} />
         </button>
         {/* Close Button */}
-        <DrawerClose />
+        <SheetClose />
       </div>
       {/* Icon */}
       <div className="mb-6 flex justify-center">
@@ -33,14 +33,14 @@ export function EmailForm() {
       </div>
 
       {/* Header */}
-      <DrawerHeader>
-        <DrawerTitle className="mb-2 text-center text-2xl font-bold text-gray-900">
+      <SheetHeader>
+        <SheetTitle className="mb-2 text-center text-2xl font-bold text-gray-900">
           What&apos;s your email?
-        </DrawerTitle>
-        <DrawerDescription className="mb-8 text-center text-sm text-gray-600">
+        </SheetTitle>
+        <SheetDescription className="mb-8 text-center text-sm text-gray-600">
           We&apos;ll check if you have an account
-        </DrawerDescription>
-      </DrawerHeader>
+        </SheetDescription>
+      </SheetHeader>
 
       {/* Email Input */}
       <div className="mb-4">

@@ -2,7 +2,6 @@
 
 import { useLayoutStore } from "@/lib/stores/layoutStore";
 import { Drawer, DrawerClose, DrawerContent } from "@/components/ui/drawer";
-import { AddressButton as AddressTrigger } from "./AddressTrigger";
 import { AddressBook } from "./AddressBook";
 import { LocationPicker } from "./LocationPicker";
 import { LuX } from "react-icons/lu";
@@ -10,9 +9,10 @@ import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
 import { useState } from "react";
 import { LocationDetails } from "@/lib/types/location.types";
 import { AddressForm } from "./AddressForm";
+import { CredenzaTrigger } from "../ui/credenza";
 
 const selectedLocation1: LocationDetails = {
-  id: "123",
+  osmId: 123,
   formattedAddress: "123 Basabo, Dhaka",
   street: "Basabo",
   house: "123",
@@ -36,7 +36,7 @@ export function AddressModal() {
         }
       }}
     >
-      <AddressTrigger>north basabo</AddressTrigger>
+      <CredenzaTrigger>north basabo</CredenzaTrigger>
       <SheetContent side="bottom" className="overflow-y-scroll pt-2">
         {view === "AddressBook" && (
           <AddressForm selectedLocation={selectedLocation1} />

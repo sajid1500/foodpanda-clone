@@ -2,7 +2,6 @@ export interface ReverseGeocodeResponse {
   osm_id: string;
   licence: string;
   osm_type?: string;
-  osm_id?: string;
   lat: string;
   lon: string;
   display_name: string;
@@ -25,7 +24,6 @@ export interface ReverseGeocodeResponse {
 }
 
 export interface AutocompleteResponseHit {
-  osm_id: string;
   osm_id: string;
   osm_type: string;
   licence: string;
@@ -55,7 +53,7 @@ export interface AutocompleteResponseHit {
 export type AutocompleteResponse = AutocompleteResponseHit[];
 
 export interface LocationDetails {
-  id: string | number;
+  osmId: number;
   city: string;
   street: string;
   house: string;

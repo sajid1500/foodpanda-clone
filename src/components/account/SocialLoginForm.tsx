@@ -4,33 +4,32 @@ import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
 import { useLayoutStore } from "@/lib/stores/layoutStore";
 import { signInWithProvider } from "@/lib/actions/auth";
 import {
-  DrawerClose,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  SheetClose,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { CloseButton } from "@/components/ui/CloseButton";
 
 export function SocialLoginForm() {
   const { openEmailDrawer } = useLayoutStore((state) => state);
-
   return (
     <>
       {/* <div className="flex justify-end">
-        <DrawerClose>
+        <SheetClose>
           <CloseButton />
-        </DrawerClose>
+        </SheetClose>
       </div> */}
       {/* Header */}
-      <DrawerHeader>
-        <DrawerTitle className="mb-2 text-2xl font-bold text-gray-900">
+      <SheetHeader>
+        <SheetTitle className="mb-2 text-2xl font-bold text-gray-900">
           Welcome!
-        </DrawerTitle>
-        <DrawerDescription className="mb-6 text-sm text-gray-600">
+        </SheetTitle>
+        <SheetDescription className="mb-6 text-sm text-gray-600">
           Sign up or log in to continue
-        </DrawerDescription>
-      </DrawerHeader>
+        </SheetDescription>
+      </SheetHeader>
 
       {/* Social Login Buttons */}
       <div className="space-y-3">
@@ -90,7 +89,7 @@ export function SocialLoginForm() {
       </div>
 
       {/* Terms and Privacy */}
-      <DrawerFooter className="mt-6 text-center text-xs text-gray-500">
+      <SheetFooter className="mt-6 text-center text-xs text-gray-500">
         By signing up, you agree to our{" "}
         <a href="#" className="text-[#D70F64] underline">
           Terms and Conditions
@@ -99,7 +98,7 @@ export function SocialLoginForm() {
         <a href="#" className="text-[#D70F64] underline">
           Privacy Policy
         </a>
-      </DrawerFooter>
+      </SheetFooter>
     </>
   );
 }

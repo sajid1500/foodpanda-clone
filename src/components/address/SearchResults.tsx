@@ -34,7 +34,7 @@ const SearchResults = ({
     >
       {suggestions.map((suggestion, index) => (
         <li
-          key={`${suggestion.id}`}
+          key={`${suggestion.osmId}`}
           ref={(el) => {
             itemRefs.current[index] = el;
           }}

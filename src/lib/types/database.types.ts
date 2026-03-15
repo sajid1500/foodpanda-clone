@@ -234,7 +234,7 @@ export type Database = {
           location: unknown
           note?: string | null
           osm_id: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           address_line_1?: string

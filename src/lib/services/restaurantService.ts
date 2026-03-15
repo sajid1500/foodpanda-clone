@@ -1,13 +1,11 @@
-import { Cart, CartItem } from "../stores/cartStore";
-import { Restaurant, RestaurantSummary } from "../types/resaurant.types";
-import { supabase } from "../config/supabase";
-import { createClient } from "../config/supabase/server";
-import { LocationDetails, LocationHit } from "../types/location.types";
+import { Restaurant, RestaurantSummary } from "@/lib/types/resaurant.types";
+import { createClient } from "@/lib/config/supabase/server";
 
 export async function getNearbyRestaurants(
   lat: number,
   lng: number,
 ): Promise<RestaurantSummary[]> {
+  const supabase = await createClient();
   const { data: restaurants, error } = await supabase.rpc(
     "nearby_restaurants",
     {
@@ -31,6 +29,7 @@ export async function getRestaurantsWithRouting(
   lat: number,
   lng: number,
 ) {
+  const supabase = await createClient();
   const restaurantsWithDistance = await Promise.all(
     restaurants.map(async (restaurant: Restaurant) => {
       try {
@@ -75,6 +74,8 @@ export const getRestaurantDetails = async (
   shortId: string,
 ): Promise<Restaurant> => {
   // await new Promise((resolve) => setTimeout(resolve, 500));
+  const supabase = await createClient();
+
   const { data: restaurant, error } = await supabase
     .from("restaurants_display")
     .select(

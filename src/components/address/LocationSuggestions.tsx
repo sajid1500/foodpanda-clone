@@ -17,7 +17,7 @@ export function LocationSuggestions({
       </p>
       {suggestions.map((suggestion) => (
         <button
-          key={suggestion.id}
+          key={suggestion.osmId}
           type="button"
           onClick={() => onSelectSuggestion(suggestion)}
           className="flex w-full cursor-pointer items-center gap-1 px-2 py-2 text-left hover:bg-neutral-100"
