@@ -6,10 +6,13 @@ import { AddressBook } from "./AddressBook";
 import { LocationPicker } from "./LocationPicker";
 import { LuX } from "react-icons/lu";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "../ui/sheet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LocationDetails } from "@/lib/types/location.types";
 import { AddressForm } from "./AddressForm";
 import { CredenzaTrigger } from "../ui/credenza";
+import { getUserAddresses } from "@/lib/services/userService";
+import { UserAddress } from "@/lib/types/user.types";
+import { useUserStore } from "@/lib/stores/userStore";
 
 const selectedLocation1: LocationDetails = {
   osmId: 123,
@@ -23,10 +26,20 @@ const selectedLocation1: LocationDetails = {
   },
 };
 
-export function AddressModal() {
+export function AddressModal({ addresses }: { addresses: UserAddress[] }) {
+  const {
+    userAddresses,
+    setUserAddresses,
+    setDefaultUserAddress,
+    defaultUserAddress,
+  } = useUserStore((state) => state);
   const { view, setView } = useLayoutStore((state) => state);
   const [selectedLocation, setSelectedLocation] =
-    useState<LocationDetails | null>(null);
+    useState<LocationDetails>(selectedLocation1);
+
+  useEffect(() => {
+    setUserAddresses(addresses);
+  }, []);
 
   return (
     <Sheet
@@ -36,18 +49,15 @@ export function AddressModal() {
         }
       }}
     >
-      <CredenzaTrigger>north basabo</CredenzaTrigger>
+      <SheetTrigger>{defaultUserAddress?.addressLine1}</SheetTrigger>
       <SheetContent side="bottom" className="overflow-y-scroll pt-2">
-        {view === "AddressBook" && (
-          <AddressForm selectedLocation={selectedLocation1} />
-        )}
-        {/* {view === "AddressBook" && <AddressBook />} */}
-        {/* {view === "LocationPicker" && (
+        {view === "AddressBook" && <AddressBook />}
+        {view === "LocationPicker" && (
           <LocationPicker setSelectedLocation={setSelectedLocation} />
         )}
         {view === "AddressForm" && (
           <AddressForm selectedLocation={selectedLocation} />
-        )} */}
+        )}
       </SheetContent>
     </Sheet>
   );

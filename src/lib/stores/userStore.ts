@@ -1,12 +1,26 @@
 import { create } from "zustand";
 import { UserAddress } from "../types/user.types";
+import { LocationDetails } from "../types/location.types";
 
 interface UserStore {
-  selectedAddress: UserAddress | null;
-  setSelectedAddress: (address: UserAddress | null) => void;
+  userAddresses: UserAddress[];
+  defaultUserAddress: UserAddress | null;
+  selectedLocation: UserAddress | null;
+  setUserAddresses: (addresses: UserAddress[]) => void;
+  setDefaultUserAddress: (address: UserAddress | null) => void;
+  setSelectedLocation: (location: UserAddress | null) => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
-  selectedAddress: null,
-  setSelectedAddress: (address) => set({ selectedAddress: address }),
+  userAddresses: [],
+  defaultUserAddress: null,
+  selectedLocation: null,
+  setUserAddresses: (addresses) => {
+    set({ userAddresses: addresses });
+    set({
+      defaultUserAddress: addresses.find((addr) => addr.isDefault) || null,
+    });
+  },
+  setDefaultUserAddress: (address) => set({ defaultUserAddress: address }),
+  setSelectedLocation: (location) => set({ selectedLocation: location }),
 }));

@@ -29,18 +29,28 @@ export const saveUserAddress = async (address: UserAddress) => {
     // throw new Error("Failed to save address");
   }
 };
-export const getUserAddress = async () => {
+export const getUserAddresses = async (): Promise<UserAddress[]> => {
   const supabase = await createClient();
   const user = await getUserForServer();
-  const userId = user?.id;
-  if (!userId) return null;
+  if (!user) return [];
 
-  const { data: address } = await supabase
-    .from("user_addresses")
-    .select("*")
-    .eq("user_id", userId)
-    .single();
-  return address;
+  const { data: addresses, error } = await supabase.from(
+    "user_addresses_display",
+  ).select(`
+      id,
+      userId:user_id,
+      addressLine1:address_line_1,
+      addressLine2:address_line_2,
+      city,
+      coords: coordinates,
+      isDefault:is_default,
+      label,
+      location,
+      note,
+      osmId:osm_id
+    `);
+  if (error) return [];
+  return addresses;
 };
 export const getUser = async () => {
   // Simulate a database delay

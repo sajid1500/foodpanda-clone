@@ -28,7 +28,7 @@ import { UserMenuButton } from "@/components/ui/UserMenuButton";
 
 export function UserMenuSidebar() {
   return (
-    <SheetContent side="left">
+    <SheetContent side="left" className="w-full">
       <SheetHeader className="sr-only">
         <SheetTitle>User Menu</SheetTitle>
 

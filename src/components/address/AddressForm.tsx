@@ -5,7 +5,14 @@ import dynamic from "next/dynamic";
 import { LocationDetails } from "@/lib/types/location.types";
 import { saveAddressAction } from "@/lib/actions/address";
 import { SheetDescription, SheetTitle } from "../ui/sheet";
-import { BriefcaseBusiness, Heart, Home, MapPin, Plus } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  Heading1Icon,
+  Heart,
+  Home,
+  MapPin,
+  Plus,
+} from "lucide-react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { UserAddress } from "@/lib/types/user.types";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
@@ -84,12 +91,12 @@ export function AddressForm({
         <div className="mt-4 flex items-center gap-1">
           <MapPin size={18} />
           <div>
-            <SheetTitle className="text-lg font-semibold text-neutral-900">
+            <Heading1Icon className="text-lg font-semibold text-neutral-900">
               {selectedLocation?.city}
-            </SheetTitle>
-            <SheetDescription className="text-xs font-medium text-neutral-700">
+            </Heading1Icon>
+            <p className="text-xs font-medium text-neutral-700">
               {selectedLocation.street}
-            </SheetDescription>
+            </p>
           </div>
         </div>
         <div className="flex w-full justify-end">

@@ -326,6 +326,56 @@ export type Database = {
         }
         Relationships: []
       }
+      user_addresses_display: {
+        Row: {
+          address_line_1: string | null
+          address_line_2: string | null
+          city: string | null
+          coordinates: Json | null
+          id: string | null
+          is_default: boolean | null
+          label: string | null
+          location: unknown
+          note: string | null
+          osm_id: number | null
+          user_id: string | null
+        }
+        Insert: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          city?: string | null
+          coordinates?: never
+          id?: string | null
+          is_default?: boolean | null
+          label?: string | null
+          location?: unknown
+          note?: string | null
+          osm_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          city?: string | null
+          coordinates?: never
+          id?: string | null
+          is_default?: boolean | null
+          label?: string | null
+          location?: unknown
+          note?: string | null
+          osm_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_addresses_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       generate_random_suffix: {

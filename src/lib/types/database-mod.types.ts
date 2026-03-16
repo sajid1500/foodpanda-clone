@@ -18,6 +18,24 @@ export type ModdedDatabase = MergeDeep<
             short_id: string;
           };
         };
+        user_addresses_display: {
+          Row: {
+            id: string;
+            user_id: string;
+            address_line_1: string;
+            address_line_2: string;
+            city: string;
+            coordinates: {
+              lat: number;
+              lng: number;
+            };
+            is_default: boolean;
+            label: string;
+            location: unknown;
+            note: string;
+            osm_id: number;
+          };
+        };
       };
     };
   }
