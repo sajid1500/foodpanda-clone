@@ -16,8 +16,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useAddresses } from "@/components/address/useAddresses";
 
 export function AddressModalContent() {
-  const { addresses } = useAddresses();
-  const defaultAddress = addresses.find((addr) => addr.isDefault);
   const { view, setView, isAddressModalOpen, setIsAddressModalOpen } =
     useLayoutStore((state) => state);
 

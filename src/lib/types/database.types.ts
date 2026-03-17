@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       menu_items: {
         Row: {
+          created_at: string | null
           description: string
           id: string
           image_path: string
@@ -25,6 +26,7 @@ export type Database = {
           restaurant_id: string
         }
         Insert: {
+          created_at?: string | null
           description?: string
           id?: string
           image_path?: string
@@ -34,6 +36,7 @@ export type Database = {
           restaurant_id: string
         }
         Update: {
+          created_at?: string | null
           description?: string
           id?: string
           image_path?: string
@@ -216,6 +219,7 @@ export type Database = {
           address_line_1: string
           address_line_2: string | null
           city: string
+          created_at: string | null
           id: string
           is_default: boolean
           label: string | null
@@ -229,6 +233,7 @@ export type Database = {
           address_line_1: string
           address_line_2?: string | null
           city: string
+          created_at?: string | null
           id?: string
           is_default: boolean
           label?: string | null
@@ -242,6 +247,7 @@ export type Database = {
           address_line_1?: string
           address_line_2?: string | null
           city?: string
+          created_at?: string | null
           id?: string
           is_default?: boolean
           label?: string | null
@@ -335,6 +341,7 @@ export type Database = {
           address_line_2: string | null
           city: string | null
           coordinates: Json | null
+          created_at: string | null
           id: string | null
           is_default: boolean | null
           label: string | null
@@ -349,6 +356,7 @@ export type Database = {
           address_line_2?: string | null
           city?: string | null
           coordinates?: never
+          created_at?: string | null
           id?: string | null
           is_default?: boolean | null
           label?: string | null
@@ -363,6 +371,7 @@ export type Database = {
           address_line_2?: string | null
           city?: string | null
           coordinates?: never
+          created_at?: string | null
           id?: string | null
           is_default?: boolean | null
           label?: string | null

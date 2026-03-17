@@ -19,15 +19,16 @@ import {
   LuPlus,
   LuTrash2,
 } from "react-icons/lu";
-import { setDefaultAddressAction } from "@/lib/actions/address";
 import { useAddresses } from "@/components/address/useAddresses";
+import { useUserStore } from "@/lib/stores/userStore";
+import { useSelectAddress } from "./useSelectAddress";
 
 export function AddressBook() {
   const { setView } = useLayoutStore((state) => state);
-  const { addresses } = useAddresses();
+  const { setTempAddress } = useUserStore((state) => state);
+  const { defaultAddress } = useAddresses();
   return (
     <div className="p-4">
-      {/* <DrawerClose /> */}
       <AddressHeader />
       <p className="mt-4">
         <button
@@ -35,7 +36,7 @@ export function AddressBook() {
           type="button"
           onClick={() => {
             setView("LocationPicker");
-            setSelectedLocation(defaultAddress);
+            if (defaultAddress) setTempAddress(defaultAddress);
           }}
         >
           <span>
@@ -51,23 +52,25 @@ export function AddressBook() {
 }
 
 function SavedAddressList() {
-  const { addresses, setSelectedLocation, setDefaultAddress } = useUserStore(
-    (state) => state,
-  );
+  const { addresses } = useAddresses();
+  const { selectAddress } = useSelectAddress();
+
+  const { setTempAddress } = useUserStore((state) => state);
   const { setView, setIsAddressModalOpen } = useLayoutStore((store) => store);
 
-  const editAddress = async (
+  const handleEditAddress = async (
     e: React.MouseEvent<HTMLButtonElement>,
     address: Address,
   ) => {
     e.stopPropagation();
     setView("LocationPicker");
-    setSelectedLocation(address);
+    setTempAddress(address);
   };
 
-  const selectAddress = (address: Address) => {
-    setDefaultAddress(address);
-    if (address.id) setDefaultAddressAction(address.id);
+  const handleSelectAddress = (address: Address) => {
+    selectAddress(address.id);
+    setTempAddress(address);
+    if (address.id) selectAddress(address.id);
     setIsAddressModalOpen(false);
   };
 
@@ -76,7 +79,7 @@ function SavedAddressList() {
       {addresses.map((address) => (
         <div
           key={address.id}
-          onClick={() => selectAddress(address)}
+          onClick={() => handleSelectAddress(address)}
           className="flex items-start justify-between gap-3 py-3 hover:cursor-pointer"
         >
           <div className="flex items-start gap-3">
@@ -106,7 +109,7 @@ function SavedAddressList() {
 
           <div className="flex items-center gap-1">
             <button
-              onClick={(e) => editAddress(e, address)}
+              onClick={(e) => handleEditAddress(e, address)}
               type="button"
               aria-label="Edit address"
               className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-700"

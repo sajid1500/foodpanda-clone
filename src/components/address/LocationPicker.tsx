@@ -29,9 +29,7 @@ const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
 
 export function LocationPicker() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { selectedLocation, setSelectedLocation } = useUserStore(
-    (store) => store,
-  );
+  const { selectedLocation, setTempAddress } = useUserStore((store) => store);
   const { view, setView } = useLayoutStore((state) => state);
 
   const [position, setPosition] = useState<[number, number]>([
@@ -59,7 +57,7 @@ export function LocationPicker() {
         }
         const address = (await response.json()) as Address;
         setSearchQuery(address.addressLine1);
-        setSelectedLocation(address);
+        setTempAddress(address);
         // console.log("Received address from API:", address);
       };
       fetchAddress();
@@ -72,7 +70,7 @@ export function LocationPicker() {
       setSearchQuery(suggestion.addressLine1);
     }
     console.log("Selected address:", suggestion);
-    setSelectedLocation(suggestion);
+    setTempAddress(suggestion);
     setPosition([suggestion.coords.lat, suggestion.coords.lng]);
   };
 

@@ -28,7 +28,10 @@ export const getAddresses = async (): Promise<Address[]> => {
       osmId:osm_id
     `);
 
-  if (error) throw new Error("Failed to fetch addresses", error);
+  if (error)
+    throw new Error(
+      `Failed to fetch addresses: ${error.message ?? String(error)}`,
+    );
 
   return addresses;
 };
@@ -59,7 +62,10 @@ export const getDefaultAddress = async (): Promise<Address> => {
     .eq("is_default", true)
     .single();
 
-  if (error) throw new Error("Failed to fetch default address", error);
+  if (error)
+    throw new Error(
+      `Failed to fetch default address: ${error.message ?? String(error)}`,
+    );
   return addresses;
 };
 

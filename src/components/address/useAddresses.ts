@@ -7,6 +7,7 @@ export function useAddresses() {
     queryKey: ["addresses"],
     queryFn: async () => await getAddresses(),
   });
+  const defaultAddress = data?.find((addr) => addr.isDefault);
   if (!data) throw new Error("No addresses saved yet");
-  return { addresses: data, isLoading: isPending, error };
+  return { addresses: data, isLoading: isPending, error, defaultAddress };
 }

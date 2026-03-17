@@ -32,7 +32,6 @@ const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
 export function AddressForm() {
   const [customLabel, setCustomLabel] = useState("");
   const { closeAddressModal } = useLayoutStore((state) => state);
-  const { selectedLocation } = useUserStore((state) => state);
   if (!selectedLocation) return null;
   const form = useForm<Address>({
     defaultValues: {
