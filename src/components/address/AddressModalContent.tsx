@@ -18,10 +18,6 @@ export function AddressModalContent() {
   const { view, setView, isAddressModalOpen, setIsAddressModalOpen } =
     useLayoutStore((state) => state);
 
-  useEffect(() => {
-    setAddresses(addresses);
-  }, []);
-
   return (
     <Sheet
       open={isAddressModalOpen}

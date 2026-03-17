@@ -20,13 +20,11 @@ import {
   LuTrash2,
 } from "react-icons/lu";
 import { setDefaultAddressAction } from "@/lib/actions/address";
+import { useAddresses } from "@/components/address/useAddresses";
 
 export function AddressBook() {
   const { setView } = useLayoutStore((state) => state);
-  const { setSelectedLocation, defaultAddress } = useUserStore(
-    (state) => state,
-  );
-
+  const { addresses } = useAddresses();
   return (
     <div className="p-4">
       {/* <DrawerClose /> */}

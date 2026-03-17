@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils/helpers";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/useMobile";
 import {
   Dialog,
   DialogClose,

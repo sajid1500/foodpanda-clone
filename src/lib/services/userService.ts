@@ -1,11 +1,15 @@
 import { getUserForServer } from "../utils/auth";
 import { createClient } from "../config/supabase/server";
+import { createClient as CreateBrowserClient } from "../config/supabase/client";
 import { Address } from "../types/user.types";
 import { TablesInsert } from "../types/database.types";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { supabase } from "../config/supabase/supabase";
 
+// works on client only
 export const getAddresses = async (): Promise<Address[]> => {
-  const supabase = await createClient();
-  const user = await getUserForServer();
+  const supabase = await CreateBrowserClient();
+  const user = await supabase.auth.getUser();
   if (!user) return [];
 
   const { data: addresses, error } = await supabase.from(
@@ -23,9 +27,13 @@ export const getAddresses = async (): Promise<Address[]> => {
       note,
       osmId:osm_id
     `);
-  if (error) return [];
+
+  if (error) throw new Error("Failed to fetch addresses", error);
+
   return addresses;
 };
+
+// works on server only
 export const getDefaultAddress = async (): Promise<Address> => {
   const supabase = await createClient();
   const user = await getUserForServer();
@@ -50,7 +58,8 @@ export const getDefaultAddress = async (): Promise<Address> => {
     )
     .eq("is_default", true)
     .single();
-  if (error) return {} as Address;
+
+  if (error) throw new Error("Failed to fetch default address", error);
   return addresses;
 };
 

@@ -31,10 +31,7 @@ export const saveAddressAction = async (address: Address) => {
     .select()
     .single();
 
-  if (error) {
-    console.error("Error saving address:", error);
-    // throw new Error("Failed to save address");
-  }
+  if (error) throw new Error("Error saving address:", error);
 
   if (savedAddress) await setDefaultAddressAction(savedAddress.id);
 };
@@ -55,10 +52,8 @@ export const setDefaultAddressAction = async (addressId: string) => {
     .update({ is_default: true })
     .eq("id", addressId);
 
-  if (error1 || error2) {
-    console.error("Error saving address:", error1 || error2);
-    throw new Error("Failed to save address");
-  }
+  if (error1 || error2)
+    throw new Error("Error saving address:", error1 || error2);
 
   revalidatePath("/");
 };
