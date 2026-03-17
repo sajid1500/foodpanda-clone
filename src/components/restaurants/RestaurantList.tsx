@@ -4,17 +4,22 @@ import { RestaurantItem } from "./RestaurantItem";
 import { Restaurant, RestaurantSummary } from "@/lib/types/resaurant.types";
 import {
   getNearbyRestaurants,
-  getRestaurantsWithRouting,
+  getRestaurants,
 } from "@/lib/services/restaurantService";
+import { getDefaultAddress } from "@/lib/services/userService";
 
 export async function RestaurantList() {
   // const { lat, lng } = await getUser().then((user) => user.location);
-  const { lat, lng } = { lat: 23.8069, lng: 90.3685 }; // TODO: later get from user
-  // const nearbyRestaurants = await getNearbyRestaurants(lat, lng);
-  // const restaurants = await getRestaurants();
-  // const orderedRestaurants = await getRestaurantsWithRouting(restaurants, lat, lng);
-  const restaurants = await getNearbyRestaurants(lat, lng);
-  // console.log("restaurants", restaurants);
+  const address = await getDefaultAddress();
+  let lat, lng;
+  if (address?.coords) ({ lat, lng } = address.coords);
+  let restaurants;
+  if (lat && lng) {
+    restaurants = await getNearbyRestaurants(lat, lng);
+  } else {
+    // Fallback: fetch nearby restaurants without routing info
+    restaurants = await getRestaurants(); // Default to Dhaka center
+  }
   return (
     <section className="px-4">
       <h1 className="my-2 text-2xl font-medium">Restaurants near you</h1>
@@ -23,7 +28,7 @@ export async function RestaurantList() {
           <RestaurantItem
             restaurant={restaurant}
             index={index}
-            key={`${restaurant.shortId}`}
+            key={`${restaurant.id}`}
           />
         ))}
       </ul>

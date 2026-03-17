@@ -217,11 +217,12 @@ export type Database = {
           address_line_2: string | null
           city: string
           id: string
-          is_default: boolean | null
+          is_default: boolean
           label: string | null
           location: unknown
           note: string | null
           osm_id: number
+          street: string | null
           user_id: string
         }
         Insert: {
@@ -229,11 +230,12 @@ export type Database = {
           address_line_2?: string | null
           city: string
           id?: string
-          is_default?: boolean | null
+          is_default: boolean
           label?: string | null
           location: unknown
           note?: string | null
           osm_id: number
+          street?: string | null
           user_id?: string
         }
         Update: {
@@ -241,11 +243,12 @@ export type Database = {
           address_line_2?: string | null
           city?: string
           id?: string
-          is_default?: boolean | null
+          is_default?: boolean
           label?: string | null
           location?: unknown
           note?: string | null
           osm_id?: number
+          street?: string | null
           user_id?: string
         }
         Relationships: [
@@ -338,6 +341,7 @@ export type Database = {
           location: unknown
           note: string | null
           osm_id: number | null
+          street: string | null
           user_id: string | null
         }
         Insert: {
@@ -351,6 +355,7 @@ export type Database = {
           location?: unknown
           note?: string | null
           osm_id?: number | null
+          street?: string | null
           user_id?: string | null
         }
         Update: {
@@ -364,6 +369,7 @@ export type Database = {
           location?: unknown
           note?: string | null
           osm_id?: number | null
+          street?: string | null
           user_id?: string | null
         }
         Relationships: [

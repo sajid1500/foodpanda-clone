@@ -5,7 +5,7 @@ import { useLayoutStore } from "@/lib/stores/layoutStore";
 // import { Drawer } from "@/components/ui/drawer";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { LocationDetails } from "@/lib/types/location.types";
+import { Address } from "@/lib/types/user.types";
 import { SearchBar } from "./SearchBar";
 import { useDebounce, useDebouncedCallback } from "use-debounce";
 import {
@@ -14,7 +14,6 @@ import {
   DrawerContent,
   DrawerFooter,
 } from "@/components/ui/drawer";
-import { AddressButton as AddressTrigger } from "./AddressTrigger";
 import { Button } from "../ui/button";
 import { AddressBook } from "./AddressBook";
 import { AddressModal } from "./AddressModal";
@@ -28,18 +27,24 @@ const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
   ),
 });
 
-export function LocationPicker({
-  setSelectedLocation,
-}: {
-  setSelectedLocation: (location: LocationDetails) => void;
-}) {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
+export function LocationPicker() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const { selectedLocation, setSelectedLocation } = useUserStore(
+    (store) => store,
+  );
   const { view, setView } = useLayoutStore((state) => state);
 
   const [position, setPosition] = useState<[number, number]>([
     23.7524788, 90.4176482,
   ]);
+
+  useEffect(() => {
+    if (selectedLocation) {
+      setPosition([selectedLocation.coords.lat, selectedLocation.coords.lng]);
+      setSearchQuery(selectedLocation.addressLine1);
+    }
+  }, [selectedLocation]);
+
   const handleChangePosition = useDebouncedCallback(
     (coords: [number, number]) => {
       // use debouncedPosition?
@@ -52,8 +57,8 @@ export function LocationPicker({
           console.error("Failed to fetch address:", response.statusText);
           return;
         }
-        const address = (await response.json()) as LocationDetails;
-        setSearchQuery(address.formattedAddress);
+        const address = (await response.json()) as Address;
+        setSearchQuery(address.addressLine1);
         setSelectedLocation(address);
         // console.log("Received address from API:", address);
       };
@@ -62,9 +67,9 @@ export function LocationPicker({
     500,
   );
 
-  const handleSelectSuggestion = async (suggestion: LocationDetails) => {
-    if (searchQuery !== suggestion.formattedAddress) {
-      setSearchQuery(suggestion.formattedAddress);
+  const handleSelectSuggestion = async (suggestion: Address) => {
+    if (searchQuery !== suggestion.addressLine1) {
+      setSearchQuery(suggestion.addressLine1);
     }
     console.log("Selected address:", suggestion);
     setSelectedLocation(suggestion);

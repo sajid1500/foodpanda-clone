@@ -5,7 +5,7 @@ import { LoadingThreeDotsJumping as LoadingDots } from "@/components/ui/LoadingD
 import { XIcon } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 import { LocationSuggestions } from "./LocationSuggestions";
-import { LocationDetails } from "@/lib/types/location.types";
+import { Address } from "@/lib/types/user.types";
 
 export function SearchBar({
   searchQuery,
@@ -14,10 +14,10 @@ export function SearchBar({
 }: {
   searchQuery: string;
   setSearchQuery: (searchQuery: string) => void;
-  onSelectSuggestion: (suggestion: LocationDetails) => void;
+  onSelectSuggestion: (suggestion: Address) => void;
 }) {
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [suggestions, setSuggestions] = useState<LocationDetails[]>([]);
+  const [suggestions, setSuggestions] = useState<Address[]>([]);
 
   const handleSearchChange = useDebouncedCallback(async (value: string) => {
     if (value.length < 3) return setSuggestions([]);
@@ -66,7 +66,7 @@ export function SearchBar({
           className="peer w-full text-sm text-neutral-700 placeholder:text-neutral-400 focus:outline-none"
         />
 
-        {searchQuery.length > 0 && !isSearching && (
+        {searchQuery?.length > 0 && !isSearching && (
           <button
             type="button"
             onClick={clearSearch}

@@ -7,13 +7,11 @@ import { AuthDrawer } from "./account/AuthDrawer";
 import { UserMenuSidebar } from "./account/UserMenuSidebar";
 import { CartSidebar as Cart } from "./cart/CartSidebar";
 import { AccountModal } from "./account/AccountModal";
-import { getUserAddresses } from "@/lib/services/userService";
-import { UserAddress } from "@/lib/types/user.types";
+import { getAddresses } from "@/lib/services/userService";
+import { Address } from "@/lib/types/user.types";
 
 export async function Header() {
-  const addresses = (await getUserAddresses()) as UserAddress[];
-
-  console.log("Fetched addresses in modal", addresses);
+  // console.log("Fetched addresses for modal", addresses);
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="flex w-full items-center justify-between px-4 py-2">
@@ -23,7 +21,7 @@ export async function Header() {
         </Link>
         <Cart />
       </div>
-      <AddressModal addresses={addresses} />
+      <AddressModal />
     </div>
   );
 }

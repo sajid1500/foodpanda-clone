@@ -2,7 +2,6 @@
 
 import { useState, type MouseEvent } from "react";
 import dynamic from "next/dynamic";
-import { LocationDetails } from "@/lib/types/location.types";
 import { saveAddressAction } from "@/lib/actions/address";
 import { SheetDescription, SheetTitle } from "../ui/sheet";
 import {
@@ -14,12 +13,14 @@ import {
   Plus,
 } from "lucide-react";
 import { Controller, useForm, useWatch } from "react-hook-form";
-import { UserAddress } from "@/lib/types/user.types";
+import { Address } from "@/lib/types/user.types";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+
+import { useLayoutStore } from "@/lib/stores/layoutStore";
 
 const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
   ssr: false,
@@ -28,18 +29,15 @@ const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
   ),
 });
 
-export function AddressForm({
-  selectedLocation,
-}: {
-  selectedLocation: LocationDetails;
-}) {
+export function AddressForm() {
   const [customLabel, setCustomLabel] = useState("");
-
-  const form = useForm<UserAddress>({
+  const { closeAddressModal } = useLayoutStore((state) => state);
+  const { selectedLocation } = useUserStore((state) => state);
+  if (!selectedLocation) return null;
+  const form = useForm<Address>({
     defaultValues: {
-      userId: "",
       osmId: selectedLocation.osmId,
-      addressLine1: `${selectedLocation.house} ${selectedLocation.street}`,
+      addressLine1: "",
       addressLine2: "",
       city: selectedLocation.city,
       label: "",
@@ -54,28 +52,27 @@ export function AddressForm({
     name: "label",
   });
 
-  const onSubmit = async (data: UserAddress) => {
+  const onSubmit = async (data: Address) => {
     const labelText = data.label === "Other" ? customLabel : data.label;
-    const payload: UserAddress = {
+    const payload: Address = {
       ...data,
       label: labelText,
     };
-
     await saveAddressAction(payload);
+    closeAddressModal();
   };
 
   // ui related
-  const { street, house } = selectedLocation || {};
-  const missingInfo = [
-    !street ? "street" : null,
-    !house ? "house number" : null,
-  ]
-    .filter(Boolean)
-    .join(" / ");
-  const placeholderMissingInfo = missingInfo
-    .split(" ")
-    .map((word) => (word ? word.charAt(0).toUpperCase() + word.slice(1) : word))
-    .join(" ");
+  const missingInfo = !selectedLocation.addressLine1
+    ? "address"
+    : !selectedLocation.street
+      ? "street"
+      : null;
+  const placeholderMissingInfo = !selectedLocation.addressLine1
+    ? "Street and house number"
+    : !selectedLocation.street
+      ? "Street name"
+      : "";
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
       <Map
@@ -88,20 +85,21 @@ export function AddressForm({
         ]}
       />
       <div className="px-4">
-        <div className="mt-4 flex items-center gap-1">
-          <MapPin size={18} />
+        <div className="mt-4 flex items-end justify-between gap-1">
           <div>
-            <Heading1Icon className="text-lg font-semibold text-neutral-900">
+            <SheetTitle className="flex items-center text-lg font-semibold text-neutral-900">
+              <span className="-translate-x-0.5">
+                <MapPin />
+              </span>
               {selectedLocation?.city}
-            </Heading1Icon>
-            <p className="text-xs font-medium text-neutral-700">
-              {selectedLocation.street}
-            </p>
+            </SheetTitle>
+            <SheetDescription className="mt-1 text-xs font-medium text-neutral-700">
+              {selectedLocation?.street}
+            </SheetDescription>
           </div>
-        </div>
-        <div className="flex w-full justify-end">
           <button type="button">Edit</button>
         </div>
+
         {/* divider */}
         <div className="my-4 h-0.5 w-full bg-gray-400"></div>
         {!!missingInfo && (

@@ -51,15 +51,3 @@ export interface AutocompleteResponseHit {
 }
 
 export type AutocompleteResponse = AutocompleteResponseHit[];
-
-export interface LocationDetails {
-  osmId: number;
-  city: string;
-  street: string;
-  house: string;
-  formattedAddress: string;
-  coords: {
-    lat: number;
-    lng: number;
-  };
-}

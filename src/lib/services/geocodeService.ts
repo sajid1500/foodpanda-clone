@@ -1,12 +1,10 @@
 import {
   AutocompleteResponse,
   ReverseGeocodeResponse,
-} from "../types/location.types";
-import type { LocationDetails } from "../types/location.types";
+} from "../types/geocode.types";
+import type { Address } from "../types/user.types";
 
-export const getAutocomplete = async (
-  query: string,
-): Promise<LocationDetails[]> => {
+export const getAutocomplete = async (query: string): Promise<Address[]> => {
   try {
     const response = await fetch(
       `https://api.locationiq.com/v1/autocomplete?key=${process.env.LOCATIONIQ_API_KEY}&q=${encodeURIComponent(query)}&countrycodes=bd&accept-language=en&normalizecity=1`,
@@ -24,7 +22,7 @@ export const getAutocomplete = async (
         house,
         city,
         street,
-        formattedAddress,
+        addressLine1: formattedAddress,
         coords: {
           lat: parseFloat(location.lat),
           lng: parseFloat(location.lon),
@@ -41,7 +39,7 @@ export const getAutocomplete = async (
 export const reverseGeocode = async (
   lat: number,
   lng: number,
-): Promise<LocationDetails | null> => {
+): Promise<Address | null> => {
   try {
     const res = await fetch(
       `https://us1.locationiq.com/v1/reverse?key=${process.env.LOCATIONIQ_API_KEY}&lat=${lat}&lon=${lng}&format=json&accept-language=en&normalizeaddress=1`,
@@ -53,10 +51,9 @@ export const reverseGeocode = async (
     const formattedAddress = `${house ? house + ", " : ""}${street ? street + ", " : ""}${city}`;
     return {
       osmId: Number(location.osm_id),
-      house,
       street,
       city,
-      formattedAddress,
+      addressLine1: formattedAddress,
       coords: {
         lat: parseFloat(location.lat),
         lng: parseFloat(location.lon),

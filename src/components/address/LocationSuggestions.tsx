@@ -1,12 +1,12 @@
-import { LocationDetails } from "@/lib/types/location.types";
+import { Address } from "@/lib/types/user.types";
 import { IoIosSearch } from "react-icons/io";
 
 export function LocationSuggestions({
   suggestions,
   onSelectSuggestion,
 }: {
-  suggestions: LocationDetails[];
-  onSelectSuggestion: (suggestion: LocationDetails) => void;
+  suggestions: Address[];
+  onSelectSuggestion: (suggestion: Address) => void;
 }) {
   if (!suggestions || suggestions.length === 0) return null;
   // console.log(suggestions);
@@ -25,7 +25,7 @@ export function LocationSuggestions({
           <span className="mx-1">
             <IoIosSearch size={24} />
           </span>
-          <span>{suggestion.formattedAddress}</span>
+          <span>{suggestion.addressLine1}</span>
         </button>
       ))}
     </div>

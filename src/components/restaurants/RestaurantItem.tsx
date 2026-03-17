@@ -48,10 +48,12 @@ export function RestaurantItem({
               </div>
             )}
           </div>
-          <p className="flex justify-between text-sm">
-            <span>🚴‍♂️ Tk{delivery_fee}</span>
-            <span className="mr-1">{duration_eta} min</span>
-          </p>
+          {delivery_fee && (
+            <p className="flex justify-between text-sm">
+              <span>🚴‍♂️ Tk{delivery_fee}</span>
+              <span className="mr-1">{duration_eta} min</span>
+            </p>
+          )}
         </div>
       </Link>
     </li>

@@ -1,5 +1,5 @@
 import { getAutocomplete } from "@/lib/services/geocodeService";
-import { LocationDetails } from "@/lib/types/location.types";
+import { Address } from "@/lib/types/user.types";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // Add your GET logic here
-    const locations = (await getAutocomplete(query)) as LocationDetails[];
+    const locations = (await getAutocomplete(query)) as Address[];
     return NextResponse.json(locations, { status: 200 });
   } catch (error) {
     console.error("GET error:", error);

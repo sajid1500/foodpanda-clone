@@ -1,5 +1,5 @@
 import { reverseGeocode } from "@/lib/services/geocodeService";
-import { LocationDetails } from "@/lib/types/location.types";
+import { Address } from "@/lib/types/user.types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const location = (await reverseGeocode(
       Number(lat),
       Number(lng),
-    )) as LocationDetails;
+    )) as Address;
     return NextResponse.json(location, { status: 200 });
   } catch (error) {
     console.error("Reverse geocode GET error:", error);
