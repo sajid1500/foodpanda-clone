@@ -21,7 +21,10 @@ import {
 } from "react-icons/lu";
 import { useAddresses } from "@/components/address/useAddresses";
 import { useUserStore } from "@/lib/stores/userStore";
-import { useSelectAddress } from "./useSelectAddress";
+import { useSaveAddress } from "./useSaveAddress";
+import { useDeleteAddress } from "./useDeleteAddress";
+import { CircleCheck, Trash2 } from "lucide-react";
+// import { useSelectAddress } from "./useSelectAddress";
 
 export function AddressBook() {
   const { setView } = useLayoutStore((state) => state);
@@ -53,29 +56,36 @@ export function AddressBook() {
 
 function SavedAddressList() {
   const { addresses } = useAddresses();
-  const { selectAddress } = useSelectAddress();
+  const { saveAddress } = useSaveAddress();
+  const { deleteAddress } = useDeleteAddress();
 
   const { setTempAddress } = useUserStore((state) => state);
   const { setView, setIsAddressModalOpen } = useLayoutStore((store) => store);
 
   const handleEditAddress = async (
-    e: React.MouseEvent<HTMLButtonElement>,
     address: Address,
   ) => {
-    e.stopPropagation();
     setView("LocationPicker");
     setTempAddress(address);
   };
 
   const handleSelectAddress = (address: Address) => {
     setTempAddress(address);
-    if (address.id) selectAddress(address.id);
+    saveAddress({ ...address, isDefault: true });
     setIsAddressModalOpen(false);
   };
 
+  const handleDeleteAddress = (address: Address) => {
+    deleteAddress(address);
+  };
+
+  const orderedAddresses = [
+    ...addresses.filter((addr) => addr.isDefault),
+    ...addresses.filter((addr) => !addr.isDefault),
+  ];
   return (
     <div className="max-h-[280px] divide-y divide-neutral-100 overflow-y-auto">
-      {addresses.map((address) => (
+      {orderedAddresses.map((address) => (
         <div
           key={address.id}
           onClick={() => handleSelectAddress(address)}
@@ -108,20 +118,37 @@ function SavedAddressList() {
 
           <div className="flex items-center gap-1">
             <button
-              onClick={(e) => handleEditAddress(e, address)}
+              onClick={(e) => {
+                e.stopPropagation()
+                handleEditAddress(address)}}
               type="button"
               aria-label="Edit address"
               className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-700"
             >
               <LuPencil size={16} />
             </button>
-            <button
-              type="button"
-              aria-label="Delete address"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-700"
-            >
-              <LuTrash2 size={16} />
-            </button>
+            {!address.isDefault ? (
+              <button
+                type="button"
+                aria-label="Delete address"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-700"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteAddress(address);
+                }}
+              >
+                <Trash2 />
+              </button>
+            ) : (
+              <button
+                type="button"
+                aria-label="Selected address"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-700"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <CircleCheck />
+              </button>
+            )}
           </div>
         </div>
       ))}

@@ -9,47 +9,16 @@ import { Address } from "@/lib/types/user.types";
 import { TablesInsert } from "@/lib/types/database.types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "@/lib/config/supabase/supabase";
+import { getAddressesAction } from "@/lib/actions/address";
 
-export const getAddresses = async (
-  supabase: SupabaseClient,
-): Promise<Address[]> => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) throw new Error("User not authenticated");
-
-  const { data: addresses, error } = await supabase.from(
-    "user_addresses_display",
-  ).select(`
-      id,
-      userId:user_id,
-      addressLine1:address_line_1,
-      addressLine2:address_line_2,
-      city,
-      coords: coordinates,
-      isDefault:is_default,
-      label,
-      location,
-      note,
-      osmId:osm_id
-    `);
-
-  if (error)
-    throw new Error(
-      `Failed to fetch addresses: ${error.message ?? String(error)}`,
-    );
-
-  return addresses;
-};
 export function useAddresses(userAddresses: Address[] = []) {
-  const client = createClient();
   const {
     isPending,
     error,
     data: addresses,
   } = useQuery({
     queryKey: ["addresses"],
-    queryFn: () => getAddresses(client),
+    queryFn: getAddressesAction,
     initialData: userAddresses,
   });
 

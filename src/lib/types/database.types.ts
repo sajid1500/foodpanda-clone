@@ -225,7 +225,7 @@ export type Database = {
           label: string | null
           location: unknown
           note: string | null
-          osm_id: number
+          osm_id: number | null
           street: string | null
           user_id: string
         }
@@ -239,7 +239,7 @@ export type Database = {
           label?: string | null
           location: unknown
           note?: string | null
-          osm_id: number
+          osm_id?: number | null
           street?: string | null
           user_id?: string
         }
@@ -253,7 +253,7 @@ export type Database = {
           label?: string | null
           location?: unknown
           note?: string | null
-          osm_id?: number
+          osm_id?: number | null
           street?: string | null
           user_id?: string
         }

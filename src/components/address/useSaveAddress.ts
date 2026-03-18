@@ -1,9 +1,8 @@
 import { saveAddressAction } from "@/lib/actions/address";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const queryClient = useQueryClient();
-
 export const useSaveAddress = () => {
+  const queryClient = useQueryClient();
   const { mutate: saveAddress } = useMutation({
     mutationFn: saveAddressAction,
     onSuccess: () => {

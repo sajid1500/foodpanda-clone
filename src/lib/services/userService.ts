@@ -1,6 +1,6 @@
 import { getUserForServer } from "../utils/auth";
 import { createClient } from "../config/supabase/server";
-import { Address } from "../types/user.types";
+import { Address, addressSchema } from "../types/user.types";
 
 // works on both only
 export const getAddresses = async (): Promise<Address[]> => {
@@ -28,16 +28,16 @@ export const getAddresses = async (): Promise<Address[]> => {
       `Failed to fetch addresses: ${error.message ?? String(error)}`,
     );
 
-  return addresses;
+  return addresses.map((addr) => addressSchema.parse(addr));
 };
 
 // works on server only
-export const getDefaultAddress = async (): Promise<Address> => {
+export const getDefaultAddress = async (): Promise<Address | null> => {
   const supabase = await createClient();
   const user = await getUserForServer();
   if (!user) throw new Error("User not authenticated");
 
-  const { data: addresses, error } = await supabase
+  const { data: defaultAddress, error } = await supabase
     .from("user_addresses_display")
     .select(
       `
@@ -55,13 +55,13 @@ export const getDefaultAddress = async (): Promise<Address> => {
     `,
     )
     .eq("is_default", true)
-    .single();
+    .maybeSingle();
 
   if (error)
     throw new Error(
       `Failed to fetch default address: ${error.message ?? String(error)}`,
     );
-  return addresses;
+  return addressSchema.parse(defaultAddress);
 };
 
 export const getUser = async () => {

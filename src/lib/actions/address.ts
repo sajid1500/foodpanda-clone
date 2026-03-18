@@ -2,9 +2,10 @@
 
 import { Address } from "@/lib/types/user.types";
 import { getUserForServer } from "@/lib/utils/auth";
-import { createClient } from "@/lib/config/supabase/client";
+import { createClient } from "@/lib/config/supabase/server";
 import { TablesInsert } from "@/lib/types/database.types";
 import { revalidatePath } from "next/cache";
+import { getAddresses } from "../services/userService";
 
 export const getAddressesAction = async (): Promise<Address[]> => {
   return await getAddresses();
@@ -12,7 +13,7 @@ export const getAddressesAction = async (): Promise<Address[]> => {
 
 export const saveAddressAction = async (address: Address) => {
   // console.log("Raw form data:", addressToSave);
-  const supabase = createClient();
+  const supabase = await createClient();
   const userId = (await getUserForServer())?.identities?.[0]?.user_id;
   if (!userId) throw new Error("User not authenticated");
 
@@ -28,31 +29,51 @@ export const saveAddressAction = async (address: Address) => {
     location: "POINT(-73.946823 40.807416)",
     note: address.note,
   };
-
+  console.log("New address to save:", newAddress);
   const { data: savedAddress, error } = await supabase
     .from("user_addresses")
-    .insert(newAddress)
-    .select()
-    .single();
+    .upsert(newAddress);
+  // .select()
+  // .single();
 
   if (error)
     throw new Error(`Error saving address: ${error.message ?? String(error)}`);
+  revalidatePath("/addresses");
 };
-
-export const selectAddressAction = async (addressId: string) => {
-  const supabase = createClient();
+export const deleteAddressAction = async (address: Address) => {
+  // console.log("Raw form data:", addressToSave);
+  const supabase = await createClient();
   const userId = (await getUserForServer())?.identities?.[0]?.user_id;
   if (!userId) throw new Error("User not authenticated");
-
-  const { error: error2 } = await supabase
+  if (!address.id) throw new Error("Address ID is required for deletion");
+  const { data: savedAddress, error } = await supabase
     .from("user_addresses")
-    .update({ is_default: true })
-    .eq("id", addressId);
+    .delete()
+    .eq("id", address.id);
+  // .select()
+  // .single();
 
-  if (error2)
+  if (error)
     throw new Error(
-      `Error saving address: ${error2.message ?? String(error2)}`,
+      `Error deleting address: ${error.message ?? String(error)}`,
     );
-
-  revalidatePath("/");
+  revalidatePath("/addresses");
 };
+
+// export const selectAddressAction = async (addressId: string) => {
+//   const supabase = createClient();
+//   const userId = (await getUserForServer())?.identities?.[0]?.user_id;
+//   if (!userId) throw new Error("User not authenticated");
+
+//   const { error: error2 } = await supabase
+//     .from("user_addresses")
+//     .update({ is_default: true })
+//     .eq("id", addressId);
+
+//   if (error2)
+//     throw new Error(
+//       `Error saving address: ${error2.message ?? String(error2)}`,
+//     );
+
+//   revalidatePath("/");
+// };

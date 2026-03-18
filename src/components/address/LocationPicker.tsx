@@ -40,7 +40,7 @@ export function LocationPicker() {
   useEffect(() => {
     if (tempAddress) {
       setPosition([tempAddress.coords.lat, tempAddress.coords.lng]);
-      setSearchQuery(tempAddress.addressLine1);
+      setSearchQuery(tempAddress.formattedAddress);
     }
   }, [tempAddress]);
 
@@ -57,7 +57,7 @@ export function LocationPicker() {
           return;
         }
         const address = (await response.json()) as Address;
-        setSearchQuery(address.addressLine1);
+        setSearchQuery(address.formattedAddress);
         setTempAddress(address);
         // console.log("Received address from API:", address);
       };
@@ -67,8 +67,8 @@ export function LocationPicker() {
   );
 
   const handleSelectSuggestion = async (suggestion: Address) => {
-    if (searchQuery !== suggestion.addressLine1) {
-      setSearchQuery(suggestion.addressLine1);
+    if (searchQuery !== suggestion.formattedAddress) {
+      setSearchQuery(suggestion.formattedAddress);
     }
     console.log("Selected address:", suggestion);
     setTempAddress(suggestion);

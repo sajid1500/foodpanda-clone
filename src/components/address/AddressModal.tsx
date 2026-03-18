@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { AddressForm } from "./AddressForm";
 import { CredenzaTrigger } from "../ui/credenza";
 import { getAddresses } from "@/lib/services/userService";
-import { Address, userAddressSchema } from "@/lib/types/user.types";
+import { Address, addressSchema } from "@/lib/types/user.types";
 import { createClient } from "@/lib/config/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useAddresses } from "@/components/address/useAddresses";
@@ -33,7 +33,9 @@ export function AddressModal({ addresses }: { addresses: Address[] }) {
         <span>
           <LuMapPin className="h-5 w-5" />
         </span>
-        {defaultAddress?.addressLine1 || "Add an address"}
+        {defaultAddress
+          ? `${defaultAddress.addressLine1} ${defaultAddress.city}`
+          : "Add an address"}
       </SheetTrigger>
       <SheetContent side="bottom" className="overflow-y-scroll pt-2">
         {view === "AddressBook" && <AddressBook />}

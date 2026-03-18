@@ -25,7 +25,7 @@ export function LocationSuggestions({
           <span className="mx-1">
             <IoIosSearch size={24} />
           </span>
-          <span>{suggestion.addressLine1}</span>
+          <span>{suggestion.formattedAddress}</span>
         </button>
       ))}
     </div>

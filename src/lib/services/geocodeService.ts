@@ -2,7 +2,7 @@ import {
   AutocompleteResponse,
   ReverseGeocodeResponse,
 } from "../types/geocode.types";
-import type { Address } from "../types/user.types";
+import { addressSchema, type Address } from "../types/user.types";
 
 export const getAutocomplete = async (query: string): Promise<Address[]> => {
   try {
@@ -16,18 +16,19 @@ export const getAutocomplete = async (query: string): Promise<Address[]> => {
       const city = location.address.city || "";
       const house =
         location.address.house_number || location.address.name || "";
-      const formattedAddress = `${house ? house + ", " : ""}${street ? street + ", " : ""}${city}`;
-      return {
+      // const formattedAddress = `${house ? house + ", " : ""}${street ? street + ", " : ""}${city}`;
+      const address = {
         osmId: Number(location.osm_id),
         house,
         city,
         street,
-        addressLine1: formattedAddress,
         coords: {
           lat: parseFloat(location.lat),
           lng: parseFloat(location.lon),
         },
       };
+      // console.log("Parsed address:", addressSchema.parse(address));
+      return addressSchema.parse(address);
     });
     return formattedLocations;
   } catch (error) {
@@ -39,7 +40,7 @@ export const getAutocomplete = async (query: string): Promise<Address[]> => {
 export const reverseGeocode = async (
   lat: number,
   lng: number,
-): Promise<Address | null> => {
+): Promise<Address> => {
   try {
     const res = await fetch(
       `https://us1.locationiq.com/v1/reverse?key=${process.env.LOCATIONIQ_API_KEY}&lat=${lat}&lon=${lng}&format=json&accept-language=en&normalizeaddress=1`,
@@ -48,19 +49,20 @@ export const reverseGeocode = async (
     const city = location.address.city || "";
     const street = location.address.road || "";
     const house = location.address.house_number || "";
-    const formattedAddress = `${house ? house + ", " : ""}${street ? street + ", " : ""}${city}`;
-    return {
-      osmId: Number(location.osm_id),
+    // const formattedAddress = `${house ? house + ", " : ""}${street ? street + ", " : ""}${city}`;
+    const address = {
+      osmId: location.osm_id,
       street,
+      house,
       city,
-      addressLine1: formattedAddress,
       coords: {
         lat: parseFloat(location.lat),
         lng: parseFloat(location.lon),
       },
     };
+    // console.log("Parsed address:", addressSchema.parse(address));
+    return addressSchema.parse(address);
   } catch (error) {
-    console.error("Failed to fetch location:", error);
-    return null;
+    throw error;
   }
 };

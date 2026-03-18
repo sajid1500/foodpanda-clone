@@ -12,9 +12,7 @@ import { Address } from "@/lib/types/user.types";
 
 export async function Header() {
   // console.log("Fetched addresses for modal", addresses);
-  const client = await createClient();
-  const userAddresses = await getAddresses(client);
-  const defaultAddress = await getDefaultAddress();
+  const userAddresses = await getAddresses();
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="flex w-full items-center justify-between px-4 py-2">
