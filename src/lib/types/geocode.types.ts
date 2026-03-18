@@ -23,7 +23,7 @@ export interface ReverseGeocodeResponse {
   boundingbox: [string, string, string, string];
 }
 
-export interface AutocompleteResponse {
+export interface AutocompleteResponseHit {
   osm_id: string;
   osm_type: string;
   licence: string;
@@ -49,6 +49,8 @@ export interface AutocompleteResponse {
     country?: string;
   };
 }
+
+export interface AutocompleteResponse extends Array<AutocompleteResponseHit> {}
 
 export type LocationDetails = {
   osmId: string;
