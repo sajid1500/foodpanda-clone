@@ -19,6 +19,7 @@ import { AddressBook } from "./AddressBook";
 import { AddressModal } from "./AddressModal";
 import { AddressHeader } from "./AddressHeader";
 import { SheetFooter } from "../ui/sheet";
+import { useUserStore } from "@/lib/stores/userStore";
 
 const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
   ssr: false,
@@ -29,7 +30,7 @@ const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
 
 export function LocationPicker() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { selectedLocation, setTempAddress } = useUserStore((store) => store);
+  const { tempAddress, setTempAddress } = useUserStore((store) => store);
   const { view, setView } = useLayoutStore((state) => state);
 
   const [position, setPosition] = useState<[number, number]>([
@@ -37,11 +38,11 @@ export function LocationPicker() {
   ]);
 
   useEffect(() => {
-    if (selectedLocation) {
-      setPosition([selectedLocation.coords.lat, selectedLocation.coords.lng]);
-      setSearchQuery(selectedLocation.addressLine1);
+    if (tempAddress) {
+      setPosition([tempAddress.coords.lat, tempAddress.coords.lng]);
+      setSearchQuery(tempAddress.addressLine1);
     }
-  }, [selectedLocation]);
+  }, [tempAddress]);
 
   const handleChangePosition = useDebouncedCallback(
     (coords: [number, number]) => {

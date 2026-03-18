@@ -1,16 +1,11 @@
 import { getUserForServer } from "../utils/auth";
 import { createClient } from "../config/supabase/server";
-import { createClient as CreateBrowserClient } from "../config/supabase/client";
 import { Address } from "../types/user.types";
-import { TablesInsert } from "../types/database.types";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { supabase } from "../config/supabase/supabase";
 
-// works on client only
+// works on both only
 export const getAddresses = async (): Promise<Address[]> => {
-  const supabase = await CreateBrowserClient();
-  const user = await supabase.auth.getUser();
-  if (!user) return [];
+  const supabase = await createClient();
+  const user = await getUserForServer();
 
   const { data: addresses, error } = await supabase.from(
     "user_addresses_display",
@@ -40,7 +35,7 @@ export const getAddresses = async (): Promise<Address[]> => {
 export const getDefaultAddress = async (): Promise<Address> => {
   const supabase = await createClient();
   const user = await getUserForServer();
-  if (!user) return {} as Address;
+  if (!user) throw new Error("User not authenticated");
 
   const { data: addresses, error } = await supabase
     .from("user_addresses_display")

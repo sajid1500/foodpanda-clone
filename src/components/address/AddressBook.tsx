@@ -68,7 +68,6 @@ function SavedAddressList() {
   };
 
   const handleSelectAddress = (address: Address) => {
-    selectAddress(address.id);
     setTempAddress(address);
     if (address.id) selectAddress(address.id);
     setIsAddressModalOpen(false);

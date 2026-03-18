@@ -15,10 +15,10 @@ import { createClient } from "@/lib/config/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useAddresses } from "@/components/address/useAddresses";
 
-export function AddressModalContent() {
+export function AddressModal({ addresses }: { addresses: Address[] }) {
   const { view, setView, isAddressModalOpen, setIsAddressModalOpen } =
     useLayoutStore((state) => state);
-
+  const { defaultAddress } = useAddresses(addresses);
   return (
     <Sheet
       open={isAddressModalOpen}
@@ -33,7 +33,7 @@ export function AddressModalContent() {
         <span>
           <LuMapPin className="h-5 w-5" />
         </span>
-        {/* {defaultAddress?.addressLine1 || "Add an address"} */}
+        {defaultAddress?.addressLine1 || "Add an address"}
       </SheetTrigger>
       <SheetContent side="bottom" className="overflow-y-scroll pt-2">
         {view === "AddressBook" && <AddressBook />}

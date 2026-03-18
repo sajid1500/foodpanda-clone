@@ -6,6 +6,10 @@ import { createClient } from "@/lib/config/supabase/client";
 import { TablesInsert } from "@/lib/types/database.types";
 import { revalidatePath } from "next/cache";
 
+export const getAddressesAction = async (): Promise<Address[]> => {
+  return await getAddresses();
+};
+
 export const saveAddressAction = async (address: Address) => {
   // console.log("Raw form data:", addressToSave);
   const supabase = createClient();
@@ -33,8 +37,6 @@ export const saveAddressAction = async (address: Address) => {
 
   if (error)
     throw new Error(`Error saving address: ${error.message ?? String(error)}`);
-
-  if (savedAddress) await selectAddressAction(savedAddress.id);
 };
 
 export const selectAddressAction = async (addressId: string) => {
@@ -42,20 +44,14 @@ export const selectAddressAction = async (addressId: string) => {
   const userId = (await getUserForServer())?.identities?.[0]?.user_id;
   if (!userId) throw new Error("User not authenticated");
 
-  const { error: error1 } = await supabase
-    .from("user_addresses")
-    .update({ is_default: false })
-    .eq("is_default", true)
-    .select();
-
   const { error: error2 } = await supabase
     .from("user_addresses")
     .update({ is_default: true })
     .eq("id", addressId);
 
-  if (error1 || error2)
+  if (error2)
     throw new Error(
-      `Error saving address: ${(error1 || error2)?.message ?? String(error1 || error2)}`,
+      `Error saving address: ${error2.message ?? String(error2)}`,
     );
 
   revalidatePath("/");
