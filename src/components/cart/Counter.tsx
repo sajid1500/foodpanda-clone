@@ -2,7 +2,7 @@
 
 import { MenuItem } from "@/lib/types/resaurant.types";
 import { useCartStore } from "@/lib/stores/cartStore";
-import { CartItem } from "@/lib/types/cart.types";
+import { CartItem } from "@/lib/validators/cart.schema";
 import { LuMinus, LuPlus, LuTrash2 } from "react-icons/lu";
 import { twMerge } from "tailwind-merge";
 

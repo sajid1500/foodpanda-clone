@@ -1,4 +1,5 @@
-import { Address } from "@/lib/types/user.types";
+import { formatAddress } from "@/lib/utils/helpers";
+import { Address } from "@/lib/validators/address.schema";
 import { IoIosSearch } from "react-icons/io";
 
 export function LocationSuggestions({
@@ -25,7 +26,7 @@ export function LocationSuggestions({
           <span className="mx-1">
             <IoIosSearch size={24} />
           </span>
-          <span>{suggestion.formattedAddress}</span>
+          <span>{formatAddress(suggestion.house, suggestion.street, suggestion.city)}</span>
         </button>
       ))}
     </div>

@@ -7,21 +7,22 @@ export type ModdedDatabase = MergeDeep<
       Views: {
         restaurants_display: {
           Row: {
+            average_rating: number;
             banner_path: string;
-            id: string;
             coordinates: {
               lat: number;
               lng: number;
             };
+            created_at: string;
+            id: string;
+            location: unknown;
             logo_path: string;
             name: string;
-            short_id: string;
+            slug: string;
           };
         };
         user_addresses_display: {
           Row: {
-            id: string;
-            user_id: string;
             address_line_1: string;
             address_line_2: string;
             city: string;
@@ -29,11 +30,16 @@ export type ModdedDatabase = MergeDeep<
               lat: number;
               lng: number;
             };
+            created_at: string;
+            house: string;
+            id: string;
             is_default: boolean;
             label: string;
             location: unknown;
             note: string;
-            osm_id: number;
+            place_id: string;
+            street: string;
+            user_id: string;
           };
         };
       };

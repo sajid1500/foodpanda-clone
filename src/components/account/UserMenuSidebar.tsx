@@ -10,7 +10,7 @@ import {
   LuCircle,
   LuLogOut,
 } from "react-icons/lu";
-import { createClient } from "@/lib/config/supabase/client";
+import { createBrowserClient } from "@/lib/config/supabase/client";
 import { useLayoutStore } from "@/lib/stores/layoutStore";
 import { motion, AnimatePresence } from "framer-motion";
 import { CloseButton } from "@/components/ui/CloseButton";
@@ -45,7 +45,7 @@ export function UserMenuSidebar() {
 
 function UserMenuList() {
   const handleSignOut = async () => {
-    const supabase = createClient();
+    const supabase = createBrowserClient();
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("Error signing out:", error.message);

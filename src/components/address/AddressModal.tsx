@@ -10,8 +10,8 @@ import { useEffect, useState } from "react";
 import { AddressForm } from "./AddressForm";
 import { CredenzaTrigger } from "../ui/credenza";
 import { getAddresses } from "@/lib/services/userService";
-import { Address, addressSchema } from "@/lib/types/user.types";
-import { createClient } from "@/lib/config/supabase/client";
+import { Address, addressSchema } from "@/lib/validators/address.schema";
+import { createBrowserClient } from "@/lib/config/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useAddresses } from "@/components/address/useAddresses";
 

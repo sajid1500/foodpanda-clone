@@ -1,5 +1,5 @@
 import React from "react";
-import { type CartItem } from "@/lib/types/cart.types";
+import { type CartItem } from "@/lib/validators/cart.schema";
 import Image from "next/image";
 import { Counter } from "./Counter";
 import { RESTAURANT_ASSETS_URL } from "@/lib/utils/constants";

@@ -1,4 +1,4 @@
-import { CartItem } from "../types/cart.types";
+import { CartItem } from "../validators/cart.schema";
 
 export async function submitOrder(userId: string, cart: CartItem[]) {
   // Simulate order submission delay

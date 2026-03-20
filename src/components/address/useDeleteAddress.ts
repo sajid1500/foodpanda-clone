@@ -1,5 +1,5 @@
 import { deleteAddressAction, saveAddressAction } from "@/lib/actions/address";
-import { Address } from "@/lib/types/user.types";
+import { Address } from "@/lib/validators/address.schema";
 import { skipToken, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteAddress = () => {

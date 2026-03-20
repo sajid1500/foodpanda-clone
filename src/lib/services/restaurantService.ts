@@ -1,8 +1,8 @@
 import { Restaurant, RestaurantSummary } from "@/lib/types/resaurant.types";
-import { createClient } from "@/lib/config/supabase/server";
+import { createServerClient } from "@/lib/config/supabase/server";
 
 export async function getRestaurants() {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
   const { data: restaurants, error } = await supabase
     .from("restaurants_display")
     .select(
@@ -35,7 +35,7 @@ export async function getNearbyRestaurants(
   lat: number,
   lng: number,
 ): Promise<RestaurantSummary[]> {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
   const { data: restaurants, error } = await supabase.rpc(
     "nearby_restaurants",
     {
@@ -55,9 +55,9 @@ export async function getNearbyRestaurants(
 }
 
 export const getRestaurantDetails = async (
-  shortId: string,
+  slug: string,
 ): Promise<Restaurant> => {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
 
   const { data: restaurant, error } = await supabase
     .from("restaurants_display")
@@ -78,7 +78,7 @@ export const getRestaurantDetails = async (
       ),
       reviews (*)`,
     )
-    .eq("short_id", shortId)
+    .eq("slug", slug)
     .single();
 
   if (error) {

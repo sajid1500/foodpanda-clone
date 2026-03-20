@@ -145,7 +145,6 @@ export type Database = {
           location: unknown
           logo_path: string
           name: string
-          short_id: string
           slug: string
         }
         Insert: {
@@ -156,7 +155,6 @@ export type Database = {
           location: unknown
           logo_path?: string
           name?: string
-          short_id: string
           slug: string
         }
         Update: {
@@ -167,7 +165,6 @@ export type Database = {
           location?: unknown
           logo_path?: string
           name?: string
-          short_id?: string
           slug?: string
         }
         Relationships: []
@@ -217,44 +214,47 @@ export type Database = {
       user_addresses: {
         Row: {
           address_line_1: string
-          address_line_2: string | null
+          address_line_2: string
           city: string
-          created_at: string | null
+          created_at: string
+          house: string
           id: string
           is_default: boolean
-          label: string | null
+          label: string
           location: unknown
-          note: string | null
-          osm_id: number | null
-          street: string | null
+          note: string
+          place_id: string
+          street: string
           user_id: string
         }
         Insert: {
-          address_line_1: string
-          address_line_2?: string | null
-          city: string
-          created_at?: string | null
+          address_line_1?: string
+          address_line_2?: string
+          city?: string
+          created_at?: string
+          house?: string
           id?: string
-          is_default: boolean
-          label?: string | null
+          is_default?: boolean
+          label?: string
           location: unknown
-          note?: string | null
-          osm_id?: number | null
-          street?: string | null
+          note?: string
+          place_id: string
+          street?: string
           user_id?: string
         }
         Update: {
           address_line_1?: string
-          address_line_2?: string | null
+          address_line_2?: string
           city?: string
-          created_at?: string | null
+          created_at?: string
+          house?: string
           id?: string
           is_default?: boolean
-          label?: string | null
+          label?: string
           location?: unknown
-          note?: string | null
-          osm_id?: number | null
-          street?: string | null
+          note?: string
+          place_id?: string
+          street?: string
           user_id?: string
         }
         Relationships: [
@@ -309,7 +309,7 @@ export type Database = {
           location: unknown
           logo_path: string | null
           name: string | null
-          short_id: string | null
+          slug: string | null
         }
         Insert: {
           average_rating?: number | null
@@ -320,7 +320,7 @@ export type Database = {
           location?: unknown
           logo_path?: string | null
           name?: string | null
-          short_id?: string | null
+          slug?: string | null
         }
         Update: {
           average_rating?: number | null
@@ -331,7 +331,7 @@ export type Database = {
           location?: unknown
           logo_path?: string | null
           name?: string | null
-          short_id?: string | null
+          slug?: string | null
         }
         Relationships: []
       }
@@ -342,12 +342,13 @@ export type Database = {
           city: string | null
           coordinates: Json | null
           created_at: string | null
+          house: string | null
           id: string | null
           is_default: boolean | null
           label: string | null
           location: unknown
           note: string | null
-          osm_id: number | null
+          place_id: string | null
           street: string | null
           user_id: string | null
         }
@@ -357,12 +358,13 @@ export type Database = {
           city?: string | null
           coordinates?: never
           created_at?: string | null
+          house?: string | null
           id?: string | null
           is_default?: boolean | null
           label?: string | null
           location?: unknown
           note?: string | null
-          osm_id?: number | null
+          place_id?: string | null
           street?: string | null
           user_id?: string | null
         }
@@ -372,12 +374,13 @@ export type Database = {
           city?: string | null
           coordinates?: never
           created_at?: string | null
+          house?: string | null
           id?: string | null
           is_default?: boolean | null
           label?: string | null
           location?: unknown
           note?: string | null
-          osm_id?: number | null
+          place_id?: string | null
           street?: string | null
           user_id?: string | null
         }
@@ -411,19 +414,7 @@ export type Database = {
           id: string
           logoPath: string
           name: string
-          shortId: string
-        }[]
-      }
-      restaurants: {
-        Args: never
-        Returns: {
-          average_rating: number
-          cover_image_url: string
-          created_at: string
-          id: number
-          lat: number
-          lng: number
-          restaurant_name: string
+          slug: string
         }[]
       }
       slugify: { Args: { name: string }; Returns: string }

@@ -1,5 +1,5 @@
-import { createClient as createClientforClient } from "../config/supabase/client";
-import { createClient as createClientForServer } from "../config/supabase/server";
+import { createBrowserClient as createClientforClient } from "../config/supabase/client";
+import { createServerClient as createClientForServer } from "../config/supabase/server";
 
 export const getUserforClient = async () => {
   const supabase = createClientforClient();

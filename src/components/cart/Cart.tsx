@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { type Cart } from "@/lib/types/cart.types";
+import { type Cart } from "@/lib/validators/cart.schema";
 import { CartList } from "./CartList";
 import { CheckoutButton } from "./CheckoutButton";
 import { useCartStore } from "@/lib/stores/cartStore";

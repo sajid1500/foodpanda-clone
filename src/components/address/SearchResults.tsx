@@ -1,6 +1,6 @@
 "use client";
 
-import { Address } from "@/lib/types/user.types";
+import { Address } from "@/lib/validators/address.schema";
 import { useEffect, useRef } from "react";
 import { MdLocationPin } from "react-icons/md";
 

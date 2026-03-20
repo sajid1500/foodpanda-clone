@@ -10,5 +10,8 @@ export function formatAddress(
   city: string,
   street: string,
 ): string {
-  return `${house ? house + ", " : ""}${street ? street + ", " : ""}${city}`;
+  const parts = [house, street, city].filter(Boolean);
+  return parts.join(", ");
 }
+
+export const emptyToNull = (val: unknown) => (val === "" ? null : val);

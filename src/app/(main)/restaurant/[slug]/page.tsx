@@ -7,10 +7,10 @@ import { RESTAURANT_ASSETS_URL } from "@/lib/utils/constants";
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ restaurantId: string; restaurantName: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { restaurantId } = await params;
-  const restaurantDetails = await getRestaurantDetails(restaurantId);
+  const { slug } = await params;
+  const restaurantDetails = await getRestaurantDetails(slug);
   const restaurantName = restaurantDetails.name;
   return {
     title: `${restaurantName}`,
@@ -21,22 +21,22 @@ export async function generateMetadata({
 export default async function page({
   params,
 }: {
-  params: Promise<{ restaurantId: string; restaurantName: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { restaurantId } = await params;
-  const restaurantDetails = await getRestaurantDetails(restaurantId);
+  const { slug } = await params;
+  const restaurantDetails = await getRestaurantDetails(slug);
   const { name, logoPath, bannerPath, menu } = restaurantDetails;
   const imagePath = logoPath ?? bannerPath;
   const restaurantSummary = {
     id: restaurantDetails.id,
-    shortId: restaurantDetails.shortId,
+    slug: restaurantDetails.slug,
     name: restaurantDetails.name,
     logoPath: logoPath,
     bannerPath: bannerPath,
     averageRating: restaurantDetails.averageRating,
   };
   // console.log("imagePath", imagePath);
-  // console.log("restaurantId", restaurantId);
+  // console.log("slug", slug);
   // console.log("restaurant details", restaurantDetails);
   return (
     <>

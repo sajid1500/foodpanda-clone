@@ -10,7 +10,7 @@ import { AddressHeader } from "./AddressHeader";
 import { getAddresses } from "@/lib/services/userService";
 import { useLayoutStore } from "@/lib/stores/layoutStore";
 
-import { Address } from "@/lib/types/user.types";
+import { Address } from "@/lib/validators/address.schema";
 import {
   LuCheck,
   LuChrome,
@@ -62,9 +62,7 @@ function SavedAddressList() {
   const { setTempAddress } = useUserStore((state) => state);
   const { setView, setIsAddressModalOpen } = useLayoutStore((store) => store);
 
-  const handleEditAddress = async (
-    address: Address,
-  ) => {
+  const handleEditAddress = async (address: Address) => {
     setView("LocationPicker");
     setTempAddress(address);
   };
@@ -119,8 +117,9 @@ function SavedAddressList() {
           <div className="flex items-center gap-1">
             <button
               onClick={(e) => {
-                e.stopPropagation()
-                handleEditAddress(address)}}
+                e.stopPropagation();
+                handleEditAddress(address);
+              }}
               type="button"
               aria-label="Edit address"
               className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-700"

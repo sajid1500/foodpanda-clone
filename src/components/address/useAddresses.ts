@@ -3,9 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getUserForServer } from "@/lib/utils/auth";
-import { createClient } from "@/lib/config/supabase/client";
-import { createClient as CreateBrowserClient } from "@/lib/config/supabase/client";
-import { Address } from "@/lib/types/user.types";
+import { createBrowserClient } from "@/lib/config/supabase/client";
+import { Address } from "@/lib/validators/address.schema";
 import { TablesInsert } from "@/lib/types/database.types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "@/lib/config/supabase/supabase";

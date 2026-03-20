@@ -5,7 +5,7 @@ import { useLayoutStore } from "@/lib/stores/layoutStore";
 // import { Drawer } from "@/components/ui/drawer";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { Address } from "@/lib/types/user.types";
+import { Address } from "@/lib/validators/address.schema";
 import { SearchBar } from "./SearchBar";
 import { useDebounce, useDebouncedCallback } from "use-debounce";
 import {
@@ -20,6 +20,7 @@ import { AddressModal } from "./AddressModal";
 import { AddressHeader } from "./AddressHeader";
 import { SheetFooter } from "../ui/sheet";
 import { useUserStore } from "@/lib/stores/userStore";
+import { formatAddress } from "@/lib/utils/helpers";
 
 const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
   ssr: false,
@@ -34,13 +35,21 @@ export function LocationPicker() {
   const { view, setView } = useLayoutStore((state) => state);
 
   const [position, setPosition] = useState<[number, number]>([
-    23.7524788, 90.4176482,
+    23.7461, 90.3742,
   ]);
 
   useEffect(() => {
     if (tempAddress) {
       setPosition([tempAddress.coords.lat, tempAddress.coords.lng]);
-      setSearchQuery(tempAddress.formattedAddress);
+      setSearchQuery(
+        tempAddress.addressLine1 ||
+          formatAddress(
+            tempAddress.house,
+            tempAddress.street,
+            tempAddress.city,
+          ) ||
+          "",
+      );
     }
   }, [tempAddress]);
 
@@ -57,7 +66,9 @@ export function LocationPicker() {
           return;
         }
         const address = (await response.json()) as Address;
-        setSearchQuery(address.formattedAddress);
+        setSearchQuery(
+          formatAddress(address.house, address.street, address.city),
+        );
         setTempAddress(address);
         // console.log("Received address from API:", address);
       };
@@ -67,8 +78,13 @@ export function LocationPicker() {
   );
 
   const handleSelectSuggestion = async (suggestion: Address) => {
-    if (searchQuery !== suggestion.formattedAddress) {
-      setSearchQuery(suggestion.formattedAddress);
+    if (
+      searchQuery !==
+      formatAddress(suggestion.house, suggestion.street, suggestion.city)
+    ) {
+      setSearchQuery(
+        formatAddress(suggestion.house, suggestion.street, suggestion.city),
+      );
     }
     console.log("Selected address:", suggestion);
     setTempAddress(suggestion);
@@ -106,8 +122,9 @@ export function LocationPicker() {
       <SheetFooter className="items-end">
         <button
           type="button"
-          className="mt-5 w-fit rounded-md bg-pink-600 p-4 py-3 text-sm font-semibold tracking-wide text-white uppercase transition hover:bg-pink-700"
+          className=":disabled:opacity-50 mt-5 w-fit rounded-md bg-pink-600 p-4 py-3 text-sm font-semibold tracking-wide text-white uppercase transition hover:bg-pink-700"
           onClick={handleSubmitLocation}
+          disabled={!tempAddress}
         >
           Find restaurants
         </button>

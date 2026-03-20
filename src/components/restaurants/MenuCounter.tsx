@@ -6,7 +6,7 @@ import React from "react";
 // import AddItem from "./AddItem";
 import { Counter } from "../cart/Counter";
 import { MenuItem, RestaurantSummary } from "@/lib/types/resaurant.types";
-import { CartItem } from "@/lib/types/cart.types";
+import { CartItem } from "@/lib/validators/cart.schema";
 
 export function MenuCounter({
   restaurantSummary,

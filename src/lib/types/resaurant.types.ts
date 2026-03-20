@@ -1,13 +1,8 @@
-export interface MenuItem {
-  id: string;
-  name: string;
-  price: number;
-  imagePath: string | null;
-}
+import { MenuItem } from "../validators/cart.schema";
 
 export interface Restaurant {
   id: string;
-  shortId?: string;
+  slug?: string;
   name: string;
   averageRating: number | null;
   menu: MenuItem[] | []; // An array of the MenuItem interface above
@@ -25,7 +20,7 @@ export interface Restaurant {
 export type RestaurantSummary = Pick<
   Restaurant,
   | "id"
-  | "shortId"
+  | "slug"
   | "name"
   | "bannerPath"
   | "logoPath"

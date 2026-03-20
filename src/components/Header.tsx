@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { BrandLogo } from "./ui/BrandLogo";
-import { createClient } from "@/lib/config/supabase/server";
 import { AddressModal } from "./address/AddressModal";
 import { getUserforClient, getUserForServer } from "@/lib/utils/auth";
 import { AuthDrawer } from "./account/AuthDrawer";
@@ -8,7 +7,7 @@ import { UserMenuSidebar } from "./account/UserMenuSidebar";
 import { CartSidebar as Cart } from "./cart/CartSidebar";
 import { AccountModal } from "./account/AccountModal";
 import { getAddresses, getDefaultAddress } from "@/lib/services/userService";
-import { Address } from "@/lib/types/user.types";
+import { Address } from "@/lib/validators/address.schema";
 
 export async function Header() {
   // console.log("Fetched addresses for modal", addresses);

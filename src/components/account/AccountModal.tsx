@@ -3,7 +3,6 @@ import { UserMenuButton } from "@/components/ui/UserMenuButton";
 import { getUserforClient, getUserForServer } from "@/lib/utils/auth";
 import { UserMenuSidebar } from "./UserMenuSidebar";
 import { AuthDrawer } from "./AuthDrawer";
-import { createClient } from "@/lib/config/supabase/server";
 import { LuUser } from "react-icons/lu";
 
 export async function AccountModal() {

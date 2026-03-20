@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Address } from "../types/user.types";
+import { Address } from "../validators/address.schema";
 
 interface UserStore {
   tempAddress: Address | null;

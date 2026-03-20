@@ -6,11 +6,13 @@ import {
   getNearbyRestaurants,
   getRestaurants,
 } from "@/lib/services/restaurantService";
-import { getDefaultAddress } from "@/lib/services/userService";
+import { getAddresses, getDefaultAddress } from "@/lib/services/userService";
 
 export async function RestaurantList() {
   // const { lat, lng } = await getUser().then((user) => user.location);
-  const address = await getDefaultAddress();
+  // const address = await getDefaultAddress();
+  const addresses = await getAddresses();
+  const address = addresses.find((addr) => addr.isDefault);
   let lat, lng;
   if (address?.coords) ({ lat, lng } = address.coords);
   let restaurants;

@@ -5,7 +5,8 @@ import { LoadingThreeDotsJumping as LoadingDots } from "@/components/ui/LoadingD
 import { XIcon } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 import { LocationSuggestions } from "./LocationSuggestions";
-import { Address } from "@/lib/types/user.types";
+import { Address } from "@/lib/validators/address.schema";
+import { SearchResults } from "./SearchResults";
 
 export function SearchBar({
   searchQuery,

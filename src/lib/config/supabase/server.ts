@@ -1,11 +1,11 @@
 import { ModdedDatabase } from "@/lib/types/database-mod.types";
-import { createServerClient } from "@supabase/ssr";
+import { createServerClient as createSupabaseServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-export async function createClient() {
+export async function createServerClient() {
   const cookieStore = await cookies();
 
-  return createServerClient<ModdedDatabase>(
+  return createSupabaseServerClient<ModdedDatabase>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
     {

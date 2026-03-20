@@ -1,10 +1,10 @@
 import { getUserForServer } from "../utils/auth";
-import { createClient } from "../config/supabase/server";
-import { Address, addressSchema } from "../types/user.types";
+import { createServerClient } from "../config/supabase/server";
+import { Address, addressSchema } from "../validators/address.schema";
 
 // works on both only
 export const getAddresses = async (): Promise<Address[]> => {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
   const user = await getUserForServer();
 
   const { data: addresses, error } = await supabase.from(
@@ -20,7 +20,7 @@ export const getAddresses = async (): Promise<Address[]> => {
       label,
       location,
       note,
-      osmId:osm_id
+      osmId:place_id
     `);
 
   if (error)
@@ -33,7 +33,7 @@ export const getAddresses = async (): Promise<Address[]> => {
 
 // works on server only
 export const getDefaultAddress = async (): Promise<Address | null> => {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
   const user = await getUserForServer();
   if (!user) throw new Error("User not authenticated");
 
@@ -51,7 +51,7 @@ export const getDefaultAddress = async (): Promise<Address | null> => {
       label,
       location,
       note,
-      osmId:osm_id
+      osmId:place_id
     `,
     )
     .eq("is_default", true)

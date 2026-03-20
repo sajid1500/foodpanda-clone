@@ -2,7 +2,7 @@
 
 import { stripe } from "@/lib/config/stripe";
 import { headers } from "next/headers";
-import { Cart } from "../types/cart.types";
+import { Cart } from "../validators/cart.schema";
 
 import { RESTAURANT_ASSETS_URL } from "../utils/constants";
 

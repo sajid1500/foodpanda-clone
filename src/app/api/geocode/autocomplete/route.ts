@@ -1,5 +1,5 @@
 import { getAutocomplete } from "@/lib/services/geocodeService";
-import { Address } from "@/lib/types/user.types";
+import { Address } from "@/lib/validators/address.schema";
 
 import { NextRequest, NextResponse } from "next/server";
 
