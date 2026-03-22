@@ -3,6 +3,7 @@ import {
   LocationDetails,
   reverseGeocodeResponseSchema,
 } from "../validators/geocode.schema";
+import { env } from "@/env";
 
 import { addressSchema, type Address } from "../validators/address.schema";
 
@@ -11,7 +12,7 @@ export const getAutocomplete = async (
 ): Promise<LocationDetails[]> => {
   try {
     const response = await fetch(
-      `https://api.locationiq.com/v1/autocomplete?key=${process.env.LOCATIONIQ_API_KEY}&q=${encodeURIComponent(query)}&countrycodes=bd&accept-language=en&normalizecity=1`,
+      `https://api.locationiq.com/v1/autocomplete?key=${env.LOCATIONIQ_API_KEY}&q=${encodeURIComponent(query)}&countrycodes=bd&accept-language=en&normalizecity=1`,
     );
     const locations = autocompleteResponseSchema.parse(await response.json());
     return locations;
@@ -27,7 +28,7 @@ export const reverseGeocode = async (
 ): Promise<LocationDetails | null> => {
   try {
     const res = await fetch(
-      `https://us1.locationiq.com/v1/reverse?key=${process.env.LOCATIONIQ_API_KEY}&lat=${lat}&lon=${lng}&format=json&accept-language=en&normalizeaddress=1&normalizecity=1`,
+      `https://us1.locationiq.com/v1/reverse?key=${env.LOCATIONIQ_API_KEY}&lat=${lat}&lon=${lng}&format=json&accept-language=en&normalizeaddress=1&normalizecity=1`,
     );
     const location = reverseGeocodeResponseSchema.parse(await res.json());
 

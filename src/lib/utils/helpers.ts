@@ -20,3 +20,20 @@ export function formatUserAddress(addressLine1: string, city: string): string {
 }
 
 export const emptyToNull = (val: unknown) => (val === "" ? null : val);
+
+const ZERO_DECIMAL_CURRENCIES = ["JPY", "KRW", "CLP", "VND", "PYG", "UGX"];
+
+export function formatStripeAmount(amount: number, currency: string) {
+  const code = currency.toUpperCase();
+
+  if (ZERO_DECIMAL_CURRENCIES.includes(code)) {
+    return Math.round(amount);
+  }
+
+  // Note: Add 3-decimal logic if you ever expand to the Middle East
+  if (["KWD", "BHD", "OMR"].includes(code)) {
+    return Math.round(amount * 1000);
+  }
+
+  return Math.round(amount * 100);
+}

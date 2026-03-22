@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { createServerClient } from "../config/supabase/server";
 import { Provider } from "@supabase/supabase-js";
+import { env } from "@/env";
 
 export const signInWithProvider = async (provider: Provider) => {
   console.log(`Initiating sign-in with ${provider}...`);
@@ -10,7 +11,7 @@ export const signInWithProvider = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_URL}/auth/callback`,
+      redirectTo: `${env.NEXT_PUBLIC_URL}/auth/callback`,
     },
   });
 

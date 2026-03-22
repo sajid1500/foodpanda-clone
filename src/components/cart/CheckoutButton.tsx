@@ -13,13 +13,11 @@ import {
   EmbeddedCheckoutProvider,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useCartStore } from "@/lib/stores/cartStore";
+import { env } from "@/env";
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ??
-    "pk_test_51SywHqRaKVwUF8uQlMOulxd97dZH1H88jQV0JSyoECwhrr8h5vW6D4rb2FMFuuOwkbxaPlmLjbazuXycqm3DQFeb00CAPYraNu",
-);
+const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 export function CheckoutButton() {
   const [open, setOpen] = useState(false);
@@ -28,6 +26,7 @@ export function CheckoutButton() {
 
   const fetchClientSecret = async () => {
     const response = await createCheckoutSession(cart);
+    ``;
 
     if (!response?.clientSecret) {
       throw new Error("Could not start checkout");
@@ -47,7 +46,7 @@ export function CheckoutButton() {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
+        <DialogContent className="h-full w-full overflow-y-auto sm:max-w-3xl">
           <DialogHeader>
             <DialogTitle>Checkout</DialogTitle>
             <DialogDescription>

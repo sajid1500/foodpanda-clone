@@ -99,7 +99,7 @@ export const getRestaurantDetails = async (
 //     restaurants.map(async (restaurant: Restaurant) => {
 //       try {
 //         const results = await fetch(
-//           `https://graphhopper.com/api/1/route?point=${lat},${lng}&point=${restaurant.coords.lat},${restaurant.coords.lng}&profile=bike&locale=en&calc_points=false&key=${process.env.GRAPHHOPPER_API_KEY}`,
+//           `https://graphhopper.com/api/1/route?point=${lat},${lng}&point=${restaurant.coords.lat},${restaurant.coords.lng}&profile=bike&locale=en&calc_points=false&key=YOUR_GRAPHHOPPER_API_KEY`,
 //         );
 //         const data = await results.json();
 

@@ -1,5 +1,6 @@
 import { stripe } from "@/lib/config/stripe";
 import { headers } from "next/headers";
+import { env } from "@/env";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -11,7 +12,7 @@ export async function POST(req: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!,
+      env.STRIPE_WEBHOOK_SECRET,
     );
   } catch (err: unknown) {
     const message =
