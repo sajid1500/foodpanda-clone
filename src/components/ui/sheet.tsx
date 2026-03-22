@@ -28,14 +28,11 @@ function SheetTrigger({
 
 function SheetClose({
   children,
+  asChild = false,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Close>) {
   return (
-    <SheetPrimitive.Close
-      asChild={!!children}
-      data-slot="sheet-close"
-      {...props}
-    >
+    <SheetPrimitive.Close asChild={asChild} data-slot="sheet-close" {...props}>
       {children}
     </SheetPrimitive.Close>
   );
@@ -66,7 +63,7 @@ function SheetOverlay({
 function SheetContent({
   className,
   children,
-  side = "right",
+  side = "bottom",
   showCloseButton = true,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
@@ -89,7 +86,7 @@ function SheetContent({
           side === "bottom" &&
             "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto max-h-[80vh] rounded-t-lg border-t",
           className,
-          // "w-full",
+          // "p-4",
         )}
         {...props}
       >

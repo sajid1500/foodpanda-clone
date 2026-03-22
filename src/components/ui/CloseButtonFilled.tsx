@@ -7,7 +7,7 @@ export function CloseButton({ ...props }) {
     <button
       {...props}
       className={twMerge(
-        "top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full border border-(--colorNeutralBorder) bg-(--colorNeutralSurface) text-(--colorNeutralSecondary) shadow-sm transition-colors hover:bg-(--colorWhite)",
+        "text-foreground hover:bg-accent absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full border shadow-lg transition-colors",
         props.className,
       )}
     >

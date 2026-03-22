@@ -19,19 +19,19 @@ h6 {
   --color-card-foreground: oklch(0.313 0.013 267.1);
   --color-popover: oklch(1 0 0);
   --color-popover-foreground: oklch(0.313 0.013 267.1);
-  --color-primary: oklch(0.658 0.246 3.3);
+  --color-primary: oklch(0.558 0.233 3.5);
   --color-primary-foreground: oklch(1 0 0);
   --color-secondary: oklch(0.978 0.001 197.1);
   --color-secondary-foreground: oklch(0.313 0.013 267.1);
   --color-muted: oklch(0.978 0.001 197.1);
   --color-muted-foreground: oklch(0.546 0.009 236.7);
-  --color-accent: oklch(0.922 0.04 17.9);
+  --color-accent: oklch(0.969 0.001 247.9);
   --color-accent-foreground: oklch(0.313 0.013 267.1);
-  --color-destructive: oklch(0.52 0.188 33.7);
+  --color-destructive: oklch(0.558 0.233 3.5);
   --color-destructive-foreground: oklch(1 0 0);
   --color-border: oklch(0.876 0.004 247.9);
   --color-input: oklch(0.876 0.004 247.9);
-  --color-ring: oklch(0.658 0.246 3.3);
+  --color-ring: oklch(0.435 0.085 247.6);
   --color-chart-1: oklch(0.658 0.246 3.3);
   --color-chart-2: oklch(0.435 0.085 247.6);
   --color-chart-3: oklch(0.55 0.086 163);
@@ -56,6 +56,7 @@ h6 {
   --font-sans:
     var(--font-open-sans), -apple-system, BlinkMacSystemFont, sans-serif;
 }
+@custom-variant dark (&:where([data-theme=bark], [data-theme=bark] *));
 
 @layer base {
   * {

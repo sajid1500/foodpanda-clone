@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { MenuItem, RestaurantSummary } from "../types/resaurant.types";
-import { Cart } from "../validators/cart.schema";
+import { RestaurantSummary } from "../types/resaurant.types";
+import { Cart, MenuItem } from "../validators/cart.schema";
 
 interface CartStore {
   cart: Cart | null;

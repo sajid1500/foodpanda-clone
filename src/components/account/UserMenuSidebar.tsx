@@ -13,7 +13,7 @@ import {
 import { createBrowserClient } from "@/lib/config/supabase/client";
 import { useLayoutStore } from "@/lib/stores/layoutStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { CloseButton } from "@/components/ui/CloseButton";
+import { CloseButton } from "@/components/ui/CloseButtonFilled";
 import {
   Sheet,
   SheetClose,

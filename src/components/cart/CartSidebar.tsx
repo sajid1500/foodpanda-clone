@@ -17,7 +17,7 @@ export function CartSidebar() {
       <SheetTrigger asChild={true}>
         <CartOverview />
       </SheetTrigger>
-      <SheetContent className="px-4 pt-4">
+      <SheetContent side="right" className="w-full px-4 pt-4">
         <SheetHeader className="sr-only">
           <SheetTitle>Your cart</SheetTitle>
           <SheetDescription>Browser items in your cart</SheetDescription>

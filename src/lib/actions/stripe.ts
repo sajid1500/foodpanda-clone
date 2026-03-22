@@ -10,7 +10,7 @@ export async function createCheckoutSession(cart: Cart) {
   const origin = (await headers()).get("origin");
   try {
     const session = await stripe.checkout.sessions.create({
-      ui_mode: "custom", // This enables the 2026 Embedded UI
+      ui_mode: "embedded",
       line_items: cart.items.map((item) => ({
         price_data: {
           product_data: {

@@ -24,11 +24,13 @@ import { useUserStore } from "@/lib/stores/userStore";
 import { useSaveAddress } from "./useSaveAddress";
 import { useDeleteAddress } from "./useDeleteAddress";
 import { CircleCheck, Trash2 } from "lucide-react";
+import { DeleteAddress } from "./DeleteAddress";
 // import { useSelectAddress } from "./useSelectAddress";
 
 export function AddressBook() {
   const { setView } = useLayoutStore((state) => state);
-  const { setTempAddress } = useUserStore((state) => state);
+  const { setTempAddress, setPosition, setSearchQuery, resetTempAddress } =
+    useUserStore((state) => state);
   const { defaultAddress } = useAddresses();
   return (
     <div className="p-4">
@@ -38,8 +40,15 @@ export function AddressBook() {
           className="inline-flex items-center gap-2 text-sm font-semibold text-pink-600 transition hover:text-pink-700"
           type="button"
           onClick={() => {
+            if (defaultAddress) {
+              resetTempAddress();
+              setSearchQuery(defaultAddress.addressLine1);
+              setPosition([
+                defaultAddress.coords.lat,
+                defaultAddress.coords.lng,
+              ]);
+            }
             setView("LocationPicker");
-            if (defaultAddress) setTempAddress(defaultAddress);
           }}
         >
           <span>
@@ -68,13 +77,14 @@ function SavedAddressList() {
   };
 
   const handleSelectAddress = (address: Address) => {
+    setIsAddressModalOpen(false);
+    if (address.isDefault) return;
     setTempAddress(address);
     saveAddress({ ...address, isDefault: true });
-    setIsAddressModalOpen(false);
   };
 
   const handleDeleteAddress = (address: Address) => {
-    deleteAddress(address);
+    deleteAddress(address.id);
   };
 
   const orderedAddresses = [
@@ -86,10 +96,12 @@ function SavedAddressList() {
       {orderedAddresses.map((address) => (
         <div
           key={address.id}
-          onClick={() => handleSelectAddress(address)}
-          className="flex items-start justify-between gap-3 py-3 hover:cursor-pointer"
+          className="flex items-start justify-between gap-3 py-3"
         >
-          <div className="flex items-start gap-3">
+          <button
+            className="flex grow items-start gap-3"
+            onClick={() => handleSelectAddress(address)}
+          >
             <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-neutral-600">
               {address.label === "home" ? (
                 <LuChrome size={16} />
@@ -109,15 +121,19 @@ function SavedAddressList() {
                 )}
               </div>
               {address.city && (
-                <p className="text-xs text-neutral-500">{address.city}</p>
+                <p className="text-left text-xs text-neutral-500">
+                  {address.city}
+                </p>
               )}
             </div>
-          </div>
+          </button>
 
-          <div className="flex items-center gap-1">
+          <div
+            className="flex items-center gap-1"
+            // onClick={(e) => e.stopPropagation()}
+          >
             <button
               onClick={(e) => {
-                e.stopPropagation();
                 handleEditAddress(address);
               }}
               type="button"
@@ -127,17 +143,10 @@ function SavedAddressList() {
               <LuPencil size={16} />
             </button>
             {!address.isDefault ? (
-              <button
-                type="button"
-                aria-label="Delete address"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-700"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteAddress(address);
-                }}
-              >
-                <Trash2 />
-              </button>
+              <DeleteAddress
+                address={address}
+                handleDelete={handleDeleteAddress}
+              />
             ) : (
               <button
                 type="button"

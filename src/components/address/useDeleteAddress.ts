@@ -5,7 +5,7 @@ import { skipToken, useMutation, useQueryClient } from "@tanstack/react-query";
 export const useDeleteAddress = () => {
   const queryClient = useQueryClient();
   const { mutate: deleteAddress } = useMutation({
-    mutationFn: (address: Address) => deleteAddressAction(address),
+    mutationFn: (id: string) => deleteAddressAction(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["addresses"] });
     },

@@ -37,7 +37,7 @@ export function AddressModal({ addresses }: { addresses: Address[] }) {
           ? `${defaultAddress.addressLine1} ${defaultAddress.city}`
           : "Add an address"}
       </SheetTrigger>
-      <SheetContent side="bottom" className="overflow-y-scroll pt-2">
+      <SheetContent className="overflow-y-scroll pt-2">
         {view === "AddressBook" && <AddressBook />}
         {view === "LocationPicker" && <LocationPicker />}
         {view === "AddressForm" && <AddressForm />}

@@ -15,15 +15,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 interface BaseProps {
   children: React.ReactNode;
@@ -55,7 +55,7 @@ const useCredenzaContext = () => {
 
 const Credenza = ({ children, ...props }: RootCredenzaProps) => {
   const isMobile = useIsMobile();
-  const Credenza = isMobile ? Drawer : Dialog;
+  const Credenza = isMobile ? Sheet : Dialog;
 
   return (
     <CredenzaContext.Provider value={{ isMobile }}>
@@ -68,7 +68,7 @@ const Credenza = ({ children, ...props }: RootCredenzaProps) => {
 
 const CredenzaTrigger = ({ className, children, ...props }: CredenzaProps) => {
   const { isMobile } = useCredenzaContext();
-  const CredenzaTrigger = isMobile ? DrawerTrigger : DialogTrigger;
+  const CredenzaTrigger = isMobile ? SheetTrigger : DialogTrigger;
 
   return (
     <CredenzaTrigger className={className} {...props}>
@@ -79,7 +79,7 @@ const CredenzaTrigger = ({ className, children, ...props }: CredenzaProps) => {
 
 const CredenzaClose = ({ className, children, ...props }: CredenzaProps) => {
   const { isMobile } = useCredenzaContext();
-  const CredenzaClose = isMobile ? DrawerClose : DialogClose;
+  const CredenzaClose = isMobile ? SheetClose : DialogClose;
 
   return (
     <CredenzaClose className={className} {...props}>
@@ -90,7 +90,7 @@ const CredenzaClose = ({ className, children, ...props }: CredenzaProps) => {
 
 const CredenzaContent = ({ className, children, ...props }: CredenzaProps) => {
   const { isMobile } = useCredenzaContext();
-  const CredenzaContent = isMobile ? DrawerContent : DialogContent;
+  const CredenzaContent = isMobile ? SheetContent : DialogContent;
 
   return (
     <CredenzaContent className={className} {...props}>
@@ -105,7 +105,7 @@ const CredenzaDescription = ({
   ...props
 }: CredenzaProps) => {
   const { isMobile } = useCredenzaContext();
-  const CredenzaDescription = isMobile ? DrawerDescription : DialogDescription;
+  const CredenzaDescription = isMobile ? SheetDescription : DialogDescription;
 
   return (
     <CredenzaDescription className={className} {...props}>
@@ -116,7 +116,7 @@ const CredenzaDescription = ({
 
 const CredenzaHeader = ({ className, children, ...props }: CredenzaProps) => {
   const { isMobile } = useCredenzaContext();
-  const CredenzaHeader = isMobile ? DrawerHeader : DialogHeader;
+  const CredenzaHeader = isMobile ? SheetHeader : DialogHeader;
 
   return (
     <CredenzaHeader className={className} {...props}>
@@ -127,7 +127,7 @@ const CredenzaHeader = ({ className, children, ...props }: CredenzaProps) => {
 
 const CredenzaTitle = ({ className, children, ...props }: CredenzaProps) => {
   const { isMobile } = useCredenzaContext();
-  const CredenzaTitle = isMobile ? DrawerTitle : DialogTitle;
+  const CredenzaTitle = isMobile ? SheetTitle : DialogTitle;
 
   return (
     <CredenzaTitle className={className} {...props}>
@@ -146,7 +146,7 @@ const CredenzaBody = ({ className, children, ...props }: CredenzaProps) => {
 
 const CredenzaFooter = ({ className, children, ...props }: CredenzaProps) => {
   const { isMobile } = useCredenzaContext();
-  const CredenzaFooter = isMobile ? DrawerFooter : DialogFooter;
+  const CredenzaFooter = isMobile ? SheetFooter : DialogFooter;
 
   return (
     <CredenzaFooter className={className} {...props}>

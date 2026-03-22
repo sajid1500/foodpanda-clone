@@ -10,7 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { CloseButton } from "@/components/ui/CloseButton";
+import { CloseButton } from "@/components/ui/CloseButtonFilled";
 
 export function SocialLoginForm() {
   const { openEmailDrawer } = useLayoutStore((state) => state);

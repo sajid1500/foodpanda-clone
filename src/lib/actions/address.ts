@@ -41,16 +41,16 @@ export const saveAddressAction = async (address: Address) => {
   revalidatePath("/");
   return savedAddress;
 };
-export const deleteAddressAction = async (address: Address) => {
+export const deleteAddressAction = async (id: string) => {
   // console.log("Raw form data:", addressToSave);
   const supabase = await createServerClient();
   const userId = (await getUserForServer())?.identities?.[0]?.user_id;
   if (!userId) throw new Error("User not authenticated");
-  if (!address.id) throw new Error("Address ID is required for deletion");
+  if (!id) throw new Error("Address ID is required for deletion");
   const { data: savedAddress, error } = await supabase
     .from("user_addresses")
     .delete()
-    .eq("id", address.id);
+    .eq("id", id);
   // .select()
   // .single();
 

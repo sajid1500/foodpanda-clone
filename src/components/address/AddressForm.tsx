@@ -33,7 +33,7 @@ const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
 
 export function AddressForm() {
   const [customLabel, setCustomLabel] = useState("");
-  const { closeAddressModal } = useLayoutStore((state) => state);
+  const { closeAddressModal, setView } = useLayoutStore((state) => state);
   const { saveAddress } = useSaveAddress();
   const { tempAddress } = useUserStore((state) => state);
 
@@ -66,7 +66,7 @@ export function AddressForm() {
     control: form.control,
     name: "label",
   });
-
+  const handleEditAddress = () => {};
   const onSubmit = async (data: Address) => {
     console.log("Form data to submit:", data);
     const labelText = data.label === "Other" ? customLabel : data.label;
@@ -115,7 +115,9 @@ export function AddressForm() {
               {tempAddress?.street}
             </SheetDescription>
           </div>
-          <button type="button">Edit</button>
+          <button type="button" onClick={() => setView("LocationPicker")}>
+            Edit
+          </button>
         </div>
 
         {/* divider */}

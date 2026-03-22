@@ -1,27 +1,24 @@
 import { z } from "zod";
-import { TablesInsert } from "../types/database.types";
-import { formatAddress } from "../utils/helpers";
-import { format } from "path";
 
 const emptyIfNullish = <T extends z.ZodTypeAny>(schema: T) =>
   z.preprocess((value) => (value == null ? "" : value), schema);
 
 // TODO: have formattedAddress as a derived property
 export const addressSchema = z.object({
-  id: z.uuid(), // ID is optional for creation, required for updates
-  osmId: emptyIfNullish(z.coerce.string()),
+  id: z.string().trim().uuid(), // ID is optional for creation, required for updates
+  osmId: emptyIfNullish(z.coerce.string().trim()),
   addressLine1: emptyIfNullish(z.string().trim().min(1, "Address is required")),
-  addressLine2: emptyIfNullish(z.string()),
-  label: emptyIfNullish(z.string()),
+  addressLine2: emptyIfNullish(z.string().trim()),
+  label: emptyIfNullish(z.string().trim()),
   isDefault: z.boolean().default(true).optional(),
   city: emptyIfNullish(z.string().trim()),
-  street: emptyIfNullish(z.string()),
-  house: emptyIfNullish(z.string()),
+  street: emptyIfNullish(z.string().trim()),
+  house: emptyIfNullish(z.string().trim()),
   coords: z.object({
     lat: z.coerce.number().min(-90).max(90),
     lng: z.coerce.number().min(-180).max(180),
   }),
-  note: emptyIfNullish(z.string()),
+  note: emptyIfNullish(z.string().trim()),
 });
 
 export type Address = z.infer<typeof addressSchema>;

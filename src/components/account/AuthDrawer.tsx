@@ -23,7 +23,7 @@ import { useState } from "react";
 export function AuthDrawer() {
   const { isEmailDrawerOpen } = useLayoutStore((state) => state);
   return (
-    <SheetContent side="bottom" className="p-8">
+    <SheetContent className="p-8">
       {isEmailDrawerOpen ? <EmailForm /> : <SocialLoginForm />}
     </SheetContent>
   );

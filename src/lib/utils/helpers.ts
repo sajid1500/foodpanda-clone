@@ -14,4 +14,9 @@ export function formatAddress(
   return parts.join(", ");
 }
 
+export function formatUserAddress(addressLine1: string, city: string): string {
+  const parts = [addressLine1, city].filter(Boolean);
+  return parts.join(" ");
+}
+
 export const emptyToNull = (val: unknown) => (val === "" ? null : val);

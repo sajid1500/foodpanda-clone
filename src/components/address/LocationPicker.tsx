@@ -4,7 +4,7 @@ import { useLayoutStore } from "@/lib/stores/layoutStore";
 // import { Map } from "./Map";
 // import { Drawer } from "@/components/ui/drawer";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Address } from "@/lib/validators/address.schema";
 import { SearchBar } from "./SearchBar";
 import { useDebounce, useDebouncedCallback } from "use-debounce";
@@ -21,6 +21,7 @@ import { AddressHeader } from "./AddressHeader";
 import { SheetFooter } from "../ui/sheet";
 import { useUserStore } from "@/lib/stores/userStore";
 import { formatAddress } from "@/lib/utils/helpers";
+import { LocationDetails } from "@/lib/validators/geocode.schema";
 
 const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
   ssr: false,
@@ -30,28 +31,19 @@ const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
 });
 
 export function LocationPicker() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const { tempAddress, setTempAddress } = useUserStore((store) => store);
+  const {
+    tempAddress,
+    setTempAddress,
+    searchQuery,
+    setSearchQuery,
+    position,
+    setPosition,
+  } = useUserStore((store) => store);
   const { view, setView } = useLayoutStore((state) => state);
 
-  const [position, setPosition] = useState<[number, number]>([
-    23.7461, 90.3742,
-  ]);
-
   useEffect(() => {
-    if (tempAddress) {
-      setPosition([tempAddress.coords.lat, tempAddress.coords.lng]);
-      setSearchQuery(
-        tempAddress.addressLine1 ||
-          formatAddress(
-            tempAddress.house,
-            tempAddress.street,
-            tempAddress.city,
-          ) ||
-          "",
-      );
-    }
-  }, [tempAddress]);
+    handleChangePosition(position);
+  }, []);
 
   const handleChangePosition = useDebouncedCallback(
     (coords: [number, number]) => {
@@ -65,11 +57,14 @@ export function LocationPicker() {
           console.error("Failed to fetch address:", response.statusText);
           return;
         }
-        const address = (await response.json()) as Address;
+        const address = (await response.json()) as LocationDetails;
         setSearchQuery(
           formatAddress(address.house, address.street, address.city),
         );
-        setTempAddress(address);
+        setTempAddress({
+          ...tempAddress,
+          ...address,
+        });
         // console.log("Received address from API:", address);
       };
       fetchAddress();
@@ -77,7 +72,7 @@ export function LocationPicker() {
     500,
   );
 
-  const handleSelectSuggestion = async (suggestion: Address) => {
+  const handleSelectSuggestion = async (suggestion: LocationDetails) => {
     if (
       searchQuery !==
       formatAddress(suggestion.house, suggestion.street, suggestion.city)
@@ -87,7 +82,10 @@ export function LocationPicker() {
       );
     }
     console.log("Selected address:", suggestion);
-    setTempAddress(suggestion);
+    setTempAddress({
+      ...tempAddress,
+      ...suggestion,
+    });
     setPosition([suggestion.coords.lat, suggestion.coords.lng]);
   };
 
