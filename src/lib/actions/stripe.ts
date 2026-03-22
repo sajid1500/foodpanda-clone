@@ -23,7 +23,7 @@ export async function createCheckoutSession(cart: Cart) {
         quantity: item.quantity,
       })),
       mode: "payment",
-      return_url: `${origin}/return?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${origin}/order-status?session_id={CHECKOUT_SESSION_ID}`,
     });
     return { clientSecret: session.client_secret };
   } catch (error) {

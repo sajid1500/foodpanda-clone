@@ -26,6 +26,8 @@ export async function POST(req: Request) {
     // 2026 Practice: Trigger a background sync or email service
     console.log(`💰 Payment confirmed for ${session.id}`);
   }
-
+  if (event.type === "checkout.session.async_payment_failed") {
+    console.warn(`⚠️ Async payment failed for ${event.data.object.id}`);
+  }
   return new Response(null, { status: 200 });
 }
