@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { RestaurantSummary } from "../types/resaurant.types";
 import { Cart, MenuItem } from "../validators/cart.schema";
+import { getBrowserClient } from "../config/supabase/client";
 
 interface CartStore {
   cart: Cart | null;
@@ -9,6 +10,7 @@ interface CartStore {
   removeFromCart: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
   clearCart: () => void;
+  isLoading: boolean;
 }
 const defaultCart: Cart = {
   restaurantId: "",
@@ -20,7 +22,22 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       cart: defaultCart,
-      addToCart: (item, restaurant) =>
+      isLoading: false,
+      addToCart: (item, restaurant) => {
+        // set({ isLoading: true });
+        // const supabase = getBrowserClient();
+        // const { data: menuItem, error } = await supabase
+        //   .from("menu_items")
+        //   .select("*")
+        //   .eq("id", item.id)
+        //   .single();
+
+        // if (error || !menuItem || !menuItem.is_available) {
+        //   console.error("Error fetching menu item:", error);
+        //   set({ isLoading: false });
+        //   return;
+        // }
+        // set({ isLoading: false });
         set((state) => {
           // console.log("Adding to cart", item, restaurantId);
           // Clear cart if ordering from a different restaurant
@@ -65,7 +82,8 @@ export const useCartStore = create<CartStore>()(
               restaurantImage: restaurant.logoPath ?? restaurant.bannerPath,
             },
           };
-        }),
+        });
+      },
 
       removeFromCart: (itemId) =>
         set((state) => {

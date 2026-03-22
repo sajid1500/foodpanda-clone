@@ -1,7 +1,6 @@
 "use client";
 
 import { useLayoutStore } from "@/lib/stores/layoutStore";
-import { Drawer, DrawerClose, DrawerContent } from "@/components/ui/drawer";
 import { AddressBook } from "./AddressBook";
 import { LocationPicker } from "./LocationPicker";
 import { LuMapPin, LuX } from "react-icons/lu";
@@ -11,7 +10,7 @@ import { AddressForm } from "./AddressForm";
 import { CredenzaTrigger } from "../ui/credenza";
 import { getAddresses } from "@/lib/services/userService";
 import { Address, addressSchema } from "@/lib/validators/address.schema";
-import { createBrowserClient } from "@/lib/config/supabase/client";
+import { getBrowserClient } from "@/lib/config/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useAddresses } from "@/components/address/useAddresses";
 

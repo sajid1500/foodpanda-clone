@@ -65,6 +65,9 @@ h6 {
   body {
     @apply bg-background text-foreground;
   }
+  button:focus {
+    outline: none !important;
+  }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;

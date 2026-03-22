@@ -1,13 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createServerClient } from "../config/supabase/server";
+import { getServerClient } from "../config/supabase/server";
 import { Provider } from "@supabase/supabase-js";
 import { env } from "@/env";
 
 export const signInWithProvider = async (provider: Provider) => {
   console.log(`Initiating sign-in with ${provider}...`);
-  const supabase = await createServerClient();
+  const supabase = await getServerClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {

@@ -3,7 +3,7 @@ import { createServerClient as createSupabaseServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers";
 import { env } from "@/env";
 
-export async function createServerClient() {
+export async function getServerClient() {
   const cookieStore = await cookies();
 
   return createSupabaseServerClient<ModdedDatabase>(

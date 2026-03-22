@@ -1,8 +1,8 @@
-import { createBrowserClient as createClientforClient } from "../config/supabase/client";
-import { createServerClient as createClientForServer } from "../config/supabase/server";
+import { getBrowserClient } from "../config/supabase/client";
+import { getServerClient } from "../config/supabase/server";
 
 export const getUserforClient = async () => {
-  const supabase = createClientforClient();
+  const supabase = getBrowserClient();
   const {
     data: { user },
     error,
@@ -15,7 +15,7 @@ export const getUserforClient = async () => {
 };
 
 export const getUserForServer = async () => {
-  const supabase = await createClientForServer();
+  const supabase = await getServerClient();
   const {
     data: { user },
     error,

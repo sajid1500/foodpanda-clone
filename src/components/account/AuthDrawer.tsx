@@ -17,7 +17,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { UserMenuButton } from "@/components/ui/UserMenuButton";
 import { useState } from "react";
 
 export function AuthDrawer() {

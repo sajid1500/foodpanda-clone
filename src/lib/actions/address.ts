@@ -2,7 +2,7 @@
 
 import { Address } from "@/lib/validators/address.schema";
 import { getUserForServer } from "@/lib/utils/auth";
-import { createServerClient } from "@/lib/config/supabase/server";
+import { getServerClient } from "@/lib/config/supabase/server";
 import { TablesInsert } from "@/lib/types/database.types";
 import { revalidatePath } from "next/cache";
 import { getAddresses } from "../services/userService";
@@ -13,7 +13,7 @@ export const getAddressesAction = async (): Promise<Address[]> => {
 
 export const saveAddressAction = async (address: Address) => {
   // console.log("Raw form data:", addressToSave);
-  const supabase = await createServerClient();
+  const supabase = await getServerClient();
   const userId = (await getUserForServer())?.identities?.[0]?.user_id;
   if (!userId) throw new Error("User not authenticated");
 
@@ -43,7 +43,7 @@ export const saveAddressAction = async (address: Address) => {
 };
 export const deleteAddressAction = async (id: string) => {
   // console.log("Raw form data:", addressToSave);
-  const supabase = await createServerClient();
+  const supabase = await getServerClient();
   const userId = (await getUserForServer())?.identities?.[0]?.user_id;
   if (!userId) throw new Error("User not authenticated");
   if (!id) throw new Error("Address ID is required for deletion");
