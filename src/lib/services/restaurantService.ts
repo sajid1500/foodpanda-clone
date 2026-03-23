@@ -1,39 +1,39 @@
 import { Restaurant, RestaurantSummary } from "@/lib/types/resaurant.types";
 import { getServerClient } from "@/lib/config/supabase/server";
 
-export async function getRestaurants() {
-  const supabase = await getServerClient();
-  const { data: restaurants, error } = await supabase
-    .from("restaurants_display")
-    .select(
-      `
-      id,
-      name,
-      coords: coordinates,
-      bannerPath: banner_path,
-      logoPath: logo_path,
-      averageRating: average_rating,
-      menu: menu_items!inner(
-        id,
-        name,
-        description,
-        price,
-        imagePath: image_path
-      )`,
-    )
-    .limit(50);
+// export async function getRestaurants() {
+//   const supabase = await getServerClient();
+//   const { data: restaurants, error } = await supabase
+//     .from("restaurants_display")
+//     .select(
+//       `
+//       id,
+//       name,
+//       coords: coordinates,
+//       bannerPath: banner_path,
+//       logoPath: logo_path,
+//       averageRating: average_rating,
+//       menu: menu_items!inner(
+//         id,
+//         name,
+//         description,
+//         price,
+//         imagePath: image_path
+//       )`,
+//     )
+//     .limit(50);
 
-  if (error) {
-    console.error("Supabase error:", error?.message);
-    throw new Error("Failed to fetch restaurants");
-  }
+//   if (error) {
+//     console.error("Supabase error:", error?.message);
+//     throw new Error("Failed to fetch restaurants");
+//   }
 
-  return restaurants as RestaurantSummary[];
-}
+//   return restaurants as RestaurantSummary[];
+// }
 
 export async function getNearbyRestaurants(
-  lat: number,
-  lng: number,
+  lat = 23.8103,
+  lng = 90.4125,
 ): Promise<RestaurantSummary[]> {
   const supabase = await getServerClient();
   const { data: restaurants, error } = await supabase.rpc(
@@ -65,6 +65,7 @@ export const getRestaurantDetails = async (
       `
       id,
       name,
+      slug,
       coords: coordinates,
       bannerPath: banner_path,
       logoPath: logo_path,
@@ -86,7 +87,7 @@ export const getRestaurantDetails = async (
     throw new Error("Failed to fetch restaurant details");
   }
 
-  return restaurant;
+  return { ...restaurant, distanceMeters: 0 }; // use routing later
 };
 
 // export async function getRestaurantsWithRouting(

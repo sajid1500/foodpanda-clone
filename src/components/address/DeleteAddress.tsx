@@ -36,21 +36,21 @@ export function DeleteAddress({
   if (!isMobile)
     return (
       <Dialog>
-        <form>
-          <DialogTrigger asChild>
-            <button
-              type="button"
-              aria-label="Delete address"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-700"
-            >
-              <Trash2 />
-            </button>
-            {/* <Button variant="outline">Open Dialog</Button> */}
-          </DialogTrigger>
-          <DialogContent
-            showCloseButton={false}
-            className="overflow-hidden p-0 sm:max-w-sm"
+        <DialogTrigger asChild>
+          <button
+            type="button"
+            aria-label="Delete address"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-700"
           >
+            <Trash2 />
+          </button>
+          {/* <Button variant="outline">Open Dialog</Button> */}
+        </DialogTrigger>
+        <DialogContent
+          showCloseButton={false}
+          className="overflow-hidden p-0 sm:max-w-sm"
+        >
+          <form>
             <DialogHeader className="px-5 py-4">
               <div className="flex items-start justify-between gap-3">
                 <DialogTitle className="mt-1 text-3xl leading-none font-semibold">
@@ -87,8 +87,8 @@ export function DeleteAddress({
                 </Button>
               </DialogClose>
             </DialogFooter>
-          </DialogContent>
-        </form>
+          </form>{" "}
+        </DialogContent>
       </Dialog>
     );
   return (

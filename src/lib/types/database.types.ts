@@ -14,38 +14,110 @@ export type Database = {
   }
   public: {
     Tables: {
+      addon_groups: {
+        Row: {
+          id: string
+          is_required: boolean
+          name: string
+        }
+        Insert: {
+          id?: string
+          is_required: boolean
+          name: string
+        }
+        Update: {
+          id?: string
+          is_required?: boolean
+          name?: string
+        }
+        Relationships: []
+      }
+      addons: {
+        Row: {
+          addon_group_id: string
+          id: number
+          name: string
+          price: number
+        }
+        Insert: {
+          addon_group_id?: string
+          id?: number
+          name: string
+          price: number
+        }
+        Update: {
+          addon_group_id?: string
+          id?: number
+          name?: string
+          price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addons_addon_group_id_fkey"
+            columns: ["addon_group_id"]
+            isOneToOne: false
+            referencedRelation: "addon_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          id: string
+          name: string
+        }
+        Insert: {
+          id?: string
+          name?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       menu_items: {
         Row: {
-          created_at: string | null
+          category_id: string
+          created_at: string
           description: string
           id: string
           image_path: string
-          is_available: boolean | null
+          is_available: boolean
           name: string
           price: number
           restaurant_id: string
         }
         Insert: {
-          created_at?: string | null
+          category_id?: string
+          created_at?: string
           description?: string
           id?: string
           image_path?: string
-          is_available?: boolean | null
+          is_available?: boolean
           name?: string
           price: number
           restaurant_id: string
         }
         Update: {
-          created_at?: string | null
+          category_id?: string
+          created_at?: string
           description?: string
           id?: string
           image_path?: string
-          is_available?: boolean | null
+          is_available?: boolean
           name?: string
           price?: number
           restaurant_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "menu_items_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "menu_items_restaurant_id_fkey"
             columns: ["restaurant_id"]
@@ -67,8 +139,9 @@ export type Database = {
           created_at: string
           id: string
           menu_item_id: string
+          name: string | null
           notes: string | null
-          order_id: string | null
+          order_id: string
           quantity: number
           unit_price: number
         }
@@ -76,8 +149,9 @@ export type Database = {
           created_at?: string
           id?: string
           menu_item_id: string
+          name?: string | null
           notes?: string | null
-          order_id?: string | null
+          order_id: string
           quantity: number
           unit_price: number
         }
@@ -85,12 +159,20 @@ export type Database = {
           created_at?: string
           id?: string
           menu_item_id?: string
+          name?: string | null
           notes?: string | null
-          order_id?: string | null
+          order_id?: string
           quantity?: number
           unit_price?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "order_items_menu_item_id_fkey"
+            columns: ["menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "menu_items"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "order_items_order_id_fkey"
             columns: ["order_id"]
@@ -103,38 +185,103 @@ export type Database = {
       orders: {
         Row: {
           created_at: string
-          delivery_address: string
-          delivery_fee: number | null
+          delivery_address: Json
+          delivery_discount: number
+          delivery_fee: number
           id: string
-          payment_status: string | null
+          is_pro: boolean
           restaurant_id: string
-          status: string | null
-          total_amount: number
-          user_id: string | null
+          status: string
+          subtotal: number
+          subtotal_discount: number
+          total: number
+          user_id: string
         }
         Insert: {
           created_at?: string
-          delivery_address: string
-          delivery_fee?: number | null
+          delivery_address: Json
+          delivery_discount: number
+          delivery_fee?: number
           id?: string
-          payment_status?: string | null
+          is_pro: boolean
           restaurant_id: string
-          status?: string | null
-          total_amount: number
-          user_id?: string | null
+          status?: string
+          subtotal?: number
+          subtotal_discount: number
+          total: number
+          user_id?: string
         }
         Update: {
           created_at?: string
-          delivery_address?: string
-          delivery_fee?: number | null
+          delivery_address?: Json
+          delivery_discount?: number
+          delivery_fee?: number
           id?: string
-          payment_status?: string | null
+          is_pro?: boolean
           restaurant_id?: string
-          status?: string | null
-          total_amount?: number
-          user_id?: string | null
+          status?: string
+          subtotal?: number
+          subtotal_discount?: number
+          total?: number
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "orders_restaurant_id_fkey"
+            columns: ["restaurant_id"]
+            isOneToOne: false
+            referencedRelation: "restaurants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_restaurant_id_fkey"
+            columns: ["restaurant_id"]
+            isOneToOne: false
+            referencedRelation: "restaurants_display"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          id: number
+          order_id: string
+          payment_method: string
+          status: string
+          stripe_payment_id: string
+          stripe_session_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: number
+          order_id?: string
+          payment_method?: string
+          status: string
+          stripe_payment_id: string
+          stripe_session_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: number
+          order_id?: string
+          payment_method?: string
+          status?: string
+          stripe_payment_id?: string
+          stripe_session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       restaurants: {
         Row: {
@@ -416,6 +563,16 @@ export type Database = {
           name: string
           slug: string
         }[]
+      }
+      place_team_order: {
+        Args: {
+          p_delivery_address: string
+          p_delivery_fee: number
+          p_items: Json
+          p_restaurant_id: string
+          p_total_amount: number
+        }
+        Returns: string
       }
       slugify: { Args: { name: string }; Returns: string }
     }

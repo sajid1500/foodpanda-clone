@@ -8,6 +8,7 @@ import { RESTAURANT_ASSETS_URL } from "../utils/constants";
 
 export async function createCheckoutSession(cart: Cart) {
   const origin = (await headers()).get("origin");
+
   try {
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",

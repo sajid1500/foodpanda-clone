@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Cart } from "../validators/cart.schema";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -36,4 +37,26 @@ export function formatStripeAmount(amount: number, currency: string) {
   }
 
   return Math.round(amount * 100);
+}
+
+export function getCartTotal(cart: Cart) {
+  return cart.items.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0,
+  );
+}
+export const calculateOrderTotals = (items: any[], deliveryFee: number) => {
+  const subtotal = items.reduce((acc, i) => acc + i.unit_price * i.quantity, 0);
+  return {
+    subtotal,
+    deliveryFee,
+    totalAmount: subtotal + deliveryFee,
+  };
+};
+export function calculateDeliveryEta(distance: number): number {
+  return Math.round((distance / 1000) * 12); // 12 min per km
+}
+
+export function calculateDeliveryFee(distance: number): number {
+  return Math.round((distance / 1000) * 10); // Tk10 per km
 }

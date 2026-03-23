@@ -26,3 +26,5 @@ export const getUserForServer = async () => {
   }
   return user;
 };
+
+export const getUserID = async (client) => {};

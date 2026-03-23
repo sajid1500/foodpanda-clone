@@ -2,9 +2,9 @@ import { MenuItem } from "../validators/cart.schema";
 
 export interface Restaurant {
   id: string;
-  slug?: string;
+  slug: string;
   name: string;
-  averageRating: number | null;
+  averageRating: number;
   menu: MenuItem[] | []; // An array of the MenuItem interface above
   coords: {
     lat: number;
@@ -12,8 +12,8 @@ export interface Restaurant {
   };
   bannerPath: string;
   logoPath: string;
-  time?: number; // in minutes
-  distanceMeters?: number; // in meters
+  // time: number; // in minutes
+  distanceMeters: number; // in meters[]
 }
 
 // Create a "Summary" version by picking only what you need
