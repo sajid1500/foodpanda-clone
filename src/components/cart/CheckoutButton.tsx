@@ -41,12 +41,14 @@ export function CheckoutButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button
+        <Button
           type="button"
-          className="absolute bottom-100 left-0 w-full rounded bg-pink-500 py-2 text-white"
+          variant="default"
+          onClick={() => console.log("clicked")}
+          className="absolute bottom-80 left-0 w-full"
         >
           Checkout
-        </button>
+        </Button>
       </DialogTrigger>
       <DialogContent className="h-full w-full overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
