@@ -5,7 +5,7 @@ const emptyIfNullish = <T extends z.ZodTypeAny>(schema: T) =>
 
 // TODO: have formattedAddress as a derived property
 export const addressSchema = z.object({
-  id: z.string().trim().uuid(), // ID is optional for creation, required for updates
+  id: z.uuid(), // ID is optional for creation, required for updates
   osmId: emptyIfNullish(z.coerce.string().trim()),
   addressLine1: emptyIfNullish(z.string().trim().min(1, "Address is required")),
   addressLine2: emptyIfNullish(z.string().trim()),

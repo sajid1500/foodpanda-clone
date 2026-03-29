@@ -14,30 +14,31 @@ export const OrderItemSchema = z.object({
 export const OrderSchema = z.object({
   restaurantId: z.uuid(),
   deliveryAddress: addressSchema, // Reuse your existing address schema
-  deliveryFee: z.number(),
+  deliveryFee: z.number(), // set it to fixed value for now
   subtotal: z.number(),
   total: z.number(),
   // These are added later by the server/stripe
   status: z
     .enum(["pending", "preparing", "completed", "cancelled"])
     .default("pending"),
+  restaurantAddress: addressSchema, // Optional, can be filled in by the server based on restaurantId
 });
 
 export const paymentSchema = z.object({
-    id: z.uuid(),
-    orderId: z.uuid(),
-    paymentMethod: z.string(),
-    amount: z.number(),
-    status: z.enum(["pending", "completed", "failed"]),
-    stripeSessionId: z.string(),
-    stripePaymentId: z.string(),
+  id: z.uuid(),
+  orderId: z.uuid(),
+  paymentMethod: z.string(),
+  amount: z.number(),
+  status: z.enum(["pending", "completed", "failed"]),
+  stripeSessionId: z.string(),
+  stripePaymentId: z.string(),
 });
 
 // 3. The "Checkout" Schema (What your API receives)
 export const CheckoutPayloadSchema = z.object({
-    items: z.array(OrderItemSchema).min(1),
-    restaurantId: z.uuid(),
-    // Note: We don't trust the client for total_amount or delivery_fee!
+  items: z.array(OrderItemSchema).min(1),
+  restaurantId: z.uuid(),
+  // Note: We don't trust the client for total_amount or delivery_fee!
 });
 
 // Export types

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { type Cart } from "@/lib/validators/cart.schema";
 import { CartList } from "./CartList";
-import { CheckoutButton } from "./CheckoutButton";
+import { CheckoutButton } from "../check-in-out/CheckoutButton";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { RESTAURANT_ASSETS_URL } from "@/lib/utils/constants";
 

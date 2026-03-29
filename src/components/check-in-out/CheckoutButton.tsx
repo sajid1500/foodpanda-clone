@@ -20,14 +20,17 @@ import { useCallback, useState } from "react";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { env } from "@/env";
 import { Button } from "../ui/button";
+import { createOrder } from "@/lib/actions/order";
 
 const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 export function CheckoutButton() {
+  const [open, setOpen] = useState(false);
   const { cart } = useCartStore((state) => state);
   if (!cart) return null; // Don't show the button if the cart is empty
 
   const fetchClientSecret = async () => {
+    await createOrder(cart);
     const response = await createCheckoutSession(cart);
     ``;
 
@@ -39,7 +42,7 @@ export function CheckoutButton() {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           type="button"

@@ -1,6 +1,6 @@
 "use server";
 
-import { Address } from "@/lib/validators/address.schema";
+import { Address, addressSchema } from "@/lib/validators/address.schema";
 import { getUserForServer } from "@/lib/utils/auth";
 import { getServerClient } from "@/lib/config/supabase/server";
 import { TablesInsert } from "@/lib/types/database.types";
@@ -16,10 +16,9 @@ export const saveAddressAction = async (address: Address) => {
   const supabase = await getServerClient();
   const userId = (await getUserForServer())?.identities?.[0]?.user_id;
   if (!userId) throw new Error("User not authenticated");
-
-  const newAddress: TablesInsert<"user_addresses"> = {
+  // addressSchema.parse(address);
+  const newAddress: TablesInsert<"addresses"> = {
     id: address.id || undefined, // Let DB generate ID if not provided
-    user_id: undefined, // This will be set by the DB based on the authenticated user
     place_id: address.osmId,
     address_line_1: address.addressLine1,
     address_line_2: address.addressLine2,
@@ -31,7 +30,7 @@ export const saveAddressAction = async (address: Address) => {
   };
   // console.log("New address to save:", newAddress);
   const { data: savedAddress, error } = await supabase
-    .from("user_addresses")
+    .from("addresses")
     .upsert(newAddress)
     .select()
     .single();
@@ -48,7 +47,7 @@ export const deleteAddressAction = async (id: string) => {
   if (!userId) throw new Error("User not authenticated");
   if (!id) throw new Error("Address ID is required for deletion");
   const { data: savedAddress, error } = await supabase
-    .from("user_addresses")
+    .from("addresses")
     .delete()
     .eq("id", id);
   // .select()

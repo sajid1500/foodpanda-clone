@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Cart } from "../validators/cart.schema";
+import { Cart, CartItem } from "../validators/cart.schema";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -39,8 +39,8 @@ export function formatStripeAmount(amount: number, currency: string) {
   return Math.round(amount * 100);
 }
 
-export function getCartTotal(cart: Cart) {
-  return cart.items.reduce(
+export function getCartTotal(cartItems: CartItem[]): number {
+  return cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0,
   );
