@@ -7,8 +7,10 @@ export const getAddresses = async (): Promise<Address[]> => {
   const supabase = await getServerClient();
   const user = await getUserForServer();
 
-  const { data: addresses, error } = await supabase.from("addresses_display")
-    .select(`
+  const { data: addresses, error } = await supabase
+    .from("addresses_display")
+    .select(
+      `
       id,
       userId:user_id,
       addressLine1:address_line_1,
@@ -20,7 +22,9 @@ export const getAddresses = async (): Promise<Address[]> => {
       location,
       note,
       osmId:place_id
-    `);
+    `,
+    )
+    .eq("owner_type", "user");
 
   if (error)
     throw new Error(
@@ -37,6 +41,7 @@ export const getDefaultAddress = async (): Promise<Address | null> => {
   if (!user) throw new Error("User not authenticated");
 
   const { data: defaultAddress, error } = await supabase
+    .from("addresses_display")
     .from("addresses_display")
     .select(
       `

@@ -13,7 +13,7 @@ import { OrderSchema, CheckoutPayload } from "@/lib/validators/order.schema";
 //   const [menuItemsRes, addressRes] = await Promise.all([
 //     supabase.from("menu_items").select("id, price").in("id", itemIds),
 //     supabase
-//       .from("user_addresses")
+//       .from("addresses")
 //       .select("house, street, address_line_1, city, is_default")
 //       .eq("user_id", user.id)
 //       .eq("is_default", true) // <--- Always target the default

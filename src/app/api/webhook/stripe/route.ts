@@ -29,5 +29,8 @@ export async function POST(req: Request) {
   if (event.type === "checkout.session.async_payment_failed") {
     console.warn(`⚠️ Async payment failed for ${event.data.object.id}`);
   }
+  if (event.type === "checkout.session.expired") {
+    console.warn(`⚠️ Checkout session expired for ${event.data.object.id}`);
+  }
   return new Response(null, { status: 200 });
 }

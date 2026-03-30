@@ -16,10 +16,11 @@ export const saveAddressAction = async (address: Address) => {
   const supabase = await getServerClient();
   const userId = (await getUserForServer())?.identities?.[0]?.user_id;
   if (!userId) throw new Error("User not authenticated");
-  // addressSchema.parse(address);
+
   const newAddress: TablesInsert<"addresses"> = {
     id: address.id || undefined, // Let DB generate ID if not provided
     place_id: address.osmId,
+    owner_type: "user",
     address_line_1: address.addressLine1,
     address_line_2: address.addressLine2,
     label: address.label,
@@ -30,6 +31,7 @@ export const saveAddressAction = async (address: Address) => {
   };
   // console.log("New address to save:", newAddress);
   const { data: savedAddress, error } = await supabase
+    .from("addresses")
     .from("addresses")
     .upsert(newAddress)
     .select()
@@ -47,6 +49,7 @@ export const deleteAddressAction = async (id: string) => {
   if (!userId) throw new Error("User not authenticated");
   if (!id) throw new Error("Address ID is required for deletion");
   const { data: savedAddress, error } = await supabase
+    .from("addresses")
     .from("addresses")
     .delete()
     .eq("id", id);
@@ -66,7 +69,7 @@ export const deleteAddressAction = async (id: string) => {
 //   if (!userId) throw new Error("User not authenticated");
 
 //   const { error: error2 } = await supabase
-//     .from("user_addresses")
+//     .from("addresses")
 //     .update({ is_default: true })
 //     .eq("id", addressId);
 
