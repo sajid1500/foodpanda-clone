@@ -24,6 +24,7 @@ export async function createCheckoutSession(cart: Cart) {
       })),
       mode: "payment",
       return_url: `${origin}/order-status?session_id={CHECKOUT_SESSION_ID}`,
+      expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // Session expires in 30 minutes
     });
     return { clientSecret: session.client_secret };
   } catch (error) {

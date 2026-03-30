@@ -8,7 +8,7 @@ export const getAddresses = async (): Promise<Address[]> => {
   const user = await getUserForServer();
 
   const { data: addresses, error } = await supabase
-    .from("addresses_display")
+    .from("user_addresses_display")
     .select(
       `
       id,
@@ -21,17 +21,19 @@ export const getAddresses = async (): Promise<Address[]> => {
       label,
       location,
       note,
-      osmId:place_id
+      osmId:place_id,
+      street,
+      house
     `,
-    )
-    .eq("owner_type", "user");
+    );
 
   if (error)
     throw new Error(
       `Failed to fetch addresses: ${error.message ?? String(error)}`,
     );
 
-  return addresses.map((addr) => addressSchema.parse(addr));
+  return addresses;
+  // .map((addr) => addressSchema.parse(addr));
 };
 
 // works on server only
@@ -41,8 +43,7 @@ export const getDefaultAddress = async (): Promise<Address | null> => {
   if (!user) throw new Error("User not authenticated");
 
   const { data: defaultAddress, error } = await supabase
-    .from("addresses_display")
-    .from("addresses_display")
+    .from("user_addresses_display")
     .select(
       `
       id,

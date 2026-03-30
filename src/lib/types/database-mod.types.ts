@@ -21,7 +21,7 @@ export type ModdedDatabase = MergeDeep<
             slug: string;
           };
         };
-        addresses_display: {
+        user_addresses_display: {
           Row: {
             address_line_1: string;
             address_line_2: string;

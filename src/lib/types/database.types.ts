@@ -61,82 +61,6 @@ export type Database = {
           },
         ]
       }
-      addresses: {
-        Row: {
-          address_line_1: string
-          address_line_2: string
-          city: string
-          created_at: string
-          house: string
-          id: string
-          is_default: boolean
-          label: string
-          location: unknown
-          note: string
-          owner_type: string
-          place_id: string
-          restaurant_id: string | null
-          street: string
-          user_id: string | null
-        }
-        Insert: {
-          address_line_1?: string
-          address_line_2?: string
-          city?: string
-          created_at?: string
-          house?: string
-          id?: string
-          is_default?: boolean
-          label?: string
-          location: unknown
-          note?: string
-          owner_type?: string
-          place_id: string
-          restaurant_id?: string | null
-          street?: string
-          user_id?: string | null
-        }
-        Update: {
-          address_line_1?: string
-          address_line_2?: string
-          city?: string
-          created_at?: string
-          house?: string
-          id?: string
-          is_default?: boolean
-          label?: string
-          location?: unknown
-          note?: string
-          owner_type?: string
-          place_id?: string
-          restaurant_id?: string | null
-          street?: string
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "addresses_restaurant_id_fkey"
-            columns: ["restaurant_id"]
-            isOneToOne: false
-            referencedRelation: "restaurants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "addresses_restaurant_id_fkey"
-            columns: ["restaurant_id"]
-            isOneToOne: false
-            referencedRelation: "restaurants_display"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "addresses_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       categories: {
         Row: {
           id: string
@@ -437,6 +361,62 @@ export type Database = {
           },
         ]
       }
+      user_addresses: {
+        Row: {
+          address_line_1: string
+          address_line_2: string
+          city: string
+          created_at: string
+          house: string
+          id: string
+          is_default: boolean
+          label: string
+          location: unknown
+          note: string
+          place_id: string
+          street: string
+          user_id: string | null
+        }
+        Insert: {
+          address_line_1?: string
+          address_line_2?: string
+          city?: string
+          created_at?: string
+          house?: string
+          id?: string
+          is_default?: boolean
+          label?: string
+          location: unknown
+          note?: string
+          place_id: string
+          street?: string
+          user_id?: string | null
+        }
+        Update: {
+          address_line_1?: string
+          address_line_2?: string
+          city?: string
+          created_at?: string
+          house?: string
+          id?: string
+          is_default?: boolean
+          label?: string
+          location?: unknown
+          note?: string
+          place_id?: string
+          street?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addresses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string
@@ -469,85 +449,6 @@ export type Database = {
       }
     }
     Views: {
-      addresses_display: {
-        Row: {
-          address_line_1: string | null
-          address_line_2: string | null
-          city: string | null
-          coordinates: Json | null
-          created_at: string | null
-          house: string | null
-          id: string | null
-          is_default: boolean | null
-          label: string | null
-          location: unknown
-          note: string | null
-          owner_type: string | null
-          place_id: string | null
-          restaurant_id: string | null
-          street: string | null
-          user_id: string | null
-        }
-        Insert: {
-          address_line_1?: string | null
-          address_line_2?: string | null
-          city?: string | null
-          coordinates?: never
-          created_at?: string | null
-          house?: string | null
-          id?: string | null
-          is_default?: boolean | null
-          label?: string | null
-          location?: unknown
-          note?: string | null
-          owner_type?: string | null
-          place_id?: string | null
-          restaurant_id?: string | null
-          street?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          address_line_1?: string | null
-          address_line_2?: string | null
-          city?: string | null
-          coordinates?: never
-          created_at?: string | null
-          house?: string | null
-          id?: string | null
-          is_default?: boolean | null
-          label?: string | null
-          location?: unknown
-          note?: string | null
-          owner_type?: string | null
-          place_id?: string | null
-          restaurant_id?: string | null
-          street?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "addresses_restaurant_id_fkey"
-            columns: ["restaurant_id"]
-            isOneToOne: false
-            referencedRelation: "restaurants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "addresses_restaurant_id_fkey"
-            columns: ["restaurant_id"]
-            isOneToOne: false
-            referencedRelation: "restaurants_display"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "addresses_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       restaurants_display: {
         Row: {
           average_rating: number | null
@@ -584,8 +485,68 @@ export type Database = {
         }
         Relationships: []
       }
+      user_addresses_display: {
+        Row: {
+          address_line_1: string | null
+          address_line_2: string | null
+          city: string | null
+          coordinates: Json | null
+          created_at: string | null
+          house: string | null
+          id: string | null
+          is_default: boolean | null
+          label: string | null
+          location: unknown
+          note: string | null
+          place_id: string | null
+          street: string | null
+          user_id: string | null
+        }
+        Insert: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          city?: string | null
+          coordinates?: never
+          created_at?: string | null
+          house?: string | null
+          id?: string | null
+          is_default?: boolean | null
+          label?: string | null
+          location?: unknown
+          note?: string | null
+          place_id?: string | null
+          street?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          city?: string | null
+          coordinates?: never
+          created_at?: string | null
+          house?: string | null
+          id?: string | null
+          is_default?: boolean | null
+          label?: string | null
+          location?: unknown
+          note?: string | null
+          place_id?: string | null
+          street?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addresses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
+      cancel_expired_orders: { Args: never; Returns: undefined }
       generate_random_suffix: {
         Args: { max_len?: number; min_len?: number }
         Returns: string
