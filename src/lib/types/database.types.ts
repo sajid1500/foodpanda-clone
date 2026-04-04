@@ -254,7 +254,6 @@ export type Database = {
           payment_method: string
           status: string
           stripe_payment_id: string
-          stripe_session_id: string
         }
         Insert: {
           amount: number
@@ -264,7 +263,6 @@ export type Database = {
           payment_method?: string
           status: string
           stripe_payment_id: string
-          stripe_session_id: string
         }
         Update: {
           amount?: number
@@ -274,7 +272,6 @@ export type Database = {
           payment_method?: string
           status?: string
           stripe_payment_id?: string
-          stripe_session_id?: string
         }
         Relationships: [
           {
@@ -566,6 +563,23 @@ export type Database = {
           logoPath: string
           name: string
           slug: string
+        }[]
+      }
+      place_order: {
+        Args: {
+          p_delivery_address: Json
+          p_delivery_fee?: number
+          p_items: Json
+          p_payment_method?: string
+          p_restaurant_address: Json
+          p_restaurant_id: string
+          p_stripe_payment_id: string
+        }
+        Returns: {
+          delivery_fee: number
+          order_id: string
+          subtotal: number
+          total: number
         }[]
       }
       place_team_order: {

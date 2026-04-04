@@ -14,6 +14,7 @@ export const OrderItemSchema = z.object({
 export const OrderSchema = z.object({
   restaurantId: z.uuid(),
   deliveryAddress: addressSchema, // Reuse your existing address schema
+  restaurantAddress: addressSchema, // Optional, can be filled in by the server based on restaurantId
   deliveryFee: z.number(), // set it to fixed value for now
   subtotal: z.number(),
   total: z.number(),
@@ -21,7 +22,6 @@ export const OrderSchema = z.object({
   status: z
     .enum(["pending", "preparing", "completed", "cancelled"])
     .default("pending"),
-  restaurantAddress: addressSchema, // Optional, can be filled in by the server based on restaurantId
 });
 
 export const paymentSchema = z.object({
@@ -30,7 +30,6 @@ export const paymentSchema = z.object({
   paymentMethod: z.string(),
   amount: z.number(),
   status: z.enum(["pending", "completed", "failed"]),
-  stripeSessionId: z.string(),
   stripePaymentId: z.string(),
 });
 

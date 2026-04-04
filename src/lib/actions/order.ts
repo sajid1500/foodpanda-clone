@@ -75,15 +75,14 @@ export async function createOrder(cart: Cart) {
     payment_method: "stripe",
     amount: order.total,
     status: "pending",
-    stripe_session_id: "some-session-id", // This will be generated when you create a Stripe session
     stripe_payment_id: "some-payment-id", // This will be filled in by the webhook after payment is completed
   };
   const { data: payment, error: paymentError } = await supabase
     .from("payments")
     .insert(paymentData);
   // .select("*");
-  if (error) {
-    console.error("Error creating order:", error);
+  if (paymentError) {
+    console.error("Error creating order:", paymentError);
     throw new Error("Could not create order");
   }
 
