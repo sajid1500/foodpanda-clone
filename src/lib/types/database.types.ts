@@ -125,13 +125,6 @@ export type Database = {
             referencedRelation: "restaurants"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "menu_items_restaurant_id_fkey"
-            columns: ["restaurant_id"]
-            isOneToOne: false
-            referencedRelation: "restaurants_display"
-            referencedColumns: ["id"]
-          },
         ]
       }
       order_items: {
@@ -236,13 +229,6 @@ export type Database = {
             referencedRelation: "restaurants"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "orders_restaurant_id_fkey"
-            columns: ["restaurant_id"]
-            isOneToOne: false
-            referencedRelation: "restaurants_display"
-            referencedColumns: ["id"]
-          },
         ]
       }
       payments: {
@@ -283,13 +269,68 @@ export type Database = {
           },
         ]
       }
+      restaurant_addresses: {
+        Row: {
+          address_line_1: string
+          address_line_2: string
+          city: string
+          created_at: string
+          house: string
+          id: string
+          is_default: boolean
+          label: string
+          location: unknown
+          note: string
+          place_id: string
+          restaurant_id: string
+          street: string
+        }
+        Insert: {
+          address_line_1?: string
+          address_line_2?: string
+          city?: string
+          created_at?: string
+          house?: string
+          id?: string
+          is_default?: boolean
+          label?: string
+          location: unknown
+          note?: string
+          place_id: string
+          restaurant_id: string
+          street?: string
+        }
+        Update: {
+          address_line_1?: string
+          address_line_2?: string
+          city?: string
+          created_at?: string
+          house?: string
+          id?: string
+          is_default?: boolean
+          label?: string
+          location?: unknown
+          note?: string
+          place_id?: string
+          restaurant_id?: string
+          street?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "restaurant_addresses_restaurant_id_fkey"
+            columns: ["restaurant_id"]
+            isOneToOne: false
+            referencedRelation: "restaurants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       restaurants: {
         Row: {
           average_rating: number
           banner_path: string
           created_at: string
           id: string
-          location: unknown
           logo_path: string
           name: string
           slug: string
@@ -299,7 +340,6 @@ export type Database = {
           banner_path?: string
           created_at?: string
           id?: string
-          location: unknown
           logo_path?: string
           name?: string
           slug: string
@@ -309,7 +349,6 @@ export type Database = {
           banner_path?: string
           created_at?: string
           id?: string
-          location?: unknown
           logo_path?: string
           name?: string
           slug?: string
@@ -347,13 +386,6 @@ export type Database = {
             columns: ["restaurant_id"]
             isOneToOne: false
             referencedRelation: "restaurants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "reviews_restaurant_id_fkey"
-            columns: ["restaurant_id"]
-            isOneToOne: false
-            referencedRelation: "restaurants_display"
             referencedColumns: ["id"]
           },
         ]
@@ -446,41 +478,67 @@ export type Database = {
       }
     }
     Views: {
-      restaurants_display: {
+      restaurant_addresses_display: {
         Row: {
-          average_rating: number | null
-          banner_path: string | null
-          coordinates: Json | null
+          address_line_1: string | null
+          address_line_2: string | null
+          city: string | null
           created_at: string | null
+          house: string | null
           id: string | null
+          is_default: boolean | null
+          label: string | null
+          latitude: number | null
           location: unknown
-          logo_path: string | null
-          name: string | null
-          slug: string | null
+          longitude: number | null
+          note: string | null
+          place_id: string | null
+          restaurant_id: string | null
+          street: string | null
         }
         Insert: {
-          average_rating?: number | null
-          banner_path?: string | null
-          coordinates?: never
+          address_line_1?: string | null
+          address_line_2?: string | null
+          city?: string | null
           created_at?: string | null
+          house?: string | null
           id?: string | null
+          is_default?: boolean | null
+          label?: string | null
+          latitude?: never
           location?: unknown
-          logo_path?: string | null
-          name?: string | null
-          slug?: string | null
+          longitude?: never
+          note?: string | null
+          place_id?: string | null
+          restaurant_id?: string | null
+          street?: string | null
         }
         Update: {
-          average_rating?: number | null
-          banner_path?: string | null
-          coordinates?: never
+          address_line_1?: string | null
+          address_line_2?: string | null
+          city?: string | null
           created_at?: string | null
+          house?: string | null
           id?: string | null
+          is_default?: boolean | null
+          label?: string | null
+          latitude?: never
           location?: unknown
-          logo_path?: string | null
-          name?: string | null
-          slug?: string | null
+          longitude?: never
+          note?: string | null
+          place_id?: string | null
+          restaurant_id?: string | null
+          street?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "restaurant_addresses_restaurant_id_fkey"
+            columns: ["restaurant_id"]
+            isOneToOne: false
+            referencedRelation: "restaurants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_addresses_display: {
         Row: {
@@ -544,6 +602,7 @@ export type Database = {
     }
     Functions: {
       cancel_expired_orders: { Args: never; Returns: undefined }
+      cancel_order: { Args: { p_order_id: string }; Returns: undefined }
       generate_random_suffix: {
         Args: { max_len?: number; min_len?: number }
         Returns: string
@@ -553,11 +612,10 @@ export type Database = {
         Returns: string
       }
       nearby_restaurants: {
-        Args: { lat: number; lng: number; radius_meters?: number }
+        Args: { skip_count: number }
         Returns: {
           averageRating: number
           bannerPath: string
-          createdAt: string
           distanceMeters: number
           id: string
           logoPath: string
@@ -567,20 +625,10 @@ export type Database = {
       }
       place_order: {
         Args: {
-          p_delivery_address: Json
-          p_delivery_fee?: number
-          p_items: Json
-          p_payment_method?: string
-          p_restaurant_address: Json
+          p_items: Database["public"]["CompositeTypes"]["data"][]
           p_restaurant_id: string
-          p_stripe_payment_id: string
         }
-        Returns: {
-          delivery_fee: number
-          order_id: string
-          subtotal: number
-          total: number
-        }[]
+        Returns: string
       }
       place_team_order: {
         Args: {
@@ -598,7 +646,13 @@ export type Database = {
       [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never
+      data: {
+        p_quantity: number | null
+        p_price: number | null
+        p_notes: string | null
+        p_menu_item_id: string | null
+        p_name: string | null
+      }
     }
   }
 }

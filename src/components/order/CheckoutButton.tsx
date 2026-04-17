@@ -16,11 +16,12 @@ import {
   EmbeddedCheckoutProvider,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { env } from "@/env";
 import { Button } from "../ui/button";
 import { createOrder } from "@/lib/actions/order";
+import { getPaymentObject } from "@/lib/services/orderService";
 
 const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -29,11 +30,13 @@ export function CheckoutButton() {
   const { cart } = useCartStore((state) => state);
   if (!cart) return null; // Don't show the button if the cart is empty
 
-  const fetchClientSecret = async () => {
-    await createOrder(cart);
-    const response = await createCheckoutSession(cart);
-    ``;
+  const fetchClientSecret = async (): Promise<string> => {
+    const orderId = await createOrder(cart);
+    if (!orderId) {
+      throw new Error("Could not create order");
+    }
 
+    const response = await createCheckoutSession(cart, orderId);
     if (!response?.clientSecret) {
       throw new Error("Could not start checkout");
     }

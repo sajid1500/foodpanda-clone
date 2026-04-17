@@ -1,8 +1,10 @@
 "use server";
 import { getServerClient } from "../config/supabase/server";
+import { createPaymentRecord } from "../services/orderService";
 import { TablesInsert } from "../types/database.types";
 import { getCartTotal } from "../utils/helpers";
 import { Cart } from "../validators/cart.schema";
+import { OrderSchema } from "../validators/order.schema";
 
 export async function createOrder(cart: Cart) {
   // Implementation for creating an order
@@ -21,70 +23,42 @@ export async function createOrder(cart: Cart) {
       "id",
       cart.items.map((item) => item.id),
     );
-
+  if (menuItems === null) return;
   const validatedCartItems = cart.items
     .map((item) => {
       const menuItem = menuItems?.find((m) => m.id === item.id);
-      return menuItem ? { ...item, price: menuItem.price } : null;
+      return menuItem
+        ? {
+            p_quantity: item.quantity,
+            p_menu_item_id: item.id,
+            p_price: menuItem.price,
+            p_name: item.name,
+            p_notes: "item.notes",
+          }
+        : null;
     })
     .filter((item) => item !== null);
 
-  const orderData: TablesInsert<"orders"> = {
-    restaurant_id: cart.restaurantId,
-    delivery_address: {
-      addressLine1: "123 Main St",
-    }, // Reuse your existing address schema
-    delivery_fee: 33,
-    subtotal: getCartTotal(validatedCartItems),
-    total: getCartTotal(validatedCartItems) + 33,
-    // These are added later by the server/stripe
-    status: "pending",
-    restaurant_address: {
-      addressLine1: "456 Restaurant Ave",
+  const { data: orderId, error: orderError } = await supabase.rpc(
+    "place_order",
+    {
+      p_restaurant_id: cart.restaurantId,
+      p_items: validatedCartItems,
     },
-  };
-
-  const { data: order, error } = await supabase
-    .from("orders")
-    .insert(orderData)
-    .select("*")
-    .single();
-
-  if (!order || !menuItems) return null;
-
-  const orderItemsData: TablesInsert<"order_items">[] = validatedCartItems.map(
-    (item) => ({
-      order_id: order.id,
-      menu_item_id: item.id,
-      quantity: item.quantity,
-      name: item.name,
-      unit_price: item.price,
-    }),
   );
-  const { data: orderItems, error: orderItemError } = await supabase
-    .from("order_items")
-    .insert(orderItemsData);
-  // .select("*");
-  if (error) {
-    console.error("Error creating order:", error);
-    throw new Error("Could not create order");
-  }
+  console.log("Order ID:", orderId, "Error:", orderError);
 
-  const paymentData: TablesInsert<"payments"> = {
-    order_id: order.id,
-    payment_method: "stripe",
-    amount: order.total,
-    status: "pending",
-    stripe_payment_id: "some-payment-id", // This will be filled in by the webhook after payment is completed
-  };
-  const { data: payment, error: paymentError } = await supabase
-    .from("payments")
-    .insert(paymentData);
-  // .select("*");
-  if (paymentError) {
-    console.error("Error creating order:", paymentError);
-    throw new Error("Could not create order");
-  }
+  if (orderId)
+    await createPaymentRecord(
+      orderId,
+      validatedCartItems.reduce(
+        (total, item) => total + item.p_price * item.p_quantity,
+        0,
+      ) + 33, // Assuming a fixed delivery fee of 33
+      "pending-payment-id",
+      "stripe",
+      "pending",
+    );
 
-  return order;
+  return orderId;
 }

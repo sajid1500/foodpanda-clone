@@ -15,6 +15,7 @@ export const selectedAddonSchema = z.object({
 
 export const cartItemSchema = menuItemSchema.extend({
   quantity: z.number(),
+  notes: z.string(),
   // selectedAddons: z.array(selectedAddonSchema),
 });
 

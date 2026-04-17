@@ -31,18 +31,11 @@ import { getServerClient } from "@/lib/config/supabase/server";
 //   return restaurants as RestaurantSummary[];
 // }
 
-export async function getNearbyRestaurants(
-  lat = 23.8103,
-  lng = 90.4125,
-): Promise<RestaurantSummary[]> {
+export async function getNearbyRestaurants(): Promise<RestaurantSummary[]> {
   const supabase = await getServerClient();
   const { data: restaurants, error } = await supabase.rpc(
     "nearby_restaurants",
-    {
-      lat: lat,
-      lng: lng,
-      // radius_meters: Infinity, // No radius limit, get all and sort by distance in the RPC
-    },
+    { skip_count: 0 },
   );
 
   if (error) {
@@ -58,15 +51,17 @@ export const getRestaurantDetails = async (
   slug: string,
 ): Promise<Restaurant> => {
   const supabase = await getServerClient();
-
   const { data: restaurant, error } = await supabase
-    .from("restaurants_display")
+    .from("restaurants")
     .select(
       `
       id,
       name,
       slug,
-      coords: coordinates,
+      coords: restaurant_addresses_display (
+      lat: latitude,
+      lng: longitude
+      ),
       bannerPath: banner_path,
       logoPath: logo_path,
       averageRating: average_rating,
@@ -86,8 +81,8 @@ export const getRestaurantDetails = async (
     console.error("Supabase error:", error?.message);
     throw new Error("Failed to fetch restaurant details");
   }
-
-  return { ...restaurant, distanceMeters: 0 }; // use routing later
+  return { ...restaurant, distanceMeters: 0, coords: restaurant.coords[0] };
+  // return { ...restaurant, distanceMeters: 0 }; // use routing later
 };
 
 // export async function getRestaurantsWithRouting(

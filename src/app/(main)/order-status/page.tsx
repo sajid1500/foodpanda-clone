@@ -10,7 +10,7 @@ export default function page({
   const sessionId = searchParams.session_id;
   const stripe = new Stripe(env.STRIPE_SECRET_KEY);
   const session = stripe.checkout.sessions.retrieve(sessionId!);
-  console.log("Session details:", session);
+  // console.log("Session details:", session);
   return (
     <div>
       congratulations! your payment was successful.
