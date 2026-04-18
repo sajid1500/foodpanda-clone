@@ -21,7 +21,7 @@ import { useCartStore } from "@/lib/stores/cartStore";
 import { env } from "@/env";
 import { Button } from "../ui/button";
 import { createOrder } from "@/lib/actions/order";
-import { getPaymentObject } from "@/lib/services/orderService";
+import { getPaymentObject } from "@/lib/services/paymentService";
 
 const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 

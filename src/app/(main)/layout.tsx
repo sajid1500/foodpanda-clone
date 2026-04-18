@@ -10,10 +10,7 @@ export default async function Layout({
   return (
     <ReactQueryClientProvider>
       <Header />
-      <main>
-        {children}
-        <OrderSidebar />
-      </main>
+      <main>{children}</main>
     </ReactQueryClientProvider>
   );
 }

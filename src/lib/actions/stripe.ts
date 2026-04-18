@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { Cart } from "../validators/cart.schema";
 
 import { RESTAURANT_ASSETS_URL } from "../utils/constants";
-import { getPaymentObject } from "../services/orderService";
+import { getPaymentObject } from "../services/paymentService";
 
 export async function createCheckoutSession(cart: Cart, orderId: string) {
   const origin = (await headers()).get("origin");

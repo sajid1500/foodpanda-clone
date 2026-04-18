@@ -1,6 +1,6 @@
 "use server";
 import { getServerClient } from "../config/supabase/server";
-import { createPaymentRecord } from "../services/orderService";
+import { createPaymentRecord } from "../services/paymentService";
 import { TablesInsert } from "../types/database.types";
 import { getCartTotal } from "../utils/helpers";
 import { Cart } from "../validators/cart.schema";

@@ -3,6 +3,7 @@ import { RestaurantList } from "@/components/restaurants/RestaurantList";
 import { RestaurantListSkeleton } from "@/components/restaurants/RestaurantListSkeleton";
 import { Suspense } from "react";
 import { AddressModal as AddressPicker } from "@/components/address/AddressModal";
+import OrderSidebar from "@/components/order/OrderSidebar";
 
 export const metadata = {
   title: "Foodie - Home",
@@ -18,6 +19,7 @@ export default function Home() {
       <Suspense fallback={<RestaurantListSkeleton />}>
         <RestaurantList />
       </Suspense>
+      <OrderSidebar />
     </>
   );
 }
