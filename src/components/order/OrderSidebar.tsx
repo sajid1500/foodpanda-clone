@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MapPin, ReceiptText } from "lucide-react";
 
 import {
@@ -44,6 +44,7 @@ type ActiveOrder = {
 };
 
 type OrderSidebarProps = {
+  orders?: ActiveOrder[];
   order?: ActiveOrder;
 };
 
@@ -55,47 +56,80 @@ const statusColorMap: Record<OrderStatus, string> = {
   "On the way": "bg-emerald-100 text-emerald-700",
 };
 
-const sampleOrder: ActiveOrder = {
-  orderNumber: "FP-10294",
-  restaurantName: "Kacchi Bhai",
-  status: "Preparing",
-  etaMinutes: 28,
-  placedAt: "Today, 7:12 PM",
-  deliveryAddress: "House 12, Road 7, Dhanmondi, Dhaka",
-  paymentMethod: "Cash on delivery",
-  items: [
-    { id: "1", name: "Kacchi Platter", quantity: 1, unitPrice: 450 },
-    { id: "2", name: "Borhani", quantity: 1, unitPrice: 80 },
-    { id: "3", name: "Jali Kebab", quantity: 2, unitPrice: 120 },
-  ],
-  deliveryFee: 40,
-  serviceFee: 20,
-  note: "Please call when rider reaches the gate.",
-};
+const sampleOrders: ActiveOrder[] = [
+  {
+    orderNumber: "FP-10294",
+    restaurantName: "Kacchi Bhai",
+    status: "Preparing",
+    etaMinutes: 28,
+    placedAt: "Today, 7:12 PM",
+    deliveryAddress: "House 12, Road 7, Dhanmondi, Dhaka",
+    paymentMethod: "Cash on delivery",
+    items: [
+      { id: "1", name: "Kacchi Platter", quantity: 1, unitPrice: 450 },
+      { id: "2", name: "Borhani", quantity: 1, unitPrice: 80 },
+      { id: "3", name: "Jali Kebab", quantity: 2, unitPrice: 120 },
+    ],
+    deliveryFee: 40,
+    serviceFee: 20,
+    note: "Please call when rider reaches the gate.",
+  },
+  {
+    orderNumber: "FP-10310",
+    restaurantName: "Burger Lab",
+    status: "Rider assigned",
+    etaMinutes: 19,
+    placedAt: "Today, 7:48 PM",
+    deliveryAddress: "House 12, Road 7, Dhanmondi, Dhaka",
+    paymentMethod: "Card",
+    items: [
+      { id: "4", name: "Smoked Beef Burger", quantity: 2, unitPrice: 320 },
+      { id: "5", name: "Loaded Fries", quantity: 1, unitPrice: 210 },
+    ],
+    deliveryFee: 35,
+    serviceFee: 18,
+  },
+];
 
 const formatPrice = (amount: number) => `Tk ${amount.toFixed(0)}`;
 
-export default function OrderSidebar({
-  order = sampleOrder,
-}: OrderSidebarProps) {
+export default function OrderSidebar({ orders, order }: OrderSidebarProps) {
+  const availableOrders =
+    orders && orders.length > 0 ? orders : order ? [order] : sampleOrders;
+  const [selectedOrderNumber, setSelectedOrderNumber] = useState(
+    availableOrders[0]?.orderNumber,
+  );
+
+  useEffect(() => {
+    if (
+      !availableOrders.some((item) => item.orderNumber === selectedOrderNumber)
+    ) {
+      setSelectedOrderNumber(availableOrders[0]?.orderNumber);
+    }
+  }, [availableOrders, selectedOrderNumber]);
+
+  const activeOrder =
+    availableOrders.find((item) => item.orderNumber === selectedOrderNumber) ??
+    availableOrders[0];
+
   const subtotal = useMemo(() => {
-    return order.items.reduce(
+    return activeOrder.items.reduce(
       (total, item) => total + item.quantity * item.unitPrice,
       0,
     );
-  }, [order.items]);
+  }, [activeOrder.items]);
 
-  const total = subtotal + order.deliveryFee + order.serviceFee;
+  const total = subtotal + activeOrder.deliveryFee + activeOrder.serviceFee;
 
   return (
     <Sheet>
       <SheetTrigger asChild={true}>
         <OrderOverview
-          restaurantName={order.restaurantName}
-          status={order.status}
-          statusClassName={statusColorMap[order.status]}
-          etaMinutes={order.etaMinutes}
-          orderNumber={order.orderNumber}
+          restaurantName={activeOrder.restaurantName}
+          status={activeOrder.status}
+          statusClassName={statusColorMap[activeOrder.status]}
+          etaMinutes={activeOrder.etaMinutes}
+          orderNumber={activeOrder.orderNumber}
         />
       </SheetTrigger>
 
@@ -113,21 +147,63 @@ export default function OrderSidebar({
         </SheetHeader>
 
         <div className="mt-6 space-y-5 pb-6">
+          {availableOrders.length > 1 ? (
+            <section className="space-y-3">
+              <h3 className="text-sm font-semibold text-slate-900">
+                Active orders ({availableOrders.length})
+              </h3>
+              <div className="space-y-2 rounded-2xl border border-slate-200 p-3">
+                {availableOrders.map((item) => (
+                  <button
+                    key={item.orderNumber}
+                    type="button"
+                    className={cn(
+                      "w-full rounded-xl border p-3 text-left transition",
+                      item.orderNumber === activeOrder.orderNumber
+                        ? "border-slate-900 bg-slate-50"
+                        : "border-slate-200 hover:border-slate-300",
+                    )}
+                    onClick={() => setSelectedOrderNumber(item.orderNumber)}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-sm font-medium text-slate-900">
+                        {item.restaurantName}
+                      </p>
+                      <span
+                        className={cn(
+                          "rounded-full px-2 py-0.5 text-xs font-semibold",
+                          statusColorMap[item.status],
+                        )}
+                      >
+                        {item.status}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-xs text-slate-500">
+                      #{item.orderNumber} • ETA {item.etaMinutes} min
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
           <section className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm text-slate-600">{order.restaurantName}</p>
+                <p className="text-sm text-slate-600">
+                  {activeOrder.restaurantName}
+                </p>
                 <p className="mt-1 text-base font-semibold text-slate-900">
-                  Order #{order.orderNumber}
+                  Order #{activeOrder.orderNumber}
                 </p>
               </div>
               <span
                 className={cn(
                   "rounded-full px-3 py-1 text-xs font-semibold",
-                  statusColorMap[order.status],
+                  statusColorMap[activeOrder.status],
                 )}
               >
-                {order.status}
+                {activeOrder.status}
               </span>
             </div>
 
@@ -135,13 +211,13 @@ export default function OrderSidebar({
               <div className="rounded-xl bg-white p-3">
                 <p className="text-slate-500">Estimated time</p>
                 <p className="mt-1 font-semibold text-slate-900">
-                  {order.etaMinutes} min
+                  {activeOrder.etaMinutes} min
                 </p>
               </div>
               <div className="rounded-xl bg-white p-3">
                 <p className="text-slate-500">Placed at</p>
                 <p className="mt-1 font-semibold text-slate-900">
-                  {order.placedAt}
+                  {activeOrder.placedAt}
                 </p>
               </div>
             </div>
@@ -154,7 +230,7 @@ export default function OrderSidebar({
             </h3>
 
             <div className="space-y-3 rounded-2xl border border-slate-200 p-4">
-              {order.items.map((item) => (
+              {activeOrder.items.map((item) => (
                 <div
                   key={item.id}
                   className="flex items-start justify-between gap-3"
@@ -182,11 +258,11 @@ export default function OrderSidebar({
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Delivery fee</span>
-                  <span>{formatPrice(order.deliveryFee)}</span>
+                  <span>{formatPrice(activeOrder.deliveryFee)}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Service fee</span>
-                  <span>{formatPrice(order.serviceFee)}</span>
+                  <span>{formatPrice(activeOrder.serviceFee)}</span>
                 </div>
               </div>
 
@@ -211,18 +287,18 @@ export default function OrderSidebar({
 
             <div className="rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
               <p className="font-medium text-slate-900">Address</p>
-              <p className="mt-1">{order.deliveryAddress}</p>
+              <p className="mt-1">{activeOrder.deliveryAddress}</p>
 
               <Separator className="my-3" />
 
               <p className="font-medium text-slate-900">Payment method</p>
-              <p className="mt-1">{order.paymentMethod}</p>
+              <p className="mt-1">{activeOrder.paymentMethod}</p>
 
-              {order.note ? (
+              {activeOrder.note ? (
                 <>
                   <Separator className="my-3" />
                   <p className="font-medium text-slate-900">Rider note</p>
-                  <p className="mt-1">{order.note}</p>
+                  <p className="mt-1">{activeOrder.note}</p>
                 </>
               ) : null}
             </div>

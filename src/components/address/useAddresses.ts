@@ -18,7 +18,6 @@ export function useAddresses(userAddresses: Address[] = []) {
   } = useQuery({
     queryKey: ["addresses"],
     queryFn: getAddressesAction,
-    initialData: userAddresses,
   });
 
   const defaultAddress = addresses?.find((addr) => addr.isDefault);

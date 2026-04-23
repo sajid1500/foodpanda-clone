@@ -1,6 +1,9 @@
 "use server";
 import { getServerClient } from "../config/supabase/server";
-import { createPaymentRecord } from "../services/orderService";
+import {
+  createPaymentRecord,
+  getOrdersByStatus,
+} from "../services/orderService";
 import { TablesInsert } from "../types/database.types";
 import { getCartTotal } from "../utils/helpers";
 import { Cart } from "../validators/cart.schema";
@@ -61,4 +64,8 @@ export async function createOrder(cart: Cart) {
     );
 
   return orderId;
+}
+
+export async function getOrdersAction() {
+  return await getOrdersByStatus("preparing");
 }

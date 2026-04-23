@@ -95,24 +95,26 @@ export async function createPaymentRecord(
   }
 }
 
-const getOrdersByStatus = async (status: string) => {
+export const getOrdersByStatus = async (status: string) => {
   const supabase = await getServerClient();
   const { data: orders, error } = await supabase
     .from("orders")
     .select(
       `id,
       status,
-      total_amount,
-      created_at,
-      order_items (
+      subtotal,
+      deliveryFee:delivery_fee,
+      total,
+      createdAt: created_at,
+      orderItems: order_items (
         id,
         quantity,
-        price,
-        food_item:food_items (
+        unitPrice: unit_price,
+        menuItem:menu_items (
           id,
           name,
           description,
-          image_url
+          imagePath: image_path
         )
       ),
       payments (

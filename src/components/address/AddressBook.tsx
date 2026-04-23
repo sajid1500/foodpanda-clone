@@ -1,11 +1,4 @@
 "use client";
-import {
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from "../ui/drawer";
 import { AddressHeader } from "./AddressHeader";
 import { getAddresses } from "@/lib/services/userService";
 import { useLayoutStore } from "@/lib/stores/layoutStore";
@@ -65,6 +58,7 @@ export function AddressBook() {
 
 function SavedAddressList() {
   const { addresses } = useAddresses();
+  if(!addresses) return null;
   const { saveAddress } = useSaveAddress();
   const { deleteAddress } = useDeleteAddress();
 
