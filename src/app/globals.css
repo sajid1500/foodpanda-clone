@@ -3,15 +3,6 @@
 @import "shadcn/tailwind.css";
 /* @import "./theme.css"; */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-agrandir), sans-serif;
-}
-
 @theme {
   --color-background: oklch(1 0 0);
   --color-foreground: oklch(0.313 0.013 267.1);
@@ -55,6 +46,12 @@ h6 {
 @theme inline {
   --font-sans:
     var(--font-open-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  --z-low: 10;
+  --z-medium: 100;
+  --z-dropdown: 500;
+  --z-navbar: 1000;
+  --z-modal: 2000;
+  --z-tooltip: 3000;
 }
 @custom-variant dark (&:where([data-theme=bark], [data-theme=bark] *));
 
@@ -72,4 +69,12 @@ h6 {
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+  /* h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-agrandir, font-sans;
+  } */
 }

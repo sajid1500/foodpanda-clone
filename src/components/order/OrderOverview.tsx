@@ -24,7 +24,7 @@ export function OrderOverview({
     <button
       type="button"
       className={cn(
-        "w-full rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:border-slate-300 hover:shadow-md",
+        "sticky bottom-0 w-full rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:border-slate-300 hover:shadow-md",
         className,
       )}
       {...props}

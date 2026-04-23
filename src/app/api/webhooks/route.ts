@@ -6,7 +6,7 @@ import {
   createPaymentRecord,
   updateOrderStatus,
   updatePaymentStatus,
-} from "@/lib/services/orderService";
+} from "@/lib/services/paymentService";
 
 export async function POST(req: Request) {
   const body = await req.text();
