@@ -38,14 +38,3 @@ export const getOrdersByStatus = async (status: string) => {
 
   return orders;
 };
-
-const channels = supabase
-  .channel("custom-update-channel")
-  .on(
-    "postgres_changes",
-    { event: "UPDATE", schema: "public", table: "orders" },
-    (payload) => {
-      console.log("Change received!", payload);
-    },
-  )
-  .subscribe();

@@ -21,7 +21,7 @@ export async function createCheckoutSession(cart: Cart, orderId: string) {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      ui_mode: "embedded_page",
+      ui_mode: "embedded",
       client_reference_id: orderId, // Pass the order ID for later reference
       line_items: cart.items.map((item) => ({
         price_data: {

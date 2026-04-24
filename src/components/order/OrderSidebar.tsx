@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { MapPin, ReceiptText } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 import {
   Sheet,
@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils/helpers";
+import { ActiveOrdersList } from "./ActiveOrdersList";
+import { OrderItemsSection } from "./OrderItemsSection";
 import { OrderOverview } from "./OrderOverview";
 
 type OrderStatus =
@@ -147,45 +149,12 @@ export default function OrderSidebar({ orders, order }: OrderSidebarProps) {
         </SheetHeader>
 
         <div className="mt-6 space-y-5 pb-6">
-          {availableOrders.length > 1 ? (
-            <section className="space-y-3">
-              <h3 className="text-sm font-semibold text-slate-900">
-                Active orders ({availableOrders.length})
-              </h3>
-              <div className="space-y-2 rounded-2xl border border-slate-200 p-3">
-                {availableOrders.map((item) => (
-                  <button
-                    key={item.orderNumber}
-                    type="button"
-                    className={cn(
-                      "w-full rounded-xl border p-3 text-left transition",
-                      item.orderNumber === activeOrder.orderNumber
-                        ? "border-slate-900 bg-slate-50"
-                        : "border-slate-200 hover:border-slate-300",
-                    )}
-                    onClick={() => setSelectedOrderNumber(item.orderNumber)}
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-sm font-medium text-slate-900">
-                        {item.restaurantName}
-                      </p>
-                      <span
-                        className={cn(
-                          "rounded-full px-2 py-0.5 text-xs font-semibold",
-                          statusColorMap[item.status],
-                        )}
-                      >
-                        {item.status}
-                      </span>
-                    </div>
-                    <p className="mt-1 text-xs text-slate-500">
-                      #{item.orderNumber} • ETA {item.etaMinutes} min
-                    </p>
-                  </button>
-                ))}
-              </div>
-            </section>
-          ) : null}
+          <ActiveOrdersList
+            orders={availableOrders}
+            selectedOrderNumber={activeOrder.orderNumber}
+            onSelectOrder={setSelectedOrderNumber}
+            statusColorMap={statusColorMap}
+          />
 
           <section className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
             <div className="flex items-start justify-between gap-4">
@@ -223,61 +192,14 @@ export default function OrderSidebar({ orders, order }: OrderSidebarProps) {
             </div>
           </section>
 
-          <section className="space-y-3">
-            <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-slate-900">
-              <ReceiptText className="h-4 w-4" />
-              Items
-            </h3>
-
-            <div className="space-y-3 rounded-2xl border border-slate-200 p-4">
-              {activeOrder.items.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-start justify-between gap-3"
-                >
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">
-                      {item.name}
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      Qty {item.quantity}
-                    </p>
-                  </div>
-                  <p className="text-sm font-semibold text-slate-900">
-                    {formatPrice(item.quantity * item.unitPrice)}
-                  </p>
-                </div>
-              ))}
-
-              <Separator />
-
-              <div className="space-y-2 text-sm text-slate-700">
-                <div className="flex items-center justify-between">
-                  <span>Subtotal</span>
-                  <span>{formatPrice(subtotal)}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Delivery fee</span>
-                  <span>{formatPrice(activeOrder.deliveryFee)}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Service fee</span>
-                  <span>{formatPrice(activeOrder.serviceFee)}</span>
-                </div>
-              </div>
-
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-slate-900">
-                  Total paid
-                </span>
-                <span className="text-base font-bold text-slate-900">
-                  {formatPrice(total)}
-                </span>
-              </div>
-            </div>
-          </section>
+          <OrderItemsSection
+            items={activeOrder.items}
+            subtotal={subtotal}
+            deliveryFee={activeOrder.deliveryFee}
+            serviceFee={activeOrder.serviceFee}
+            total={total}
+            formatPrice={formatPrice}
+          />
 
           <section className="space-y-3">
             <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-slate-900">
