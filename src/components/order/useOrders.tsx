@@ -47,7 +47,7 @@ export function useOrders() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [queryClient]);
+  }, []);
 
   return { orders, error, isLoading };
 }

@@ -11,9 +11,17 @@ export const getOrdersByStatus = async (status: string) => {
       deliveryFee:delivery_fee,
       total,
       createdAt: created_at,
+      note,
+      deliveryAddress: delivery_address,
+      orderNumber: order_number,
+      restaurant: restaurants (
+        id,
+        name
+      ),
       orderItems: order_items (
         id,
         quantity,
+        name,
         unitPrice: unit_price,
         menuItem:menu_items (
           id,
@@ -25,7 +33,8 @@ export const getOrdersByStatus = async (status: string) => {
       payments (
         id,
         amount,
-        status
+        status,
+        paymentMethod: payment_method
       )
     `,
     )

@@ -183,6 +183,8 @@ export type Database = {
           delivery_fee: number
           id: string
           is_pro: boolean
+          note: string
+          order_number: number
           restaurant_address: Json
           restaurant_id: string
           status: string
@@ -198,6 +200,8 @@ export type Database = {
           delivery_fee?: number
           id?: string
           is_pro?: boolean
+          note?: string
+          order_number?: number
           restaurant_address: Json
           restaurant_id: string
           status?: string
@@ -213,6 +217,8 @@ export type Database = {
           delivery_fee?: number
           id?: string
           is_pro?: boolean
+          note?: string
+          order_number?: number
           restaurant_address?: Json
           restaurant_id?: string
           status?: string

@@ -30,11 +30,13 @@ export async function POST(req: Request) {
     const session = event.data.object;
     // 2026 Practice: Trigger a background sync or email service
     const orderId = session.client_reference_id;
+    if (!orderId) {
+      console.error("No order ID found in session metadata");
+      return new Response("Missing order ID", { status: 400 });
+    }
     try {
-      if (orderId) {
-        await updatePaymentStatus(orderId, "succeeded");
-        await updateOrderStatus(orderId, "preparing");
-      }
+      await updatePaymentStatus(orderId, "succeeded");
+      await updateOrderStatus(orderId, "preparing");
     } catch (err) {
       console.error(
         "Failed to update payment status after successful checkout:",
@@ -44,21 +46,24 @@ export async function POST(req: Request) {
 
     console.log(`💰 Payment confirmed for ${session.id} on order ${orderId}`);
   }
-  // if (event.type === "checkout.session.expired") {
-  //   console.warn(`⚠️ Checkout session expired for ${event.data.object.id}`);
-  //   try {
-  //     if (event.data.object.client_reference_id) {
-  //       await updatePaymentStatus(
-  //         event.data.object.client_reference_id,
-  //         "failed",
-  //       );
-  //     }
-  //   } catch (err) {
-  //     console.error(
-  //       "Failed to update payment status after session expiration:",
-  //       err,
-  //     );
-  //   }
-  // }
+  if (
+    event.type === "checkout.session.expired" ||
+    event.type === "checkout.session.async_payment_failed"
+  ) {
+    console.warn(`⚠️ Checkout session expired for ${event.data.object.id}`);
+    try {
+      if (event.data.object.client_reference_id) {
+        await updatePaymentStatus(
+          event.data.object.client_reference_id,
+          "failed",
+        );
+      }
+    } catch (err) {
+      console.error(
+        "Failed to update payment status after session expiration:",
+        err,
+      );
+    }
+  }
   return new Response(null, { status: 200 });
 }

@@ -12,10 +12,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils/helpers";
+import { cn, formatAddress, formatUserAddress } from "@/lib/utils/helpers";
 import { ActiveOrdersList } from "./ActiveOrdersList";
 import { OrderItemsSection } from "./OrderItemsSection";
 import { OrderOverview } from "./OrderOverview";
+import { useOrders } from "./useOrders";
+import { Address } from "@/lib/validators/address.schema";
 
 type OrderStatus =
   | "Order placed"
@@ -96,8 +98,43 @@ const sampleOrders: ActiveOrder[] = [
 const formatPrice = (amount: number) => `Tk ${amount.toFixed(0)}`;
 
 export default function OrderSidebar({ orders, order }: OrderSidebarProps) {
+  const { orders: fetchedOrders } = useOrders();
+
+  // Transform fetched orders to display format
+  const transformedOrders = useMemo(() => {
+    if (!fetchedOrders || fetchedOrders.length === 0) return [];
+
+    return fetchedOrders.map((o: any) => ({
+      orderNumber: o.orderNumber,
+      restaurantName: o.restaurant?.name || "Unknown Restaurant",
+      status: (o.status || "Order placed") as OrderStatus,
+      etaMinutes: 25, // Placeholder - adjust based on actual data if available
+      placedAt: o.createdAt
+        ? new Date(o.createdAt).toLocaleString()
+        : "Just now",
+      deliveryAddress: o.deliveryAddress,
+      paymentMethod: o.payments?.[0]?.paymentMethod || "Cash on delivery",
+      items: (o.orderItems || []).map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+      })),
+      deliveryFee: o.deliveryFee || 0,
+      serviceFee: 0, // Adjust if service fee exists in schema
+      note: o.note,
+    }));
+  }, [fetchedOrders]);
+
   const availableOrders =
-    orders && orders.length > 0 ? orders : order ? [order] : sampleOrders;
+    orders && orders.length > 0
+      ? orders
+      : order
+        ? [order]
+        : transformedOrders.length > 0
+          ? transformedOrders
+          : sampleOrders;
+
   const [selectedOrderNumber, setSelectedOrderNumber] = useState(
     availableOrders[0]?.orderNumber,
   );
@@ -116,7 +153,8 @@ export default function OrderSidebar({ orders, order }: OrderSidebarProps) {
 
   const subtotal = useMemo(() => {
     return activeOrder.items.reduce(
-      (total, item) => total + item.quantity * item.unitPrice,
+      (total: number, item: ActiveOrderItem) =>
+        total + item.quantity * item.unitPrice,
       0,
     );
   }, [activeOrder.items]);
@@ -209,7 +247,12 @@ export default function OrderSidebar({ orders, order }: OrderSidebarProps) {
 
             <div className="rounded-2xl border border-slate-200 p-4 text-sm text-slate-700">
               <p className="font-medium text-slate-900">Address</p>
-              <p className="mt-1">{activeOrder.deliveryAddress}</p>
+              <p className="mt-1">
+                {formatUserAddress(
+                  activeOrder.deliveryAddress.address,
+                  activeOrder.deliveryAddress.city,
+                )}
+              </p>
 
               <Separator className="my-3" />
 
